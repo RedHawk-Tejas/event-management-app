@@ -10,7 +10,7 @@ public class BackendFullstackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendFullstackApplication.class, args);
 		
-		UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken("Don", "12345");
+		UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken("Tejas7107", "Tejas@29");
 		System.out.println(data);
 	}
 

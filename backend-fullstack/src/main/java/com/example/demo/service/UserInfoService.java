@@ -26,28 +26,28 @@ public class UserInfoService implements UserDetails{
 public UserInfoService(userinfo data) {
 	// TODO Auto-generated constructor stub
 //	this.name = data.getName();
-	username  = data.getUsername();
-	password = data.getPassword();
-	rolelist = Arrays.stream(data.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+	this.username  = data.getUsername();
+	this.password = data.getPassword();
+	this.rolelist = Arrays.stream(data.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //	this.role = data.getRole();
 }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return rolelist;
+		return this.rolelist;
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return password;
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return username;
+		return this.username;
 	}
 
 	@Override

@@ -73,6 +73,7 @@ public class configration {
 	
 	@Bean
 	public AuthenticationManager auth(AuthenticationConfiguration config) throws Exception {
+			//return config.getAuthenticationManager();
 			return config.getAuthenticationManager();
 	}
 

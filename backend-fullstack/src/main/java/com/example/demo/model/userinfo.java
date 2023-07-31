@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+
 public class userinfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
