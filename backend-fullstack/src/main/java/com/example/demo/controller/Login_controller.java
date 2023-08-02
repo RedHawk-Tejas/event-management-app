@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.demo.dao.LoginData;
 import com.example.demo.model.userinfo;
 import com.example.demo.service.JwtService;
@@ -28,68 +27,46 @@ public class Login_controller {
 
 	@Autowired
 	LoginData info;
-	
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
 	UserService se;
 
-	
 	@GetMapping("/test")
 	public String test() {
-		
+
 		return "heloo";
 	}
-	
+
 	@PostMapping("/register")
 	public String register(@RequestBody userinfo infor) {
-		
-	infor.setDate(new Date());
-	infor.setId((UUID.randomUUID().toString().split("-")[0]));
-	infor.setPassword(encoder.encode(infor.getPassword()));
-	
-	info.save(infor);
-	
-	return "User Created Succesfully";
-		
-		
+
+		infor.setDate(new Date());
+		infor.setId((UUID.randomUUID().toString().split("-")[0]));
+		infor.setPassword(encoder.encode(infor.getPassword()));
+
+		info.save(infor);
+
+		return "User Created Succesfully";
+
 	}
-	
+
 	@PostMapping("/validate")
 	public String LoginToken(@RequestBody userinfo infoo) {
-//		UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(infoo.getUsername(), infoo.getPassword());
-//		UsernamePasswordAuthenticationToken data1 = new UsernamePasswordAuthenticationToken("Tejas7107", "Tejas@29");
-//		if (data1.isAuthenticated()) {
-//			return new JwtService().gettoken(infoo.getUsername());
-//			
-//		} else {
-//			//throw new UsernameNotFoundException("Invalid User");
-//			
-//			//return "else block running";
-//			
-//		}
-		//return new JwtService().gettoken(infoo.getUsername());
-		//return infoo.getPassword();
-		 UserDetails loadUserByUsername = se.loadUserByUsername(infoo.getUsername());
-//		 if (loadUserByUsername.getUsername()==infoo.getUsername()) {
-//			
-//		}
-		 //return loadUserByUsername.getUsername();
-		 if (loadUserByUsername.getUsername().length()>0&& loadUserByUsername.isAccountNonExpired()&& loadUserByUsername.isAccountNonLocked()&&loadUserByUsername.isCredentialsNonExpired()) {
+		UserDetails loadUserByUsername = se.loadUserByUsername(infoo.getUsername());
+		if (loadUserByUsername.getUsername().length() > 0 && loadUserByUsername.isAccountNonExpired()
+				&& loadUserByUsername.isAccountNonLocked() && loadUserByUsername.isCredentialsNonExpired()) {
 			if (encoder.matches(infoo.getPassword(), loadUserByUsername.getPassword())) {
 				return new JwtService().gettoken(infoo.getUsername());
-			}
-			else {
-//				return (encoder.encode(infoo.getPassword())+" "+loadUserByUsername.getPassword());
+			} else {
 				return "something went wrong";
 			}
-		}
-		 else {
+		} else {
 			throw new UsernameNotFoundException("Invalid User");
-		 }
-		 
-		 
+		}
+
 	}
 
 }
