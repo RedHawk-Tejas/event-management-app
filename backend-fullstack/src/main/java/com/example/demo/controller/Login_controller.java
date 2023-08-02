@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class Login_controller {
 	
 	@PostMapping("/register")
 	public String register(@RequestBody userinfo infor) {
-	
+		
+	infor.setDate(new Date());
 	infor.setId((UUID.randomUUID().toString().split("-")[0]));
 	infor.setPassword(encoder.encode(infor.getPassword()));
 	
