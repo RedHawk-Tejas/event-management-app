@@ -39,7 +39,7 @@ public class configration {
 
 		return http.csrf().disable().cors().and()
 				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("api/authentication/test", "api/authentication/register","api/authentication/validate")
+						.requestMatchers("api/authentication/test", "api/authentication/register","api/authentication/login")
 						.permitAll().requestMatchers("api/authentication/**").authenticated()
 
 				).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

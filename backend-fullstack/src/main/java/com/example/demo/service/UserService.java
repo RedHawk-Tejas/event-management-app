@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Optional<userinfo> rawdata = data.findByUsername(username);
+		Optional<userinfo> rawdata = data.findByEmail(username);
 		System.out.println(rawdata);
 		
 		return rawdata.map(UserInfoService::new).orElseThrow(()->new UsernameNotFoundException("Invaild User"));

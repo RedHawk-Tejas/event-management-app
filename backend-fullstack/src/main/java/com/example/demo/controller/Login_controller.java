@@ -1,9 +1,14 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,15 +58,33 @@ public class Login_controller {
 
 	}
 
-	@PostMapping("/validate")
-	public String LoginToken(@RequestBody userinfo infoo) {
-		UserDetails loadUserByUsername = se.loadUserByUsername(infoo.getUsername());
+	@PostMapping("/login")
+	public ResponseEntity<HashMap<Object, Object>> LoginToken(@RequestBody userinfo infoo) {
+		List<Object> list = new ArrayList<>();
+		HashMap<Object, Object> map = new HashMap<>();
+		UserDetails loadUserByUsername = se.loadUserByUsername(infoo.getEmail());
+		Optional<userinfo> userdata = info.findByEmail(infoo.getEmail());
 		if (loadUserByUsername.getUsername().length() > 0 && loadUserByUsername.isAccountNonExpired()
 				&& loadUserByUsername.isAccountNonLocked() && loadUserByUsername.isCredentialsNonExpired()) {
 			if (encoder.matches(infoo.getPassword(), loadUserByUsername.getPassword())) {
-				return new JwtService().gettoken(infoo.getUsername());
-			} else {
-				return "something went wrong";
+				list.add(userdata.get().getId());
+				list.add(userdata.get().getName());
+				list.add(userdata.get().getRole());
+				map.put("id", userdata.get().getId());
+				map.put("name", userdata.get().getName());
+				map.put("role", userdata.get().getRole());
+				map.put("token", new JwtService().gettoken(infoo.getEmail()));
+				
+				//list.add(userdata.)
+				//list.add(infoo.getName());
+				//list.add();
+				return ResponseEntity.ok(map);
+			
+			}
+			else {
+				//list.add("something went wrong");
+				map.put("error", "Something went wrong");
+				return ResponseEntity.ok(map);
 			}
 		} else {
 			throw new UsernameNotFoundException("Invalid User");

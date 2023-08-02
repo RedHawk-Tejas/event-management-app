@@ -26,7 +26,7 @@ public class UserInfoService implements UserDetails{
 public UserInfoService(userinfo data) {
 	// TODO Auto-generated constructor stub
 //	this.name = data.getName();
-	this.username  = data.getUsername();
+	this.username  = data.getEmail();
 	this.password = data.getPassword();
 	this.rolelist = Arrays.stream(data.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //	this.role = data.getRole();

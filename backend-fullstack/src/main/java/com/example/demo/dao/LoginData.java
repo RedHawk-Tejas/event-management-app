@@ -10,6 +10,6 @@ import com.example.demo.model.userinfo;
 
 public interface LoginData extends MongoRepository<userinfo, String> {
 
-	Optional<userinfo> findByUsername(String username);
+	Optional<userinfo> findByEmail(String username);
 
 }
