@@ -21,60 +21,54 @@ import org.springframework.stereotype.Component;
 import com.example.demo.filter.Jwt_Filter;
 import com.example.demo.service.UserService;
 
-
-
-
 @Component
 @EnableWebSecurity
 public class configration {
-	
+
 	@Autowired
 	private Jwt_Filter authFilter;
-	
-	
+
 	@Bean
-	public UserDetailsService userDeatails(){
-		
-		return  new UserService();
+	public UserDetailsService userDeatails() {
+
+		return new UserService();
 	}
-	
+
 	@Bean
 	public SecurityFilterChain securityfilterChain(HttpSecurity http) throws Exception {
-	
-		
-		
-		return http.csrf().disable().cors().disable().authorizeHttpRequests((authorize) -> authorize.requestMatchers("api/authentication/test","api/authentication/register","api/authentication/validate").permitAll()
-				.requestMatchers("api/authentication/**").authenticated()
-				
-				
-				).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authenticationProvider(authProvider())
-				.addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter.class)
-				.build();
+
+		return http.csrf().disable().cors().and()
+				.authorizeHttpRequests((authorize) -> authorize
+						.requestMatchers("api/authentication/test", "api/authentication/register","api/authentication/validate")
+						.permitAll().requestMatchers("api/authentication/**").authenticated()
+
+				).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.authenticationProvider(authProvider())
+				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
 //				).formLogin().and().build();
 	}
-	
-	
+
 	@Bean
 	public PasswordEncoder passencoder() {
-		
+
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	public AuthenticationProvider authProvider() {
-		
+
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
 		auth.setUserDetailsService(userDeatails());
 		auth.setPasswordEncoder(passencoder());
-		
+
 		return auth;
-		
+
 	}
-	
+
 	@Bean
 	public AuthenticationManager auth(AuthenticationConfiguration config) throws Exception {
-			//return config.getAuthenticationManager();
-			return config.getAuthenticationManager();
+		// return config.getAuthenticationManager();
+		return config.getAuthenticationManager();
 	}
 
 }
