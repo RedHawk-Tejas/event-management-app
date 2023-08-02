@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.dao.LoginData;
 import com.example.demo.model.userinfo;
@@ -83,8 +84,8 @@ public class Login_controller {
 			}
 			else {
 				//list.add("something went wrong");
-				map.put("error", "Something went wrong");
-				return ResponseEntity.ok(map);
+				//map.put("error", "Something went wrong");
+				throw  new UsernameNotFoundException("Incorrect password"); 
 			}
 		} else {
 			throw new UsernameNotFoundException("Invalid User");
