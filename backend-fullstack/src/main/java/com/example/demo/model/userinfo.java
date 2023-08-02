@@ -1,34 +1,35 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
-@Entity
-@Table
+//@Entity
+//@Table
+
+@Document(collection = "userinfo")
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-
+//@Document(collection = "Famfest")
 public class userinfo {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@Column
+	private String id;
+	@Field
 	private String name;
-	@Column
+	@Field
 	private String username;
-	@Column
+	@Field
 	private String password;
-	@Column
+	@Field
 	private String role;
 	
 	

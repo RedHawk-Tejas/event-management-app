@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +42,7 @@ public class Login_controller {
 	@PostMapping("/register")
 	public String register(@RequestBody userinfo infor) {
 	
+	infor.setId((UUID.randomUUID().toString().split("-")[0]));
 	infor.setPassword(encoder.encode(infor.getPassword()));
 	
 	info.save(infor);
