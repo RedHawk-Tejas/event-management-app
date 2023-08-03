@@ -10,30 +10,40 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Eventdetail {
 	
 	@Id
-	private String id;
+	private String eventId;
+	@Field
+	private String userId;
 	@Field
 	private String eventName;
 	@Field
-	private String eventPosterImg;
+	private String eventPoster;
 	@Field
-	private String venue;
+	private String eventVenue;
 	@Field
-	private String date;
+	private String eventDateTime;
 	@Field
-	private Long ticketPrice;
+	private Long price;
 	@Field
 	private String eventMode;
 	@Field
-	private String organizer;
+	private String eventOrganizer;
 	@Field
-	private String details;
+	private String eventDetails;
 	@Field
 	private Date creationDate;
-	public String getId() {
-		return id;
+	
+	
+	public String getEventId() {
+		return eventId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getEventName() {
 		return eventName;
@@ -41,29 +51,29 @@ public class Eventdetail {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public String getEventPosterImg() {
-		return eventPosterImg;
+	public String getEventPoster() {
+		return eventPoster;
 	}
-	public void setEventPosterImg(String eventPosterImg) {
-		this.eventPosterImg = eventPosterImg;
+	public void setEventPoster(String eventPoster) {
+		this.eventPoster = eventPoster;
 	}
-	public String getVenue() {
-		return venue;
+	public String getEventVenue() {
+		return eventVenue;
 	}
-	public void setVenue(String venue) {
-		this.venue = venue;
+	public void setEventVenue(String eventVenue) {
+		this.eventVenue = eventVenue;
 	}
-	public String getDate() {
-		return date;
+	public String getEventDateTime() {
+		return eventDateTime;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setEventDateTime(String eventDateTime) {
+		this.eventDateTime = eventDateTime;
 	}
-	public Long getTicketPrice() {
-		return ticketPrice;
+	public Long getPrice() {
+		return price;
 	}
-	public void setTicketPrice(Long ticketPrice) {
-		this.ticketPrice = ticketPrice;
+	public void setPrice(Long price) {
+		this.price = price;
 	}
 	public String getEventMode() {
 		return eventMode;
@@ -71,17 +81,17 @@ public class Eventdetail {
 	public void setEventMode(String eventMode) {
 		this.eventMode = eventMode;
 	}
-	public String getOrganizer() {
-		return organizer;
+	public String getEventOrganizer() {
+		return eventOrganizer;
 	}
-	public void setOrganizer(String organizer) {
-		this.organizer = organizer;
+	public void setEventOrganizer(String eventOrganizer) {
+		this.eventOrganizer = eventOrganizer;
 	}
-	public String getDetails() {
-		return details;
+	public String getEventDetails() {
+		return eventDetails;
 	}
-	public void setDetails(String details) {
-		this.details = details;
+	public void setEventDetails(String eventDetails) {
+		this.eventDetails = eventDetails;
 	}
 	public Date getCreationDate() {
 		return creationDate;
@@ -89,20 +99,7 @@ public class Eventdetail {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Eventdetail(String id, String eventName, String eventPosterImg, String venue, String date, Long ticketPrice,
-			String eventMode, String organizer, String details, Date creationDate) {
-		super();
-		this.id = id;
-		this.eventName = eventName;
-		this.eventPosterImg = eventPosterImg;
-		this.venue = venue;
-		this.date = date;
-		this.ticketPrice = ticketPrice;
-		this.eventMode = eventMode;
-		this.organizer = organizer;
-		this.details = details;
-		this.creationDate = creationDate;
-	}
+	
 	
 	
 	public Eventdetail() {
