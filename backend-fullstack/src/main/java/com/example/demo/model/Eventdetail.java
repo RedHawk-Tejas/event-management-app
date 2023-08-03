@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "Eventinfo")
+@Document(collection = "eventinfo")
 public class Eventdetail {
 	
 	@Id
