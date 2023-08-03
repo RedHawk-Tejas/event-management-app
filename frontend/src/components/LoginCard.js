@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { Eye, EyeOff } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import axios from 'axios';
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 const LoginCard = () => {
@@ -12,12 +12,16 @@ const LoginCard = () => {
 
   const [isLogin, setIsLogin] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
+  const [active, setActive] = useState(true);
 
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
+    setActive(!active)
   };
 
   const toggleShowPassword = () => {
@@ -26,58 +30,84 @@ const LoginCard = () => {
 
   const handleLogin = async() => {
     try {
-        // const response = await axios.post("apiLink", {username, password});
-        // const status = response.status;
+        const response = await axios.post("http://localhost:9080/api/authentication/login", {email, password});
+        console.log(response.data);
 
-        var status = 100;
+        const token = response.data.token;
+        const user_id = response.data.id;
+        localStorage.setItem('id', user_id);
+        localStorage.setItem('token', token);
 
+        const status = response.status;
         if(status === 200){
-            toast("Login Successful.");
-            navigate("/homepage");
-        } else {
-            toast("Check your crendials.");
-        }
+            navigate('/famfest/home');
+        } 
     } catch (error) {
-        
+      const status = error.response.status;
+      console.log(status);
+      if(status === 403){
+        toast("Invalid Credentials")
+      }
     }
   }
 
-//   const notify = () => toast("Wow so easy!");
+  const handleSignup = async () => {
+    try {
+      if (!name || !email || !password || !confirmPass) {
+        toast("Please fill all fields");
+        return;
+      }
+  
+      if (password !== confirmPass) {
+        toast("Passwords do not match");
+        return; // Return early if passwords don't match
+      }
+      
+      const role = "user";
+      const response = await axios.post("http://localhost:9080/api/authentication/register", {
+        name,
+        email,
+        password,
+        role,
+      });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPass("");
+      console.log(response);
+      const status = response.status;
+      if (status === 200) {
+        toast("Registration Successful! Please, Login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   return (
     <LoginContainer>
       <Toggle>
-        <Button active={1} onClick={handleToggle}>
+        <Button active={active} onClick={handleToggle}>
           Login
         </Button>
-        <Button active={0} onClick={handleToggle}>
+        <Button active={!active} onClick={handleToggle}>
           Sign Up
         </Button>
       </Toggle>
 
-      <Form>
+      <FormContainer>
         {isLogin ? (
           <>
-            <Input
-              type="text"
-              placeholder="Username"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+            <Input value={email} onChange={(e) => setEmail(e.target.value)}
+              type="text" placeholder="Email" required 
             ></Input>
 
             <PasswordInput>
-              <Input
-                onChange={(e) => setPassword(e.target.value)}
-                type={!isVisible ? "password" : "text"}
-                placeholder="Password"
-                required
-                value={password}
+              <Input value={password} onChange={(e) => setPassword(e.target.value)}
+                type={!isVisible ? "password" : "text"} placeholder="Password" required 
               ></Input>
-              <span
-                onClick={toggleShowPassword}
-                style={{ marginRight: "10px" }}
-              >
+              <span onClick={toggleShowPassword} style={{ marginRight: "10px" }}>
                 {isVisible ? (
                   <Eye size={22} color="#800080" />
                 ) : (
@@ -91,28 +121,19 @@ const LoginCard = () => {
           </>
         ) : (
           <>
-            <Input
-              style={{ marginTop: "10px" }}
-              type="text"
-              placeholder="Name"
-              required
+            <Input value={name} onChange={ (e) => setName(e.target.value) } 
+              type="text" placeholder="Name" style={{ marginTop: "10px" }}
             ></Input>
-            <Input
-              style={{ marginTop: "10px" }}
-              type="email"
-              placeholder="Email"
-              required
+
+            <Input value={email} onChange={ (e) => setEmail(e.target.value) } 
+              type="email" placeholder="Email" style={{ marginTop: "10px" }} 
             ></Input>
+
             <PasswordInput>
-              <Input
-                type={!isVisible ? "password" : "text"}
-                placeholder="Password"
-                required
+              <Input value={password} onChange={ (e) => setPassword(e.target.value) } 
+                type={!isVisible ? "password" : "text"} placeholder="Password" required
               ></Input>
-              <span
-                onClick={toggleShowPassword}
-                style={{ marginRight: "10px" }}
-              >
+                <span onClick={toggleShowPassword} style={{ marginRight: "10px" }}>
                 {isVisible ? (
                   <Eye size={22} color="#800080" />
                 ) : (
@@ -120,27 +141,16 @@ const LoginCard = () => {
                 )}
               </span>
             </PasswordInput>
+
             <PasswordInput>
-              <Input
-                type={!isVisible ? "password" : "text"}
-                placeholder="Confirm Password"
-                required
-              ></Input>
-              <span
-                onClick={toggleShowPassword}
-                style={{ marginRight: "10px" }}
-              >
-                {isVisible ? (
-                  <Eye size={22} color="#800080" />
-                ) : (
-                  <EyeOff size={22} color="#800080" />
-                )}
-              </span>
+              <Input value={confirmPass} onChange={ (e) => setConfirmPass(e.target.value) } 
+                type="text" placeholder="Confirm Password" required></Input>
             </PasswordInput>
-            <Submit>Sign Up</Submit>
+            <Submit onClick={handleSignup}>Sign Up</Submit>
+            <ToastContainer />
           </>
         )}
-      </Form>
+      </FormContainer>
     </LoginContainer>
   );
 };
@@ -171,9 +181,14 @@ const Button = styled.button`
   background: ${({ active }) => (active ? "#fff" : "#444")};
   color: ${({ active }) => (active ? "#BB37CA" : "black")};
   border-bottom: ${({ active }) => (active ? "1px solid #c0c0c0" : "black")};
+
+  &:hover {
+    background: #BB37CA;
+    color: #fff;
+  }
 `;
 
-const Form = styled.div`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -186,7 +201,6 @@ const Input = styled.input`
   border-radius: 10px;
   outline: none;
   border: none;
-  // margin-bottom: 13px;
 `;
 
 const Submit = styled.button`

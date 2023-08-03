@@ -8,11 +8,11 @@ const EventContainer = () => {
     const responsive = {
         superLargeDesktop: {
           breakpoint: { max: 4000, min: 3000 },
-          items: 5
+          items: 4
         },
         desktop: {
           breakpoint: { max: 3000, min: 1400 },
-          items: 5
+          items: 4
         },
         tablet: {
           breakpoint: { max: 1400, min: 1190 },
@@ -23,7 +23,7 @@ const EventContainer = () => {
           items: 2
         },
         smmobile: {
-            breakpoint: { max: 650, min: 0 },
+            breakpoint: { max: 750, min: 0 },
             items: 1
           }
       };
@@ -60,14 +60,30 @@ const EventContainer = () => {
 
         </Carousel>
 
+        <Title>Upcoming Events</Title>
+        
+        <Carousel responsive={responsive}>
+            
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+
+        </Carousel>
+
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
     height: fit-content;
+    // width: 70%;
     color: white;
-    padding: 60px 60px;
+    padding: 60px 150px;
     @media only screen and (max-width: 420px){
         padding: 30px 45px;
     }

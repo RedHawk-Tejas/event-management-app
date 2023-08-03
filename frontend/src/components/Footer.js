@@ -55,7 +55,7 @@ const Wrapper = styled.div`
   justify-content: space-around;
   color: white;
   border-top: 1px solid #c0c0c0;
-  background: #222;
+  background: #0A090B;
   padding: 60px 60px;
 
   @media only screen and (max-width: 850px){
