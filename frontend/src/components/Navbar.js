@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import { User2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -13,6 +14,9 @@ const Navbar = () => {
       <RightContainer>
 
         <Input placeholder="Search"></Input>
+        <Link to="/famfest/organize_event">
+          <Button>Organize Event</Button>
+        </Link>
         <User2 style={{ cursor: 'pointer', paddingLeft: '20px',}} />
 
       </RightContainer>
@@ -31,7 +35,7 @@ const MainNavbar = styled.nav`
   border-bottom: 1px solid #c0c0c0;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 
   @media only screen and (max-width: 600px) {
     padding: 20px 30px;
@@ -58,6 +62,7 @@ const Input = styled.input`
   outline: #ac44d8;
   color: white;
   background: #111;
+  margin-right: 20px;
   @media only screen and (max-width: 800px) {
     width: 220px;
   }
@@ -66,5 +71,18 @@ const Input = styled.input`
   }
 `;
 
+const Button = styled.button`
+  padding: 8px 10px;
+  color: #ac44d8;
+  background: #111;
+  border: 1px solid #ac44d8;
+  outline: none;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover{
+    color: #fff;
+  background: #ac44d8;
+  }
+`;
 
 export default Navbar;

@@ -4,12 +4,18 @@ import Navbar from '../components/Navbar';
 import EventContainer from '../components/EventContainer';
 import Footer from '../components/Footer';
 import ImageCarousel from '../components/ImageCarousel';
+import Header from '../components/Header';
+import EventsCarousel from '../components/EventsCarousel';
+import HeroBanner from '../components/HeroBanner';
 
 const HomePage = () => {
   return (
     <HomeSection>
       <Navbar/>
-      <ImageCarousel/>
+      <HeroBanner/>
+      {/* <EventsCarousel/> */}
+      {/* <Header /> */}
+      {/* <ImageCarousel/> */}
       <EventContainer />
       <Footer/>
     </HomeSection>
@@ -17,7 +23,7 @@ const HomePage = () => {
 }
 
 const HomeSection = styled.div`
-  background: linear-gradient(180deg, #222, #AC44D8 300%);
+  background: #0A090B;
   width: 100%;
 `;
 
