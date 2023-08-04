@@ -7,9 +7,12 @@ const Navbar = () => {
   return (
     <MainNavbar>
 
-      <Logo>
-        Fam<span style={{ color: '#AC44D8' }}>Fest.</span>
-      </Logo>
+      <Link style={{ textDecoration: 'none'}} to="/famfest/home">
+        <Logo>
+          Fam<span style={{ color: '#AC44D8' }}>Fest.</span>
+        </Logo>
+      </Link>
+      
 
       <RightContainer>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from 'styled-components'
-import Event from './Event';
+// import Event from './Event';
 
 const EventsCarousel = () => {
   return (
@@ -8,7 +8,7 @@ const EventsCarousel = () => {
 
         <Section>
             <Title>Events</Title>
-            <Event/>
+            {/* <Event/> */}
         </Section>
         
         

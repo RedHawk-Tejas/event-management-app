@@ -1,120 +1,87 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import EventModal from '../components/EventModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEventsBasedOnUserId } from '../services/eventActions';
+import { Plus } from 'lucide-react';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const AddEvent = () => {
 
-    const [eventName, setEventName] = useState('');
-    const [eventPoster, setEventPoster] = useState(null);
-    const [eventVenue, setEventVenue] = useState('');
-    const [eventDateTime, setEventDateTime] = useState('');
-    const [price, setPrice] = useState('');
-    const [eventMode, setEventMode] = useState('');
-    const [eventOrganizer, setEventOrganizer] = useState('');
-    const [eventDetails, setEventDetails] = useState('');
+    const dispatch = useDispatch();
+    const { events, loading, error } = useSelector(state => state.events);
 
-    const handleAddEvent = async() => {
-        try {
-            const eventDataForm = {
-                eventName,
-                eventPoster,
-                eventVenue,
-                eventDateTime,
-                price,
-                eventMode,
-                eventOrganizer,
-                eventDetails
-            }
+    const [isPopupVisible, setPopupVisible] = useState(false);
 
-            const token = localStorage.getItem('token');
-            console.log(token, "sending");
+    const handleAddEvent = () => {
+        setPopupVisible(!isPopupVisible);
+    };
 
-            const response = await axios.post('http://localhost:9080/api/Event-Management/Event-info', eventDataForm, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-
-            console.log(response);
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    useEffect(() => {
+        const userId = localStorage.getItem('id');
+        dispatch(fetchEventsBasedOnUserId(userId));
+      }, [dispatch]);
+    
+      if (loading) {
+        return <div>
+            <Skeleton /> 
+        </div>;
+      }
+    
+      if (error) {
+        return <p>Error: {error.message}</p>;
+      }
 
   return (
     <Wrapper>
 
-        {/* <Navbar/> */}
+        <Navbar/>
 
         <Container>
 
-            <Title>Add Event</Title>
+            {events.length === 0 ? (
+            <>
+                <Content>Look's you don't have any events right now</Content>
+                <Content>Create Event Here</Content>
 
-            <Section>
+                <Button onClick={handleAddEvent}>Add Event</Button>
 
-            <Row>
+                {isPopupVisible && (
+                    <ModalOverlay>
+                        <Modal>
+                            <EventModal setPopupVisible={setPopupVisible}/>
+                        </Modal>
+                    </ModalOverlay>
+                )}
+            </>
+            ) : (
+            <>
 
-            <Group>
-                <Label>Event Name</Label>
-                <Input value={eventName} onChange={ (e) => setEventName(e.target.value) }
-                    type='text' placeholder='Name'></Input>
-            </Group>
+                <EventContainer>
+                    <Button onClick={handleAddEvent}><Plus /></Button>
 
-            <Group>
-                <Label>Event Poster</Label>
-                <Input onChange={ (e) => setEventPoster(e.target.files[0]) }
-                    type='file' placeholder='Poster'></Input>
-            </Group>
+                    {isPopupVisible && (
+                        <ModalOverlay>
+                            <Modal>
+                                <EventModal setPopupVisible={setPopupVisible}/>
+                            </Modal>
+                        </ModalOverlay>
+                    )}
 
-            <Group>
-                <Label>Event Veneu</Label>
-                <Input value={eventVenue} onChange={ (e) => setEventVenue(e.target.value) }
-                    type='text' placeholder='Veneu'></Input>
-            </Group>
+                    {events.map((event) => (
+                        <Card>
+                            <Img src={event.eventPoster}></Img>
+                            <Title>{event.eventName}</Title>
+                            <Button>Delete</Button>
+                        </Card>
+                    ))}
+                    
 
-            <Group>
-                <Label>Event Date</Label>
-                <Input value={eventDateTime} onChange={ (e) => setEventDateTime(e.target.value) }
-                    type='datetime-local' placeholder='Date'></Input>
-            </Group>
-
-            <Group>
-                <Label>Ticket Price</Label>
-                <Input value={price} onChange={ (e) => setPrice(e.target.value) }
-                    type='text' placeholder='₹ Price'></Input>
-            </Group>
-            </Row>
-
-            <Row>
-
-            
-
-
-            <Group>
-                <Label>Event Mode</Label>
-                <Input value={eventMode} onChange={ (e) => setEventMode(e.target.value) }
-                    type='text' placeholder='Online | Offline'></Input>
-            </Group>
-
-            <Group>
-                <Label>Event Organizer</Label>
-                <Input value={eventOrganizer} onChange={ (e) => setEventOrganizer(e.target.value) }
-                    type='text' placeholder="Organizer's Name"></Input>
-            </Group>
-
-            <Group>
-                <Label>Event Details</Label>
-                <Textarea value={eventDetails} onChange={ (e) => setEventDetails(e.target.value) }
-                    type='text' placeholder='Other details...' rows={11}></Textarea>
-            </Group>
-
-            </Row>
-
-            </Section>
-
-            <Button onClick={handleAddEvent}>Add</Button>
+                </EventContainer>
+            </>
+            )}
 
         </Container>
 
@@ -126,97 +93,83 @@ const Wrapper = styled.div`
     color: white;
     height: 100vh;
     background: #0A090B;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow-y: auto;
 `;
 
 const Container = styled.div`
-    border: 1px solid #ac44d8;
-    border-radius: 15px;
-    // width: 90%;
-    // height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding: 40px;
-    // margin: 40px 40px;
+    justify-content: center;
+    margin: 50px 0;
+`;
 
-    // @media only screen and (max-width: 500px) {
-    //     width: 60vh;
-    // }
-    
+const Content = styled.div`
+    color: #999;
+    margin: 2px 0;
+`;
+
+const Button = styled.button`
+    margin: 15px 0;
+    padding: 8px 20px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: #ac44d8;
+    background: #111;
+    border: 1px solid #ac44d8;
+    cursor: pointer;
+`;
+
+const ModalOverlay = styled.button`
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0A090B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none
+`;
+
+const Modal = styled.button`
+    background-color: #0A090B;
+    border: none;
+    outline: none
+`;
+
+const EventContainer = styled.div`
+    // border: 1px solid white;
+    width: 80%;
+
+    display: flex;
+    gap: 50px;
+    flex: wrap;
+    align-items: center;
+    justify-content: start;
+`;
+
+const Card = styled.div`
+    border: 1px solid #ac44d8;
+    background: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+`;
+
+const Img = styled.img`
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
 `;
 
 const Title = styled.div`
-    font-size: 30px;
-    font-weight: 500;
-`;
-
-const Row = styled.div``;
-
-const Section = styled.div`
-    display: flex;
-    gap: 20px;
-
-    @media only screen and (max-width: 830px) {
-        flex-direction: column;
-      }
-`;
-
-const Group = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-    font-weight: 500;
-`;
-
-const Input = styled.input`
-    padding: 10px 20px;
-    width: 50vh;
-    border-radius: 10px;
-    border: 1px solid #ac44d8;
-    outline: none;
-    color: #fff;
-    background: #222;
-
-    @media only screen and (max-width: 500px) {
-        width: 40vh;
-    }
-`;
-
-const Textarea = styled.textarea`
-    padding: 10px 20px;
-    width: 50vh;
-    border-radius: 10px;
-    border: 1px solid #ac44d8;
-    outline: none;
-    color: #fff;
-    background: #222;
-    resize:none;
-
-    @media only screen and (max-width: 500px) {
-        width: 40vh;
-    }
-`;
-
-const Button = styled.div`
-    padding: 10px 20px;
-    background: #ac44d8;
-    border-radius: 10px;
-    cursor: pointer;
-    border: 1px solid white;
-
-    &:hover{
-        color: black;
-        background: #ac44d8;
-    }
+    margin-top: 8px;
 `;
 
 export default AddEvent
