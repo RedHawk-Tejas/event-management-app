@@ -17,38 +17,45 @@ import com.example.demo.model.Eventdetail;
 @RestController
 @RequestMapping("api/famfest")
 public class PublicData_controller {
-	
+
 	@Autowired
 	private EventData eventData;
-	
+
 	@GetMapping("/online_events")
 	public List<Eventdetail> getOnlineEvent() {
 		List<Eventdetail> allData = eventData.findAll();
 		List<Eventdetail> onlineList = new ArrayList<>();
-		for(int i=0;i<allData.size();i++) {
-			if (allData.get(i).getEventMode().equalsIgnoreCase("online") && allData.get(i).getEventMode()!=null) {
+		for (int i = 0; i < allData.size(); i++) {
+			if (allData.get(i).getEventMode().equalsIgnoreCase("online") && allData.get(i).getEventMode() != null) {
 				onlineList.add(allData.get(i));
-			} 
-			
+			}
+
 		}
-		
+
 		return onlineList;
-		
+
 	}
-	
+
 	@GetMapping("/offline_events")
 	public List<Eventdetail> getOfflineEvent() {
 		List<Eventdetail> allData = eventData.findAll();
 		List<Eventdetail> offlineList = new ArrayList<>();
-		for(int i=0;i<allData.size();i++) {
-			if (allData.get(i).getEventMode().equalsIgnoreCase("offline") && allData.get(i).getEventMode()!=null) {
+		for (int i = 0; i < allData.size(); i++) {
+			if (allData.get(i).getEventMode().equalsIgnoreCase("offline") && allData.get(i).getEventMode() != null) {
 				offlineList.add(allData.get(i));
-			} 
-			
+			}
+
 		}
-		
+
 		return offlineList;
-		
+
+	}
+
+	@GetMapping("/all_events")
+	public List<Eventdetail> getAllEvent() {
+		List<Eventdetail> allData = eventData.findAll();
+
+		return allData;
 	}
 
 }
