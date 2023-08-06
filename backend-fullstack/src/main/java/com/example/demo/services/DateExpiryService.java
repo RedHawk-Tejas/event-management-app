@@ -1,40 +1,44 @@
 package com.example.demo.services;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.configration;
 import com.example.demo.dao.EventData;
 import com.example.demo.model.Eventdetail;
 
-@Service
+@Component
 public class DateExpiryService {
 
     @Autowired
     private EventData eventData;
 
     @Bean
-    public void CheckExpiryDate() {
+    @Scheduled(fixedRate = 5000 * 4) // Run every 20 seconds
+    public void CheckExpiryDate() throws Exception {
         List<Eventdetail> listdata = eventData.findAll();
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        long currentMillis = Instant.now().toEpochMilli();
+        System.out.println(listdata);
         for (int i = 0; i < listdata.size(); i++) {
-            String dateOfEvent = listdata.get(i).getEventDateTime();
-            String[] sp = dateOfEvent.split("T");
-            long dateOfEventact = Date.parse(sp[0]);
-            Date CurrentDate = new Date();
-            String datecurrent = CurrentDate.toString();
-            String sp2[] = datecurrent.split("T");
-            long dateOFCurrent = Date.parse(sp2[0]);
-            if (dateOfEventact < dateOFCurrent) {
-
+            LocalDateTime dateTime = LocalDateTime.parse(listdata.get(i).getEventDateTime(), formatter);
+            long millis = dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+            if (currentMillis > millis) {
                 eventData.deleteById(listdata.get(i).getEventId());
-            } else {
-                continue;
             }
-        }
-    }
 
+        }
+
+    }
 }
