@@ -39,13 +39,15 @@ public class configration {
 
 		return http.csrf().disable().cors().and()
 				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("api/authentication/test", "api/authentication/register","api/authentication/login","api/famfest/**")
-						.permitAll().requestMatchers("api/authentication/**","api/event/**").authenticated()
+						.requestMatchers("api/authentication/test", "api/authentication/register",
+								"api/authentication/login", "api/famfest/**")
+						.permitAll().requestMatchers("api/authentication/**", "api/event/**", "api/Message/**")
+						.authenticated()
 
 				).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authenticationProvider(authProvider())
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
-//				).formLogin().and().build();
+		// ).formLogin().and().build();
 	}
 
 	@Bean
