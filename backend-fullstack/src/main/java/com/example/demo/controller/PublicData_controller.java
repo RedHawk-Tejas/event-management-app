@@ -26,7 +26,7 @@ public class PublicData_controller {
 		List<Eventdetail> allData = eventData.findAll();
 		List<Eventdetail> onlineList = new ArrayList<>();
 		for (int i = 0; i < allData.size(); i++) {
-			if (allData.get(i).getEventMode().equalsIgnoreCase("online") && allData.get(i).getEventMode() != null) {
+			if (allData.get(i).getEventMode().equalsIgnoreCase("Online") && allData.get(i).getEventMode() != null) {
 				onlineList.add(allData.get(i));
 			}
 
@@ -41,7 +41,7 @@ public class PublicData_controller {
 		List<Eventdetail> allData = eventData.findAll();
 		List<Eventdetail> offlineList = new ArrayList<>();
 		for (int i = 0; i < allData.size(); i++) {
-			if (allData.get(i).getEventMode().equalsIgnoreCase("offline") && allData.get(i).getEventMode() != null) {
+			if (allData.get(i).getEventMode().equalsIgnoreCase("Offline") && allData.get(i).getEventMode() != null) {
 				offlineList.add(allData.get(i));
 			}
 
