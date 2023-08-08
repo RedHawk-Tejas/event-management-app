@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +27,23 @@ import com.example.demo.dao.LoginData;
 import com.example.demo.model.userinfo;
 import com.example.demo.service.JwtService;
 import com.example.demo.service.UserService;
+import com.example.demo.services.OtpGenerationService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/authentication")
 public class Login_controller {
+	@Value("${twilio.accountSid}")
+	private String accountSid;
+
+	@Value("${twilio.authToken}")
+	private String authToken;
+
+	@Value("${twilio.phoneNumber}")
+	private String twilioPhoneNumber;
 
 	@Autowired
 	LoginData info;
@@ -39,6 +53,9 @@ public class Login_controller {
 
 	@Autowired
 	UserService se;
+
+	@Autowired
+	OtpGenerationService otpGenerationService;
 
 	@GetMapping("/test")
 	public String test() {
@@ -75,21 +92,33 @@ public class Login_controller {
 				map.put("name", userdata.get().getName());
 				map.put("role", userdata.get().getRole());
 				map.put("token", new JwtService().gettoken(infoo.getEmail()));
-				
-				//list.add(userdata.)
-				//list.add(infoo.getName());
-				//list.add();
+
+				// list.add(userdata.)
+				// list.add(infoo.getName());
+				// list.add();
 				return ResponseEntity.ok(map);
-			
-			}
-			else {
-				//list.add("something went wrong");
-				//map.put("error", "Something went wrong");
-				throw  new UsernameNotFoundException("Incorrect password"); 
+
+			} else {
+				// list.add("something went wrong");
+				// map.put("error", "Something went wrong");
+				throw new UsernameNotFoundException("Incorrect password");
 			}
 		} else {
 			throw new UsernameNotFoundException("Invalid User");
 		}
+
+	}
+
+	@GetMapping("/set_Otp/{id}")
+	public Message setOtp(@PathVariable String id) {
+		Twilio.init(accountSid, authToken);
+
+		String otp = OtpGenerationService.generateOtp(6); // Generate a 6-digit OTP
+
+		Message message = Message
+				.creator(new PhoneNumber(id), new PhoneNumber(twilioPhoneNumber), "Your OTP is: " + otp).create();
+
+		return message;
 
 	}
 

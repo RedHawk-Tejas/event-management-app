@@ -40,7 +40,7 @@ public class configration {
 		return http.csrf().disable().cors().and()
 				.authorizeHttpRequests((authorize) -> authorize
 						.requestMatchers("api/authentication/test", "api/authentication/register",
-								"api/authentication/login", "api/famfest/**")
+								"api/authentication/login", "api/famfest/**", "api/authentication/**")
 						.permitAll().requestMatchers("api/authentication/**", "api/event/**", "api/Message/**")
 						.authenticated()
 
