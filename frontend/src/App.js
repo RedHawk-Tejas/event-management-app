@@ -15,9 +15,9 @@ function App() {
     <BrowserRouter> 
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
-        <Route path="/famfest/home" element={ <HomePage/> } />
-        <Route path="/famfest/organize_event" element={<OrganizeEvent/>} />
-        <Route path="/famfest/checkout" element={<Checkout/>} />
+        <Route path="/famfest/home" element={<Protected><HomePage/></Protected>} />
+        <Route path="/famfest/organize_event" element={<Protected><OrganizeEvent/></Protected>} />
+        <Route path="/famfest/checkout" element={<Protected><Checkout/></Protected>} />
       </Routes>
     </BrowserRouter>
     </Provider>

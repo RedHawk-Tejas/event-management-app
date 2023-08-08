@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import EventCard from './EventCard';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOfflineEvents, fetchOnlineEvents } from '../services/publicEventActions';
+import EventDetailModal from './EventDetailModal';
 
 const EventContainer = ({selectedCity, searchQuery}) => {
     const responsive = {
@@ -32,6 +33,9 @@ const EventContainer = ({selectedCity, searchQuery}) => {
 
       const dispatch = useDispatch();
 
+      const [isPopupVisible, setPopupVisible] = useState(false);
+      const [selectedEvent, setSelectedEvent] = useState(null);
+
       const { events: onlineEvents, loading: onlineLoading } = useSelector(state => state.allEvents.online);
       const { events: offlineEvents, loading: offlineLoading } = useSelector(state => state.allEvents.offline);
 
@@ -54,7 +58,14 @@ const EventContainer = ({selectedCity, searchQuery}) => {
         
         <Carousel responsive={responsive}>
             {onlineEvents.map((event) => (
-              <EventCard key={event.eventId} event={event} loading={onlineLoading}/>
+              <EventCard 
+                key={event.eventId} 
+                event={event} 
+                loading={onlineLoading} 
+                isPopupVisible={isPopupVisible} 
+                setPopupVisible={setPopupVisible} 
+                setSelectedEvent={setSelectedEvent}
+              />
             ))}
         </Carousel>
 
@@ -65,6 +76,14 @@ const EventContainer = ({selectedCity, searchQuery}) => {
               <EventCard key={event.eventId} event={event} loading={offlineLoading}/>
             ))}
         </Carousel>
+
+        {isPopupVisible && (
+          <ModalOverlay>
+              <Modal>
+                  <EventDetailModal setPopupVisible={setPopupVisible} selectedEvent={selectedEvent}/>
+              </Modal>
+          </ModalOverlay>
+        )}
         
 
     </Wrapper>
@@ -83,6 +102,27 @@ const Wrapper = styled.div`
 const Title = styled.div`
     font-size: 24px;
     font-weight: 500;
+`;
+
+const ModalOverlay = styled.button`
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0A090B;
+    // opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none
+`;
+
+const Modal = styled.button`
+    background-color: #0A090B;
+    border: none;
+    outline: none
 `;
 
 export default EventContainer

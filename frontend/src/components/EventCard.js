@@ -4,12 +4,12 @@ import { styled } from 'styled-components';
 import { Spin } from 'react-cssfx-loading';
 import { Link } from 'react-router-dom';
 
-const EventCard = ({event, onlineLoading, offlineLoading}) => {
+const EventCard = ({event, onlineLoading, offlineLoading, isPopupVisible, setPopupVisible, setSelectedEvent}) => {
 
-    const [isPopupVisible, setPopupVisible] = useState(false);
 
     const handlePopup = () => {
         setPopupVisible(!isPopupVisible);
+        setSelectedEvent(event);
     };
 
     if (onlineLoading || offlineLoading) {
@@ -37,19 +37,21 @@ const EventCard = ({event, onlineLoading, offlineLoading}) => {
                 <EventDate>{formattedDate}</EventDate>
             </Details>
             <Section>
-                <Button>Book</Button>
+                <Link style={{ textDecoration: 'none', color: 'white'}} to='/famfest/checkout'>
+                    <Button>Book</Button>
+                </Link>
 
                 <Link>
                     <StyledLink onClick={ handlePopup }>more...</StyledLink>
                 </Link>
 
-                {isPopupVisible && (
+                {/* {isPopupVisible && (
                     <ModalOverlay>
                         <Modal>
                             <EventDetailModal/>
                         </Modal>
                     </ModalOverlay>
-                )}
+                )} */}
                 
 
             </Section>
@@ -139,24 +141,24 @@ const StyledLink = styled.div`
     }
 `;
 
-const ModalOverlay = styled.button`
-    position: fixed;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0A090B;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    outline: none
-`;
+// const ModalOverlay = styled.button`
+//     position: fixed;
+//     top: 30px;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     background: #0A090B;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     border: none;
+//     outline: none
+// `;
 
-const Modal = styled.button`
-    background-color: #0A090B;
-    border: none;
-    outline: none
-`;
+// const Modal = styled.button`
+//     background-color: #0A090B;
+//     border: none;
+//     outline: none
+// `;
 
 export default EventCard

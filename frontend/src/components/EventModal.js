@@ -141,6 +141,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     overflow-y: auto;
+    position: relative;
 `;
 
 const Container = styled.div`

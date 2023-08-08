@@ -1,6 +1,8 @@
 import React from 'react'
 import { styled } from 'styled-components'
 import Navbar from '../components/Navbar';
+import CheckoutEventDetail from '../components/CheckoutEventDetail';
+import CheckoutForm from '../components/CheckoutForm';
 
 const Checkout = () => {
   return (
@@ -9,8 +11,12 @@ const Checkout = () => {
 
         <Container>
             <Section>
-                <Left>a</Left>
-                <Middle>a</Middle>
+                <Left>
+                    <CheckoutEventDetail/>
+                </Left>
+                <Middle>
+                    <CheckoutForm/>
+                </Middle>
                 <Right>a</Right>
             </Section>
         </Container>
@@ -22,21 +28,23 @@ const Wrapper = styled.div`
     background: #111;
     color: #fff;
     height: 100vh;
+    overflow-y: auto;
 `;
 
 const Container = styled.div`
-    // border: 1px solid white;
-    height: 89vh;
+    height: 79vh;
 `;
 
 const Section = styled.div`
     display: flex;
     border: 1px solid white;
-    margin: 10px;
+    margin: 40px 60px;
+    height: 79vh;
 `;
 
 const Left = styled.div`
-    flex: 1;    
+    flex: 1;  
+    background: #222;  
 `;
 
 const Middle = styled.div`
