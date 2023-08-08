@@ -31,20 +31,18 @@ const LoginCard = () => {
   const handleLogin = async() => {
     try {
         const response = await axios.post("http://localhost:9080/api/authentication/login", {email, password});
-        console.log(response.data);
 
         const token = response.data.token;
         const user_id = response.data.id;
         localStorage.setItem('id', user_id);
         localStorage.setItem('token', token);
-
+        console.log(token);
         const status = response.status;
         if(status === 200){
             navigate('/famfest/home');
         } 
     } catch (error) {
       const status = error.response.status;
-      console.log(status);
       if(status === 403){
         toast("Invalid Credentials")
       }
@@ -60,7 +58,7 @@ const LoginCard = () => {
   
       if (password !== confirmPass) {
         toast("Passwords do not match");
-        return; // Return early if passwords don't match
+        return; 
       }
       
       const role = "user";

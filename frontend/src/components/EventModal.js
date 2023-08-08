@@ -1,9 +1,9 @@
+import React, { useState } from 'react';
 import axios from 'axios';
 import { X } from 'lucide-react';
-import React, { useState } from 'react'
-import { styled } from 'styled-components'
+import { styled } from 'styled-components';
 
-const EventModal = ({setPopupVisible}) => {
+const EventModal = ({setPopupVisible, sendToast}) => {
 
   const [eventName, setEventName] = useState('');
   const [eventPoster, setEventPoster] = useState(null);
@@ -44,7 +44,6 @@ const EventModal = ({setPopupVisible}) => {
           }
 
           const token = localStorage.getItem('token');
-          console.log(token, "sending");
 
           const response = await axios.post('http://localhost:9080/api/event/add_event', eventDataForm, {
               headers: {
@@ -52,9 +51,11 @@ const EventModal = ({setPopupVisible}) => {
               },
           })
 
-          console.log(response);
+          const status = response.status;
 
-          setPopupVisible(false);
+          sendToast(status);
+
+        setPopupVisible(false);;
 
       } catch (error) {
           console.log(error);
@@ -145,19 +146,11 @@ const Wrapper = styled.div`
 const Container = styled.div`
     border: 1px solid #ac44d8;
     border-radius: 15px;
-    // width: 90%;
-    // height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 40px;
-    // margin: 40px 40px;
-
-    // @media only screen and (max-width: 500px) {
-    //     width: 60vh;
-    // }
-    
 `;
 
 const Title = styled.div`
@@ -173,7 +166,7 @@ const Section = styled.div`
 
     @media only screen and (max-width: 830px) {
         flex-direction: column;
-      }
+    }
 `;
 
 const Group = styled.div`

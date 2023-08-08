@@ -1,24 +1,59 @@
-import React from 'react'
-import { styled } from 'styled-components'
+import React, { useState } from 'react';
+import EventDetailModal from '../components/EventDetailModal';
+import { styled } from 'styled-components';
+import { Spin } from 'react-cssfx-loading';
+import { Link } from 'react-router-dom';
 
-const EventCard = () => {
+const EventCard = ({event, onlineLoading, offlineLoading}) => {
+
+    const [isPopupVisible, setPopupVisible] = useState(false);
+
+    const handlePopup = () => {
+        setPopupVisible(!isPopupVisible);
+    };
+
+    if (onlineLoading || offlineLoading) {
+        return ( 
+            <div style={{ background: "#111", height: '10vh', display:'flex', alignItems:'center', justifyContent:'center', color:'white'}}>
+                <Spin color="#ac44d8" duration='1s'/>
+            </div>
+        );
+    }
+
+    const backednDateTime = event.eventDateTime;
+    const dateObject = new Date(backednDateTime);
+    const options = { day: 'numeric', month: 'short' };
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
+
   return (
-    <Wrapper >
-        
-        <Image src='https://m.media-amazon.com/images/I/81s+jxE5KEL._AC_UF894,1000_QL80_.jpg'></Image>
+    <Wrapper>
 
-        <Details>
-            <Row>
-                <EventName>Jujutsu Kaisen </EventName>
-                <EventDate>17 Jul</EventDate>
-            </Row>
+            <Image src={event.eventPoster}></Image>
+            <Details>
+                <Row>
+                    <EventName>{event.eventName}</EventName>
+                    <EventPrice>₹{event.price}</EventPrice>
+                </Row>
+                <EventDate>{formattedDate}</EventDate>
+            </Details>
+            <Section>
+                <Button>Book</Button>
 
-            <EventPrice>₹999 onwards</EventPrice>
-            
-        </Details>
+                <Link>
+                    <StyledLink onClick={ handlePopup }>more...</StyledLink>
+                </Link>
 
-        <Button>Book</Button>
+                {isPopupVisible && (
+                    <ModalOverlay>
+                        <Modal>
+                            <EventDetailModal/>
+                        </Modal>
+                    </ModalOverlay>
+                )}
+                
 
+            </Section>
+    
     </Wrapper>
   )
 }
@@ -27,46 +62,44 @@ const Wrapper = styled.div`
     border: 2px solid #AC44D8;
     border-radius: 20px;
     width: 250px;
-    height: 360px;
+    height: 350px;
     color: white;
     margin-top: 30px;
     margin-bottom: 40px;
-    position: relative;
     cursor: pointer;
-    background: linear-gradient(to top, #111, #AC44D8 90%);
-    
-    &:hover {
-        background: linear-gradient(0deg, #111 , #111);
-        opacity: 0.8;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const Image = styled.img`
     border-radius: 20px 20px 0 0;
     width: 100%;
-    height: 80%;
+    height: 75%;
     object-fit: fill;
-    ${Wrapper}:hover &{
-        opacity: 0.9;
-    }
 `;
 
 const Details = styled.div`
-    padding: 5px 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Row = styled.div`
+    padding: 3px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 `;
 
 const EventName = styled.div`
-    font-size: 18px;
+    font-size: 15   px;
 `;
 
 const EventDate = styled.div`
     font-size: 14px;
+    padding: 0 10px;
+    text-align: end;
 `;
 
 const EventPrice = styled.div`
@@ -75,28 +108,55 @@ const EventPrice = styled.div`
     text-align: center;
 `;
 
+const Section = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+`;
+
 const Button = styled.div`
     padding: 10px 20px;
-    position: absolute;
-    bottom: 50%;
-    left: 85px;
+    margin: 0 10px;
+    margin-top: -15px;
     border: 2px solid #AC44D8;
     border-radius: 10px;
     background: #AC44D8;
-    display: none;
+    display: block;
     font-weight: 600;
     font-size: 13px;
-
-    ${Wrapper}:hover &{
-        display: block;
-    }
-
-    &:hover {
-        background: #BB37CA;
-        border: 2px solid #AC44D8;
+    &:hover{
+        background: #111;
     }
 `;
 
+const StyledLink = styled.div`
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    &:hover{
+        color: #fff;
+    }
+`;
 
+const ModalOverlay = styled.button`
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0A090B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none
+`;
+
+const Modal = styled.button`
+    background-color: #0A090B;
+    border: none;
+    outline: none
+`;
 
 export default EventCard

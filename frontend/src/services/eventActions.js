@@ -29,7 +29,6 @@ export const fetchEventsBasedOnUserId = (userId) => {
                 },
             });
             const events = response.data;
-            console.log(response);
             dispatch(fetchEventsSuccess(events));
         } catch (error) {
             console.log(error);
