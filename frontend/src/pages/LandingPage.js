@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
+
 import LoginCard from '../components/LoginCard';
 
 function LandingPage() {
   return (
-    
     <HeroSection>
         <Navbar>
             <Logo>Fam<span style={{color: '#AC44D8'}}>Fest.</span></Logo>

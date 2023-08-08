@@ -1,10 +1,12 @@
-import React from 'react'
-import { styled } from 'styled-components'
+import React, { useEffect } from 'react';
+import { styled } from 'styled-components';
 import EventCard from './EventCard';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOfflineEvents, fetchOnlineEvents } from '../services/publicEventActions';
 
-const EventContainer = () => {
+const EventContainer = ({selectedCity, searchQuery}) => {
     const responsive = {
         superLargeDesktop: {
           breakpoint: { max: 4000, min: 3000 },
@@ -27,53 +29,43 @@ const EventContainer = () => {
             items: 1
           }
       };
+
+      const dispatch = useDispatch();
+
+      const { events: onlineEvents, loading: onlineLoading } = useSelector(state => state.allEvents.online);
+      const { events: offlineEvents, loading: offlineLoading } = useSelector(state => state.allEvents.offline);
+
+      const filteredEvents  = offlineEvents.filter((event) => { 
+        const cityMatch = !selectedCity || event.eventVenue.toLowerCase() === selectedCity.toLowerCase();
+        const searchMatch = !searchQuery || event.eventName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          event.eventVenue.toLowerCase().includes(searchQuery.toLowerCase());
+        return cityMatch && searchMatch;
+      });
+
+      useEffect(() => {
+        dispatch(fetchOnlineEvents());
+        dispatch(fetchOfflineEvents());
+      }, [dispatch]);
+
   return (
     <Wrapper>
 
-        <Title>Upcoming Events</Title>
+        <Title>Online Events</Title>
         
         <Carousel responsive={responsive}>
-            
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-
+            {onlineEvents.map((event) => (
+              <EventCard key={event.eventId} event={event} loading={onlineLoading}/>
+            ))}
         </Carousel>
 
-        <Title> Events</Title>
+        <Title>Offline Events</Title>
         
         <Carousel responsive={responsive}>
-            
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-
+            {filteredEvents.map((event) => (
+              <EventCard key={event.eventId} event={event} loading={offlineLoading}/>
+            ))}
         </Carousel>
-
-        <Title>Upcoming Events</Title>
         
-        <Carousel responsive={responsive}>
-            
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-
-        </Carousel>
 
     </Wrapper>
   )
@@ -81,7 +73,6 @@ const EventContainer = () => {
 
 const Wrapper = styled.div`
     height: fit-content;
-    // width: 70%;
     color: white;
     padding: 60px 150px;
     @media only screen and (max-width: 420px){

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { styled } from 'styled-components';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -9,21 +9,15 @@ const Footer = () => {
 
   return (
     <Wrapper>
-        
+
       <LeftContainer>
-
         <Logo>Fam<span style={{ color: '#AC44D8' }}>Fest.</span></Logo>
-
         <Content>&#169; 2023. India, All Rights Reserved.</Content>
-
       </LeftContainer>
 
       <RightContainer>
-
         <Title>Contact us</Title>
-
         <Message>
-
         <Row>
 
         <LeftSide>
@@ -36,12 +30,9 @@ const Footer = () => {
         </RightSide>
 
         </Row>
-
         <Button>Send Message</Button>
         {/* <ToastContainer /> */}
-
         </Message>
-
       </RightContainer>
 
     </Wrapper>
@@ -49,7 +40,6 @@ const Footer = () => {
 }
 
 const Wrapper = styled.div`
-  // width: 98vw;
   display: flex;
   align-items: center; 
   justify-content: space-around;
@@ -88,8 +78,7 @@ const Title = styled.div`
   
 `;
 
-const Message = styled.div`
-`;
+const Message = styled.div``;
 
 const Row = styled.div`
   display: flex;
@@ -112,7 +101,6 @@ const Input = styled.input`
   border-radius: 10px;
   outline: none;
   border: 2px solid #ac44d8;
-  // background: #222;
 `;
 
 const Textarea = styled.textarea`
@@ -122,7 +110,7 @@ const Textarea = styled.textarea`
   border-radius: 10px;
   outline: none;
   border: 2px solid #ac44d8;
-  // background: #222;
+  resize: none;
 `;
 
 const RightSide = styled.div``;

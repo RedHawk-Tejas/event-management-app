@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import { User2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({searchQuery, setSearchQuery}) => {
+
+  const navigate = useNavigate();
+
+  const [isDropDownOpen, setisDropDownOpen] = useState(false);
+
+
+  const toggleDropDown = () => {
+    setisDropDownOpen(!isDropDownOpen);
+  };
+
+  const removeToken = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+
   return (
     <MainNavbar>
 
@@ -13,14 +28,20 @@ const Navbar = () => {
         </Logo>
       </Link>
       
-
       <RightContainer>
 
-        <Input placeholder="Search"></Input>
+        <Input value={searchQuery} onChange={ (e) => setSearchQuery(e.target.value) } placeholder="Search"></Input>
+
         <Link to="/famfest/organize_event">
           <Button>Organize Event</Button>
         </Link>
-        <User2 style={{ cursor: 'pointer', paddingLeft: '20px',}} />
+
+        <DropDown onClick={toggleDropDown}>
+          <User2 style={{ cursor: 'pointer', paddingLeft: '20px',}} />
+          <DropDownContent onClick={ removeToken }  isOpen={isDropDownOpen}>
+            <p>Log Out</p>
+          </DropDownContent>
+        </DropDown>
 
       </RightContainer>
 
@@ -87,5 +108,30 @@ const Button = styled.button`
   background: #ac44d8;
   }
 `;
+
+const DropDown = styled.div`
+  position: relative;
+  display: inline-block;
+  
+`;
+
+const DropDownContent = styled.div`
+  display: ${props => (props.isOpen ? 'block' : 'none')};
+  position: absolute;
+  top: 35px;
+  right: -30px;
+  background-color: #fff;
+  color: red;
+  min-width: 60px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 7px 12px;
+  z-index: 111;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+`;
+
+
 
 export default Navbar;
