@@ -75,7 +75,12 @@
     	<groupId>com.twilio.sdk</groupId>
     	<artifactId>twilio</artifactId>
     	<version>8.34.0</version> <!-- Check for the latest version -->
-	</dependency>
+		</dependency>
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.4.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

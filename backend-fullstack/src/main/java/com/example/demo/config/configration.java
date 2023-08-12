@@ -41,7 +41,8 @@ public class configration {
 				.authorizeHttpRequests((authorize) -> authorize
 						.requestMatchers("api/authentication/test", "api/authentication/register",
 								"api/authentication/login", "api/famfest/**", "api/authentication/**")
-						.permitAll().requestMatchers("api/authentication/**", "api/event/**", "api/Message/**")
+						.permitAll()
+						.requestMatchers("api/authentication/**", "api/event/**", "api/Message/**", "api/payment/**")
 						.authenticated()
 
 				).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
