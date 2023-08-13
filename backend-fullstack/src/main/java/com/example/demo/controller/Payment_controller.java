@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.EventData;
 import com.example.demo.dao.LoginData;
+import com.example.demo.dao.TransactionData;
 import com.example.demo.dto.PaymentResponse;
 import com.example.demo.model.Eventdetail;
 import com.example.demo.model.OrderFormat;
+import com.example.demo.model.TransactionDetails;
 import com.example.demo.services.PaymentGatewayService;
 import com.razorpay.Order;
 
@@ -32,6 +34,9 @@ public class Payment_controller {
     @Autowired
     PaymentGatewayService paymentGatewayService;
 
+    @Autowired
+    TransactionData transactionData;
+
     @PostMapping("/Transaction")
     public OrderFormat TransactionProcess(@RequestBody PaymentResponse paymentResponse) throws Exception {
         List<Eventdetail> eventdetails = eventData.findAll();
@@ -40,7 +45,8 @@ public class Payment_controller {
             for (Eventdetail details : eventdetails) {
                 if (details.getEventId().equalsIgnoreCase(paymentResponse.getEventId())) {
                     PaymentGatewayService paymentGatewayService = new PaymentGatewayService();
-                    OrderFormat oo = paymentGatewayService.createTransaction(details.getPrice());
+                    OrderFormat oo = paymentGatewayService
+                            .createTransaction(details.getPrice() * paymentResponse.getFrequency());
                     return oo;
                 }
             }
@@ -49,6 +55,13 @@ public class Payment_controller {
 
         return null;
 
+    }
+
+    @PostMapping("/PaymentDetails")
+    public String SavePaymentDetails(@RequestBody TransactionDetails transactionDetails) {
+        transactionData.save(transactionDetails);
+
+        return "Transaction details saved successfully";
     }
 
 }

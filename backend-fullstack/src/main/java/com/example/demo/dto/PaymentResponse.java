@@ -6,12 +6,13 @@ public class PaymentResponse {
 
     private String eventId;
 
-    public PaymentResponse() {
+    private int frequency;
 
+    public PaymentResponse() {
     }
 
     public String getUserId() {
-        return this.userId;
+        return userId;
     }
 
     public void setUserId(String userId) {
@@ -19,11 +20,19 @@ public class PaymentResponse {
     }
 
     public String getEventId() {
-        return this.eventId;
+        return eventId;
     }
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
     }
 
 }
