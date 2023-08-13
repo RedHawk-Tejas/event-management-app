@@ -11,7 +11,7 @@ public class PaymentResponse {
     }
 
     public String getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(String userId) {
@@ -19,7 +19,7 @@ public class PaymentResponse {
     }
 
     public String getEventId() {
-        return eventId;
+        return this.eventId;
     }
 
     public void setEventId(String eventId) {

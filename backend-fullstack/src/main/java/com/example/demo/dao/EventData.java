@@ -9,4 +9,6 @@ import com.example.demo.model.userinfo;
 
 public interface EventData extends MongoRepository<Eventdetail, String> {
 	Optional<Eventdetail> findAllByUserId(String id);
+
+	boolean existsByUserId(String userId);
 }

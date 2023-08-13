@@ -29,31 +29,24 @@ public class Payment_controller {
     PaymentGatewayService paymentGatewayService;
 
     @PostMapping("/Transaction")
-    public OrderFormat TransactionProcess(@RequestBody PaymentResponse paymentResponse) {
+    public OrderFormat TransactionProcess(@RequestBody PaymentResponse paymentResponse) throws Exception {
         List<Eventdetail> eventdetails = eventData.findAll();
-        List<Object> ll = new ArrayList<>();
-        OrderFormat orderMakde = null;
-        for (int i = 0; i < eventdetails.size(); i++) {
-            if (eventdetails.get(i).getEventId().equalsIgnoreCase(paymentResponse.getEventId())
-                    && eventdetails.get(i).getUserId().equalsIgnoreCase(paymentResponse.getUserId())) {
-                PaymentGatewayService paymentGatewayService = new PaymentGatewayService(
-                        eventdetails.get(i).getEventName(), eventdetails.get(i).getPrice(),
-                        eventdetails.get(i).getUserId());
 
-                paymentGatewayService.setEventPrice(eventdetails.get(i).getPrice());
+        if (eventData.existsByUserId(paymentResponse.getUserId())) {
+            for (Eventdetail details : eventdetails) {
+                if (details.getEventId().equalsIgnoreCase(paymentResponse.getEventId())) {
+                    // return details.getPrice();
+                    PaymentGatewayService paymentGatewayService = new PaymentGatewayService();
+                    OrderFormat oo = paymentGatewayService.createTransaction(details.getPrice());
+                    return oo;
 
-                OrderFormat order = paymentGatewayService.createTransaction(eventdetails.get(i).getPrice());
-                orderMakde = order;
-
-                // ll.add(paymentGatewayService);
-                // ll.add(order.toString());
+                }
             }
 
         }
 
-        PaymentGatewayService pay = new PaymentGatewayService();
+        return null;
 
-        return orderMakde;
     }
 
 }
