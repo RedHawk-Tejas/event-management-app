@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.EventData;
+import com.example.demo.dao.LoginData;
 import com.example.demo.dto.PaymentResponse;
 import com.example.demo.model.Eventdetail;
 import com.example.demo.model.OrderFormat;
@@ -26,20 +27,21 @@ public class Payment_controller {
     EventData eventData;
 
     @Autowired
+    LoginData loginData;
+
+    @Autowired
     PaymentGatewayService paymentGatewayService;
 
     @PostMapping("/Transaction")
     public OrderFormat TransactionProcess(@RequestBody PaymentResponse paymentResponse) throws Exception {
         List<Eventdetail> eventdetails = eventData.findAll();
 
-        if (eventData.existsByUserId(paymentResponse.getUserId())) {
+        if (loginData.existsById(paymentResponse.getUserId())) {
             for (Eventdetail details : eventdetails) {
                 if (details.getEventId().equalsIgnoreCase(paymentResponse.getEventId())) {
-                    // return details.getPrice();
                     PaymentGatewayService paymentGatewayService = new PaymentGatewayService();
                     OrderFormat oo = paymentGatewayService.createTransaction(details.getPrice());
                     return oo;
-
                 }
             }
 

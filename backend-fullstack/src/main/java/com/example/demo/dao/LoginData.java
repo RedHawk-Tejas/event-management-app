@@ -12,4 +12,6 @@ public interface LoginData extends MongoRepository<userinfo, String> {
 
 	Optional<userinfo> findByEmail(String username);
 
+	boolean existsById(String id);
+
 }
