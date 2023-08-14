@@ -7,7 +7,7 @@ const Protected = ({children}) => {
 
     useEffect(() => {
       
-        const isAuthenticated = !!localStorage.getItem('token');
+        const isAuthenticated = !!localStorage.getItem('TOKEN');
 
         if(!isAuthenticated){
             navigate('/');

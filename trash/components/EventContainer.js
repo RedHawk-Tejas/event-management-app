@@ -4,7 +4,7 @@ import EventCard from './EventCard';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOfflineEvents, fetchOnlineEvents } from '../services/publicEventActions';
+import { fetchOfflineEvents, fetchOnlineEvents } from '../services/redux/publicEventActions';
 import EventDetailModal from './EventDetailModal';
 
 const EventContainer = ({selectedCity, searchQuery}) => {
@@ -73,7 +73,14 @@ const EventContainer = ({selectedCity, searchQuery}) => {
         
         <Carousel responsive={responsive}>
             {filteredEvents.map((event) => (
-              <EventCard key={event.eventId} event={event} loading={offlineLoading}/>
+              <EventCard 
+                key={event.eventId} 
+                event={event} 
+                loading={offlineLoading} 
+                isPopupVisible={isPopupVisible}
+                setPopupVisible={setPopupVisible}
+                setSelectedEvent={setSelectedEvent}  
+              />
             ))}
         </Carousel>
 

@@ -16,6 +16,7 @@ const Navbar = ({searchQuery, setSearchQuery}) => {
 
   const removeToken = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     navigate('/');
   }
 

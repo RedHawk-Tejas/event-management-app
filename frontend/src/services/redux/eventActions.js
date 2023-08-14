@@ -22,7 +22,7 @@ export const fetchEventsBasedOnUserId = (userId) => {
     return async(dispatch) => {
         try {
             dispatch(fetchEventsRequest());
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('TOKEN');
             const response = await axios.get(`http://localhost:9080/api/event/get_event_data/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,

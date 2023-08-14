@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
-import LoginCard from '../components/LoginCard';
+import LoginCard from '../../frontend/src/components/LoginCard';
 
 function LandingPage() {
   return (

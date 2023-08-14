@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { styled } from 'styled-components';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Footer = () => {
 
-  // const notify = () => toast("Message Send!");
+  const [userName, setName] = useState('');
+  const [userEmail, setEmail] = useState('');
+  const [userMessage, setMessage] = useState('');
+
+  const handleSendMsg = async() => {
+    toast("Message Send!");
+    
+    try {
+      const messageData = { userName, userEmail, userMessage };
+      console.log(messageData);
+      const token = localStorage.getItem('token');
+      console.log(token);
+      const response = await axios.post('http://localhost:9080/api/Message/user_message', messageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -21,17 +43,17 @@ const Footer = () => {
         <Row>
 
         <LeftSide>
-          <Input placeholder="Your Name"></Input>
-          <Input placeholder="Your Mail"></Input>
+          <Input placeholder="Your Name" value={userName} onChange={ (e) => setName(e.target.value) }></Input>
+          <Input placeholder="Your Mail" value={userEmail} onChange={ (e) => setEmail(e.target.value) }></Input>
         </LeftSide>
 
         <RightSide>
-          <Textarea rows="4" cols="35" placeholder="Your Message"></Textarea>
+          <Textarea rows="4" cols="35" placeholder="Your Message" value={userMessage} onChange={ (e) => setMessage(e.target.value) }></Textarea>
         </RightSide>
 
         </Row>
-        <Button>Send Message</Button>
-        {/* <ToastContainer /> */}
+        <Button onClick={handleSendMsg}>Send Message</Button>
+        <ToastContainer />
         </Message>
       </RightContainer>
 

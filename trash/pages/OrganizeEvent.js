@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
-import EventModal from '../components/EventModal';
+import Navbar from '../../frontend/src/components/Navbar';
+import EventModal from '../../frontend/src/components/EventModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEventsBasedOnUserId } from '../services/eventActions';
+import { fetchEventsBasedOnUserId } from '../../frontend/src/services/redux/eventActions';
 import { Plus } from 'lucide-react';
 import { Spin } from 'react-cssfx-loading';
 import { ToastContainer, toast } from "react-toastify";

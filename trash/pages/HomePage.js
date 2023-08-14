@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 // import CheckTokenExpiration from '../services/jwt/tokenExpiry';
 
-import Navbar from '../components/Navbar';
-import EventContainer from '../components/EventContainer';
-import Footer from '../components/Footer';
-import HeroBanner from '../components/HeroBanner';
+import Navbar from '../../frontend/src/components/Navbar';
+import EventContainer from '../../frontend/src/components/EventContainer';
+import Footer from '../../frontend/src/components/Footer';
+import HeroBanner from '../../frontend/src/components/HeroBanner';
 
 const HomePage = () => {
 

@@ -25,6 +25,8 @@ const EventCard = ({event, onlineLoading, offlineLoading, isPopupVisible, setPop
     const options = { day: 'numeric', month: 'short' };
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
 
+    // console.log(event);
+
   return (
     <Wrapper>
 
@@ -37,7 +39,9 @@ const EventCard = ({event, onlineLoading, offlineLoading, isPopupVisible, setPop
                 <EventDate>{formattedDate}</EventDate>
             </Details>
             <Section>
-                <Link style={{ textDecoration: 'none', color: 'white'}} to='/famfest/checkout'>
+                <Link style={{ textDecoration: 'none', color: 'white'}} 
+                    to={{pathname: '/famfest/checkout', search: `?price=${event.price}&eventId=${event.eventId}`}}
+                >
                     <Button>Book</Button>
                 </Link>
 

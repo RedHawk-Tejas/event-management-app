@@ -2,22 +2,28 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from 'react-redux';
 
-import LandingPage from "./pages/LandingPage";
-import HomePage from "./pages/HomePage";
-import store from "./services/store";
-import OrganizeEvent from "./pages/OrganizeEvent";
+import store from "./services/redux/store";
 import Protected from "./services/jwt/Protected";
-import Checkout from "./pages/Checkout";
+import HomePage from "./page/HomePage";
+import OrganizeEvent from "./page/OrganizeEvent";
+import YourEvents from "./page/YourEvents";
+import Payment from "./page/Payment";
+import OnlineEvents from "./page/OnlineEvents";
+import OfflineEvents from "./page/OfflineEvents";
 
 function App() {
   return (
     <Provider store={store}>
     <BrowserRouter> 
       <Routes>
-        <Route path="/" element={<LandingPage/>}/>
-        <Route path="/famfest/home" element={<Protected><HomePage/></Protected>} />
-        <Route path="/famfest/organize_event" element={<Protected><OrganizeEvent/></Protected>} />
-        <Route path="/famfest/checkout" element={<Protected><Checkout/></Protected>} />
+
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/organize_event" element={<Protected><OrganizeEvent/></Protected>} />
+        <Route path="/your_events" element={<Protected><YourEvents/></Protected>} />
+        <Route path="/payment" element={<Protected><Payment/></Protected>} />
+        <Route path="/online_events" element={<OnlineEvents/>} />
+        <Route path="/offline_events" element={<OfflineEvents/>} />
+
       </Routes>
     </BrowserRouter>
     </Provider>
