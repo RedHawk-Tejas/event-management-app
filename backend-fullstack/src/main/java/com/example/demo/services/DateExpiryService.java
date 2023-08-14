@@ -25,7 +25,7 @@ public class DateExpiryService {
     private EventData eventData;
 
     @Bean
-    @Scheduled(fixedRate = 5000 * 4) // Run every 20 seconds
+    @Scheduled(fixedRate = 5000 * 6 * 10 * 2 * 6) // Run every 1 hour
     public void CheckExpiryDate() throws Exception {
         List<Eventdetail> listdata = eventData.findAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");

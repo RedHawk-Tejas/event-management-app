@@ -23,8 +23,8 @@ public class EmailSendService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(username);
-        message.setFrom(email);
-        message.setText(text);
+        // message.setText();
+        message.setText("Senders Mail ID : " + email + "                                " + "Message : " + text);
         javaMailSender.send(message);
     }
 
