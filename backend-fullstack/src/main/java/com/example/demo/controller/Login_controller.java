@@ -18,16 +18,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.dao.LoginData;
+import com.example.demo.dto.ResetPasswordResponse;
 import com.example.demo.model.userinfo;
 import com.example.demo.service.JwtService;
 import com.example.demo.service.UserService;
 import com.example.demo.services.OtpGenerationService;
+import com.example.demo.services.PasswordResetService;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -56,6 +59,9 @@ public class Login_controller {
 
 	@Autowired
 	OtpGenerationService otpGenerationService;
+
+	@Autowired
+	PasswordResetService passwordResetService;
 
 	@GetMapping("/test")
 	public String test() {
@@ -119,6 +125,47 @@ public class Login_controller {
 				.creator(new PhoneNumber(id), new PhoneNumber(twilioPhoneNumber), "Your OTP is: " + otp).create();
 
 		return message;
+
+	}
+
+	@GetMapping("/forgotPassword/{id}")
+	public String sendotpForPasswordReset(@PathVariable String id) {
+		if (info.existsByEmail(id)) {
+
+			String res = passwordResetService.SendResetOtp(id);
+
+			return res;
+
+		}
+
+		return null;
+
+	}
+
+	@PostMapping("/resetByEmail")
+	public String resetPassword(@RequestBody ResetPasswordResponse resetPasswordResponse) {
+
+		List<userinfo> data = info.findAll();
+		for (userinfo cred : data) {
+			if (cred.getEmail().equalsIgnoreCase(resetPasswordResponse.getEmail())) {
+				cred.setPassword(encoder.encode(resetPasswordResponse.getNewPassword()));
+				info.save(cred);
+
+				return "password set successfully";
+			}
+
+			else {
+				continue;
+			}
+
+		}
+		// Optional<userinfo> cred = info.findByEmail(resetPasswordResponse.getEmail());
+
+		// cred.get().setPassword(encoder.encode(resetPasswordResponse.getNewPassword()));
+
+		// info.save(cred);
+
+		return data.toString();
 
 	}
 
