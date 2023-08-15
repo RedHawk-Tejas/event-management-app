@@ -39,7 +39,7 @@ public class PublicData_controller {
 //
 //		return onlineList;
 		
-		List<Eventdetail> onlinelist = publicDataService.forOfflineData();
+		List<Eventdetail> onlinelist = publicDataService.forOnlineData();
 		
 		return onlinelist;
 
