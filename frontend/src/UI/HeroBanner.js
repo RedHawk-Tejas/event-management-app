@@ -36,7 +36,7 @@ const HeroBanner = ({ setIsUserLoggedIn }) => {
 
       </MainSection>
 
-    { isLoginOpen && <LoginModal setIsUserLoggedIn={setIsUserLoggedIn} onClose={closeLogin}/> }
+      { isLoginOpen && <LoginModal setIsUserLoggedIn={setIsUserLoggedIn} onClose={closeLogin}/> }
 
     </Wrapper>
   );

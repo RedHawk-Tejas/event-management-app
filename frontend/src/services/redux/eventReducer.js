@@ -1,4 +1,8 @@
-import { FETCH_EVENTS_SUCCESS, FETCH_EVENTS_REQUEST, FETCH_EVENTS_ERROR } from "./eventActions";
+import { 
+    FETCH_EVENTS_SUCCESS, 
+    FETCH_EVENTS_REQUEST, 
+    FETCH_EVENTS_ERROR 
+} from "./eventActions";
 
 const initialState = {
     events: [],

@@ -39,11 +39,8 @@ const Account = () => {
             </Column1>
 
             <Column2>
-                {activeSection === 'account' && <AccountForm id="#account" />}
-                {activeSection === 'transaction' && <Transaction id="transaction" />}
-                {/* <AccountForm id="#account" />
-                <Transaction id="transaction" /> */}
-
+                {activeSection === 'account' && <AccountForm />}
+                {activeSection === 'transaction' && <Transaction />}
             </Column2>
 
         </Section2>
@@ -56,20 +53,15 @@ const Wrapper = styled.div`
     color: #fff;
     width: 100%;
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
-    
 `;
 
 const Section1 = styled.div`
     width: 80%;
     margin-top: 40px;
-
-    
 `;
 
 const BackButton = styled(Link)`
@@ -139,7 +131,7 @@ const Column2 = styled.div`
     flex: 0.8;
     height: fit-content;
     border-radius: 15px;
-    padding: 0 20px
+    // padding: 0 20px
 `;
 
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { styled } from 'styled-components';
 import { changePassword } from '../services/api/postMethods';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
+import Toastify from '../services/toast/Toastify';
+import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
 
 const ResetPassword = () => {
 
@@ -14,17 +16,16 @@ const ResetPassword = () => {
     const handleChangePass = async() => {
         const status = await changePassword(email, password);
         if(status === 200){
-            toast("Password Changed");
+            toast.success("Password Changed", toastSuccessOptions);
             navigate("/");
         } else {
-            toast("Please Try Againg Later")
+            toast.error("Please Try Againg Later", toastErrorOptions);
         }
     }
 
   return (
     <Wrapper>
         <Card>
-
             <Header>set new password</Header>
 
             <Group>
@@ -38,36 +39,36 @@ const ResetPassword = () => {
             </Group>
 
             <Button onClick={ handleChangePass }>save</Button>
-            <ToastContainer />
         </Card>
+        <Toastify />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  background: rgba(130, 82, 170, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  min-height: 100vh;
-  width: 99.9%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: rgba(130, 82, 170, 1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    min-height: 100vh;
+    width: 99.9%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 2px solid #ac44d8;
-  height: 47vh;
-  width: 45vh;
-  background: #111;
-  color: white;
-  border-radius: 30px;
-  box-shadow: 0 0 5px 2px #ac44d8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #ac44d8;
+    height: 47vh;
+    width: 45vh;
+    background: #111;
+    color: white;
+    border-radius: 30px;
+    box-shadow: 0 0 5px 2px #ac44d8;
 `;
 
 const Header = styled.div`

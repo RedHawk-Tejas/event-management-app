@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { handleLogin, handleSignup} from '../services/api/postMethods';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
+import Toastify from '../services/toast/Toastify'
 
 const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
@@ -19,11 +20,11 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
     const loginStatus = await handleLogin(email, password);
     if(loginStatus === 200){
       setIsUserLoggedIn(true);
-      toast("Login Successful");
+      toast.success("Login Successful", toastSuccessOptions);
       onClose();
       navigate('/');
     } else {
-      toast("Check Credentials");
+      toast.error("Check Credentials", toastErrorOptions);
     }
   };
 
@@ -110,7 +111,7 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
                 <StyledButton onClick={ handleSignUpClick }>signup</StyledButton>
                 <StyledIcon><ArrowRightCircle /></StyledIcon>
             </Button>
-
+            <Toastify/>
           </>
         )}
       </Card>

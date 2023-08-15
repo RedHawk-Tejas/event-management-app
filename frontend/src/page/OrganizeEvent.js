@@ -3,8 +3,9 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MoveLeft } from 'lucide-react';
 import { handleAddEvent } from '../services/api/postMethods';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
+import Toastify from '../services/toast/Toastify';
 
 const OrganizeEvent = () => {
 
@@ -57,9 +58,9 @@ const OrganizeEvent = () => {
         }
         const eventStatus = await handleAddEvent(eventData);
         if(eventStatus === 200){
-            toast("Event Added");
+            toast.success("Event Added", toastSuccessOptions);
         } else {
-            toast("Error Occured");
+            toast.error("Error Occured", toastErrorOptions);
         }
         handleReset();
     }
@@ -68,7 +69,7 @@ const OrganizeEvent = () => {
 
   return (
     <Wrapper>
-    <ToastContainer />
+    <Toastify />
         <Container>
             <Row>
                 <BackButton to='/'><MoveLeft />back</BackButton>

@@ -32,14 +32,7 @@ export const handleSignup = async (name, email, password) => {
 export const handleSendMsg = async(userName, userEmail, userMessage) => {
     try {
       const messageData = { userName, userEmail, userMessage };
-      console.log(messageData);
-      const token = localStorage.getItem('TOKEN');
-      console.log(token);
-      const response = await axios.post(`${BASE_URL}/api/Message/user_message`, messageData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(`${BASE_URL}/api/Message/user_message`, messageData);
       return response.status;
     } catch (error) {
       console.log(error);
@@ -93,7 +86,7 @@ export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, raz
         Authorization: `Bearer ${token}`,
     },
     })
-    console.log(response, "send");
+    return response.status;
   } catch (error) {
     console.log(error);
   }

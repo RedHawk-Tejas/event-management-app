@@ -3,7 +3,7 @@ import Navbar from '../UI/Navbar';
 import { styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { fetchOfflineEvents, fetchOnlineEvents } from '../services/redux/publicEventActions';
+import { fetchOfflineEvents } from '../services/redux/publicEventActions';
 import { Spin } from 'react-cssfx-loading';
 import EventCard from '../UI/EventCard';
 
@@ -21,7 +21,7 @@ const OfflineEvents = () => {
     
     useEffect(() => {
         if (!offlineFetched) {
-            dispatch(fetchOnlineEvents());
+            dispatch(fetchOfflineEvents());
         }
     }, [dispatch, offlineFetched]);
     
@@ -74,7 +74,7 @@ const Wrapper = styled.div`
 `;
 
 const NavSection = styled.div`
-  height: 9vh;
+    height: 9vh;
 `;
 
 const MainSection = styled.div`

@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 
 const AccountForm = () => {
   return (
-    <>
+    <Wrapper>
         <Header>
             <Text>Account Details</Text>
             <EditButton>edit</EditButton>
@@ -34,9 +34,13 @@ const AccountForm = () => {
         </DetailBox>
 
         <ChangeButton>Change</ChangeButton>
-    </>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+    padding: 0 20px;
+`;
 
 const Header = styled.div`
     display: flex;

@@ -73,7 +73,7 @@ const Wrapper = styled.div`
 `;
 
 const NavSection = styled.div`
-  height: 9vh;
+    height: 9vh;
 `;
 
 const MainSection = styled.div`

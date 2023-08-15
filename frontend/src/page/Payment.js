@@ -4,10 +4,17 @@ import { styled } from 'styled-components';
 import useRazorpay from 'react-razorpay';
 import { useLocation } from 'react-router-dom';
 import { getPaymentDetails, sendPaymentDetails } from '../services/api/postMethods';
+import { toast } from 'react-toastify';
+import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
 
 const Payment = () => {
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [number, setNumber] = useState("");
+    const [tickets, setTickets] = useState(1);
 
     useEffect(() => {
         setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
@@ -18,13 +25,16 @@ const Payment = () => {
     const queryParams = new URLSearchParams(location.search);
     const price = queryParams.get('price');
     const eventId = queryParams.get('eventId');
-    const [tickets, setTickets] = useState(1);
     const total = price * tickets;
 
     console.log(price, eventId);
 
     const handlePayment = async() => {
         try {
+            if(tickets === 0){
+                toast.error("Cannot proceed with 0 tickets", toastErrorOptions);
+                return;
+            }
             const paymentDetails = await getPaymentDetails(eventId, tickets);
 
             const options = {
@@ -39,15 +49,15 @@ const Payment = () => {
                     handleSendPaymentDetails(response);
                 },
                 prefill: {
-                    name: "Tejas Kadam",
-                    email: "tejaskadam@gmail.com",
-                    contact: "9876543210", 
+                    name: name,
+                    email: email,
+                    contact: number, 
                 },
                 notes: {
-                    address: "FamFest Corporate Office",
+                    description: "Tickets for Event",
                 },
                 theme: {
-                    color: "#3399cc",
+                    color: "#8E44AD",
                 },
             }
 
@@ -68,8 +78,15 @@ const Payment = () => {
             const razorpay_signature = response.razorpay_signature;
             const timestamp = new Date().getTime();
 
-            await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp);
-
+            const status = await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp);
+            if(status === 200){
+                toast.success("Payment Done", toastSuccessOptions);
+                setName("");
+                setEmail("");
+                setNumber("");
+            } else {
+                toast.error("Payment Failed", toastErrorOptions);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -87,24 +104,42 @@ const Payment = () => {
             <Box>
                 <Group>
                     <Label>Full Name</Label>
-                    <Input></Input>
+                    <Input 
+                        type='text'
+                        value={name}
+                        onChange={ (e) => setName(e.target.value) }
+                    ></Input>
                 </Group>
 
                 <Group>
                     <Label>Email</Label>
-                    <Input></Input>
+                    <Input 
+                        type='text'
+                        value={email}
+                        onChange={ (e) => setEmail(e.target.value) }
+                    ></Input>
                 </Group>
 
                 <Group>
                     <Label>Contact Number</Label>
-                    <Input></Input>
+                    <Input 
+                        type='text'
+                        value={number}
+                        onChange={ (e) => setNumber(e.target.value) }
+                    ></Input>
                 </Group>
 
                 <Group>
                     <Label>Number of Tickets</Label>
                     <Input 
+                        type='number'
                         value={tickets} 
-                        onChange={ (e) => setTickets(e.target.value) }
+                        onChange={ (e) => {
+                            const newValue = parseInt(e.target.value);
+                            if(!isNaN(newValue) && newValue >= 0){
+                                setTickets(newValue);
+                            }
+                        }}
                     ></Input>
                 </Group>
 

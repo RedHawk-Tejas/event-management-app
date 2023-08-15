@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { handleSendMsg } from '../services/api/postMethods';
-
+import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
+import Toastify from '../services/toast/Toastify';
 
 const Contact = () => {
 
@@ -14,15 +14,17 @@ const Contact = () => {
     const handleSendMsgClick = async() => {
         const messageStatus = await handleSendMsg(userName, userEmail, userMessage);
         if(messageStatus === 200){
-            toast("Login Successful");
+            toast.success("Message Send", toastSuccessOptions);
+            setName("");
+            setEmail("");
+            setMessage("");
         } else {
-            toast("Check Credentials");
+            toast.error("Check Credentials", toastErrorOptions);
         }
     } 
 
   return (
     <Wrapper id='contact'>
-
         <LeftContainer>
             <Logo>Fam<span style={{ color: '#AC44D8' }}>Fest.</span></Logo>
             <Content>&#169; 2023. India, All Rights Reserved.</Content>
@@ -44,7 +46,7 @@ const Contact = () => {
 
                 </Row>
                 <Button onClick={ handleSendMsgClick }>Send Message</Button>
-                <ToastContainer />
+                <Toastify />
             </Message>
         </RightContainer>
     </Wrapper>

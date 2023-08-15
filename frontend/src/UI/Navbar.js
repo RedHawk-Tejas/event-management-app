@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { MenuIcon } from 'lucide-react';
 import { useMediaQuery } from 'react-responsive';
 import HamburgerModal from './HamburgerModal';
+import { toastErrorOptions } from '../services/toast/config';
+import Toastify from '../services/toast/Toastify'
+import { toast } from 'react-toastify';
 
 
 const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
@@ -36,7 +37,7 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
 
     const toggleDropDown = () => {
       if(!isUserLoggedIn){
-        toast("Jaldi Waha se hato");
+        toast.error("Jaldi Waha se hato", toastErrorOptions);
       }else{
         setisDropDownOpen(!isDropDownOpen);
       }
@@ -97,7 +98,7 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
         </HamburgerIcon> }
 
     </Wrapper>
-    <ToastContainer />
+    <Toastify />
     </>
 
   )

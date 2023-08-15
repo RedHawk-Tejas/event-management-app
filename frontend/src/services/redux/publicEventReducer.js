@@ -22,10 +22,6 @@ const initialState = {
     error: null,
     fetched: false,
   },
-  // online_events: [],
-  // offline_events: [],
-  // loading: false,
-  // error: null,
 };
 
 const publicEventReducer = (state = initialState, action) => {
