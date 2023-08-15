@@ -2,9 +2,12 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import com.example.demo.dto.PaymentResponse;
 import com.example.demo.model.Eventdetail;
 import com.example.demo.model.OrderFormat;
 import com.example.demo.model.TransactionDetails;
+import com.example.demo.optimizationServices.TransactionHistory;
 import com.example.demo.services.PaymentGatewayService;
 import com.razorpay.Order;
 
@@ -36,6 +40,9 @@ public class Payment_controller {
 
     @Autowired
     TransactionData transactionData;
+
+    @Autowired
+    TransactionHistory transactionHistory;
 
     @PostMapping("/Transaction")
     public OrderFormat TransactionProcess(@RequestBody PaymentResponse paymentResponse) throws Exception {
@@ -61,6 +68,14 @@ public class Payment_controller {
         transactionData.save(transactionDetails);
 
         return "Transaction details saved successfully";
+    }
+
+    @GetMapping("/PayHistory/{id}")
+    public List<TransactionDetails> GetTransacacionHistory(@PathVariable String id) {
+
+        List<TransactionDetails> data = transactionHistory.getTransactionDetails(id);
+
+        return data;
     }
 
 }
