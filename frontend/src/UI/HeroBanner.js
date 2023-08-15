@@ -17,6 +17,7 @@ const HeroBanner = ({ setIsUserLoggedIn }) => {
 
   return (
     <Wrapper>
+
       <MainSection>
 
         <Content>Discover a world of new events <br /> and elevate your moments with us</Content>
