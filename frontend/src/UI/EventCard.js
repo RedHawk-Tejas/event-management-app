@@ -1,14 +1,18 @@
-import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { YourEventContext } from '../page/YourEvents';
-import { Spin } from 'react-cssfx-loading';
+import { toast } from 'react-toastify';
+import Skeleton from 'react-loading-skeleton';
+import { handleDeleteEvent } from '../services/api/deleteMethods';
 
 const EventCard = ({event}) => {
     // console.log(event);
 
     const navigate = useNavigate();
     const isYourEvent = useContext(YourEventContext);
+
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!localStorage.getItem('USER_ID'));
 
     const backednDateTime = event.eventDateTime;
     const dateObject = new Date(backednDateTime);
@@ -18,14 +22,29 @@ const EventCard = ({event}) => {
     const formattedTime = new Intl.DateTimeFormat('en-US', timeOptions).format(dateObject);
 
     const handleBookNow = () => {
-        navigate(`/payment?eventId=${event.eventId}&price=${event.price}`);
+        if(!isUserLoggedIn){
+            toast("Jaldi waha se hato")
+        } else {
+            navigate(`/payment?eventId=${event.eventId}&price=${event.price}`);
+        }
+    }
+
+    const handleDelete = async() => {
+        const eventId = event.eventId;
+        const deleteStatus = await handleDeleteEvent(eventId);
+        if(deleteStatus === 200){
+            toast("Event Deleted");
+            window.location.reload();
+        } else {
+            toast("Try Again");
+        }
     }
     
     return (
     <Wrapper>
 
             <ImgSection>
-                <Image src={event.eventPoster}></Image>
+                <Image src={event.eventPoster  || <Skeleton/> }></Image>
             </ImgSection>
 
             <DetailSection>
@@ -39,7 +58,9 @@ const EventCard = ({event}) => {
                 </Section2>
             </DetailSection>
 
-            <StyledButton onClick={handleBookNow}>{isYourEvent ? 'Delete' : 'Book Now'}</StyledButton>
+            <StyledButton onClick={isYourEvent ? handleDelete : handleBookNow}>
+                {isYourEvent ? 'Delete' : 'Book Now'}
+            </StyledButton>
 
     </Wrapper>
   )

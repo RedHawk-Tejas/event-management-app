@@ -118,6 +118,7 @@ const OrganizeEvent = () => {
                             ></Input>
                         </Group>
 
+                        <>
                         <Group>
                             <Label>Event Poster</Label>
                             <FileInput
@@ -126,6 +127,7 @@ const OrganizeEvent = () => {
                                 onChange={ handleImageUpload }
                             ></FileInput>
                         </Group>
+                        </>
 
                     </Row1>
                     <Row2>
@@ -175,20 +177,16 @@ const Wrapper = styled.div`
     background: #111;
     color: #fff;
     width: 100%;
-    height: 100vh;
-    // border: 1px solid white;
+    min-height: 100vh;
     display: flex;
-    // align-items: center;
     justify-content: center;
 `;
 
 const Container = styled.div`
     width: 80%;
-    // border: 1px solid red;
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: center;
 `;
 
 const Row = styled.div`
@@ -201,7 +199,6 @@ const Row = styled.div`
 `;
 
 const BackButton = styled(Link)`
-    // border: 1px solid white;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -217,6 +214,7 @@ const ResetButton = styled.div`
     font-size: 15px;
     font-weight: 500;
     transition: all 0.1s ease-out;
+
     &:hover{
         background: #963bbf;
     }
@@ -228,7 +226,7 @@ const ResetButton = styled.div`
 const MainSection = styled.div`
     border: 1px solid white;
     width: 80%;
-    height: 75vh;
+    min-height: fit-content;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -236,22 +234,41 @@ const MainSection = styled.div`
     background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw0NBwcHCA0NCAcHBxYHBwcHDQ8IDQcNIB0iFyAdExMYHTQsGBo0JB8fLT0tMTorLjwuICFBOEE1TjQ5NzcBCgoKDg0NDg0NFSsZFRkrKysrLS0rKy0tNysrKysrKysrLTcrLS0rKysrKysrKysrLTcrKysrKysrKysrKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAACAAEDBv/EACMQAQEBAQABAwMFAAAAAAAAAAARAQISAyFxIkGRBBMxgdH/xAAZAQEBAQADAAAAAAAAAAAAAAAAAQIDBgf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAERL/2gAMAwEAAhEDEQA/APFJir0Cu2tTKqUamVlKUkNVSlJjKymikhqpUpVUaypop1UKqaKdZRrKmkp1UKqaKdZRqqaKVVCqmkp1UKqmilVQqpop1UKqmkpVUayminVQqqaKVVGsppKdVCqportVQqremqVVGspop1UKqmkpVUayminVQqqaKVVGsppKdVCqpop1lGsppKdVCqpopVUayminVQqqaSnWUaqaKVVCqpop1lGqmkpVUKqmilVRqpopVUKqmkpVUaqaKVVCqportVQqremqVVGsppKdVCqpop1lGqmilVRrKmkp1lGqmilVRrKlKdZRqppKVVDyVTRTrKNVNJSqo1lTRTqoVU0UqqNZU0lOso1U0UqqNZU0U6qFVNJTrKNZU0U6qFVNJSqo1lTRXaqjWVvTVOqhVTRSqo1lTRTqoVU0lKqjWVNFOqhVTSU6yjWVNFOqhVTRSraFVTSUqqFVNFOqhVU0UqqFRpKdVCqpopVUKqaKdVCqpopVUaymkp1lGqpopVUKqaSnVQqqaK7VlGqt6apVUayminVQqqaSlVRrKaKdVCqpopVUaymkp1UKqminWUKqaKdVCqppKVVGqmilVQqqaSnWUaqaKVVCqpopVUaqaSlVRrKminWUaqaKVVCqppKdZRqpopVUKqmiu1VCqt6apVUaqaSlVQqqaKdZRqpopVUKqmkp1lGqmilVQqqaKdVCqmkpVUKqminVQVNFKqhVU0lOqhVTRSqo1lTRTqoVU0lOso1lTRTqoVU0lKqjWVNFOqhVTRTrKNZU0ldqqFbW9NUqqFVNFKqjVU0UqqFVNJSqo1lTRTqoVU0Uq2hVU0lKqhVTRTqoVVNFKqhVTSU6qFVTRSqoVU0U6yjVU0lKqjWU0U6yjVU0UqqFVNJTqoVVNFKqhVTSU6qFVTRXaso1VvTVKqhVTRTqoVVNFKqhVTSU6qFVTRSqo1lNFOqhVU0lKqhVTRTqoVVNJSqo1lNFOqhVU0UqqNVNJSqoVVNFKqjVTRSqoVVNJSqo1lNFOqhVU0UqqNZTSU6qFVTRXaqhVW9NU6yjVTRSqoVVNJTqoVVNFKqhVTRTrKNVNJSqo1lTRTqoVU0UqqFVTSU6yjVTRSqo1lTRTrKNVTSUqqFVNFOqhVTSUqqFVTRTqoVU0UqqFVTSU6qFVNFOso1lTRXaqhVW9NU6qFVNJSqoVVNFOqhVTRS8lRrKmkp1UKqmilVRrKaKdVCqppKdZRrKaKdVCqpopVUaqaSlVQqpop1lGqpopVBVU0lOso1U0UqqFVNFOso1VNJSqoVVNFOqhVTSV2rKk5K2qqklFWVqKMqqSVKqqkUrKqklSqqpFKyqpJRVlaioyqpJRVVIqVlVSKKqpIJViBJIEkgTt+n543e/3Nk5+jN3wzd+YkDpzz6Hh5dddb3d+jn6fb3n2+PyfXp/p8zrN9TreszdzeM3ry38fP8ArUAeHoZm7ve9bnHtnNzz3++fZw9fOM73PS3evT+29fykD//Z);
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media only screen and (max-width: 950px) {
+        width: 100%;
+    }
+    
 `;
 
 const Section1 = styled.div`
     display: flex;
-    // border: 1px solid white;
     padding: 40px 50px 0px 50px;
     gap: 40px;
+    @media only screen and (max-width: 950px) {
+        flex-direction: column;
+    }
 `;
 
 const Row1 = styled.div`
     flex: 0.5;
+
+    @media only screen and (max-width: 390px) {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    
 `;
 
 const Row2 = styled.div`
-    // background: red;
-    flex: 0.5
+    flex: 0.5;
+
+    @media only screen and (max-width: 390px) {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
 `;
 
 const Group = styled.div`
@@ -273,6 +290,10 @@ const Input = styled.input`
     background: #222;
     color: #fff;
     margin-bottom: 15px;
+
+    @media only screen and (max-width: 390px) {
+        width: 30vh;
+    }
 `;
 
 const FileInput = styled.input.attrs({
@@ -289,16 +310,15 @@ const FileInput = styled.input.attrs({
         margin-right: 16px;
         margin-top: 2px;
         transition: background-color 200ms;
-      }
+    }
 
-      &:hover::file-selector-button {
+    &:hover::file-selector-button {
         background-color: #f3f4f6;
-      }
+    }
     
-      &:active::file-selector-button {
+    &:active::file-selector-button {
         background-color: #e5e7eb;
-      }
-    
+    }
 `;
 
 const Textarea = styled.textarea`
@@ -309,6 +329,10 @@ const Textarea = styled.textarea`
     outline: none;
     background: #222;
     color: #fff;
+
+    @media only screen and (max-width: 390px) {
+        width: 30vh;
+    }
 `;
 
 const Section2 = styled.div`
@@ -329,7 +353,6 @@ const Button = styled.button`
         background-size: 200% 100%;
         background-position: 100% 0;
         transition: background-position 0.3s ease-in-out;
-        // border: 3px solid #fff;
     }
 
     &:active{

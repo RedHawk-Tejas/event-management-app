@@ -3,10 +3,10 @@ import { ArrowRightCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { handleLogin, handleSignup} from '../services/api/postMethods';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const LoginModal = ({onClose}) => {
+const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
   const navigate = useNavigate();
   const modalRef = useRef();
@@ -18,9 +18,10 @@ const LoginModal = ({onClose}) => {
   const handleLoginClick = async () => {
     const loginStatus = await handleLogin(email, password);
     if(loginStatus === 200){
+      setIsUserLoggedIn(true);
       toast("Login Successful");
+      onClose();
       navigate('/');
-      
     } else {
       toast("Check Credentials");
     }
@@ -29,6 +30,7 @@ const LoginModal = ({onClose}) => {
   const handleSignUpClick = async () => {
     const signupStatus = await handleSignup(name, email, password);
     if(signupStatus === 200){
+      setIsUserLoggedIn(true);
       toast("Signup Successful");
     } else {
       toast("Invalid Details");
@@ -51,7 +53,6 @@ const LoginModal = ({onClose}) => {
 
   return (
     <Wrapper>
-      <ToastContainer />
       <Card ref={modalRef}>
         { showLogin ? (
           <>
@@ -124,6 +125,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -60px;
 `;
 
 const Card = styled.div`
@@ -131,7 +133,7 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;
   border: 2px solid #ac44d8;
-  height: 50vh;
+  height: fit-content;
   width: 45vh;
   background: #111;
   color: white;
@@ -166,7 +168,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  padding: 10px 10px;
+  padding: 10px 20px;
   border-radius: 100px;
   border: 2px solid black;
   outline: none;
@@ -203,15 +205,17 @@ const StyledButton = styled.div`
 `;
 
 const StyledIcon = styled.div`
-transition: transform .3s ease-in-out;
-&:hover{
-  transform: translateX(5px);
-}
+  transition: transform .3s ease-in-out;
+  &:hover{
+    transform: translateX(5px);
+  }
 `;
 
 const StyledLink = styled(Link)`
   color: #5DADE2;
   font-size: 14px;
+  padding-bottom: 20px;
+
 `;
 
 export default LoginModal

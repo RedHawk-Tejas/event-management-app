@@ -7,15 +7,19 @@ import Navbar from '../UI/Navbar';
 
 const HomePage = () => {
 
-  const USER = localStorage.getItem('USER_ID');
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+      setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+  }, []);
     
   return (
     <Wrapper>
 
       <NavSection>
-        <Navbar/>
+        <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
       </NavSection>
-      { USER ? null : <HeroBanner /> }
+      { !isUserLoggedIn && <HeroBanner setIsUserLoggedIn={setIsUserLoggedIn} /> }
       <EventGallery />
       <Contact />
 

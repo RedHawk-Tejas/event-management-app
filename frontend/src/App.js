@@ -10,6 +10,7 @@ import YourEvents from "./page/YourEvents";
 import Payment from "./page/Payment";
 import OnlineEvents from "./page/OnlineEvents";
 import OfflineEvents from "./page/OfflineEvents";
+import Account from "./page/Account";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/payment" element={<Protected><Payment/></Protected>} />
         <Route path="/online_events" element={<OnlineEvents/>} />
         <Route path="/offline_events" element={<OfflineEvents/>} />
+        <Route path="/account" element={<Protected><Account/></Protected>} />
 
       </Routes>
     </BrowserRouter>

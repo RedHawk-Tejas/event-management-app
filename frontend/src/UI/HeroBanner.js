@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { styled, keyframes } from 'styled-components';
-import Navbar from './Navbar';
-import { ChevronDown, ChevronLast, ChevronsDown, MoveRight } from 'lucide-react';
+import { ChevronDown, ChevronsDown, MoveRight } from 'lucide-react';
 import LoginModal from './LoginModal';
 
-const HeroBanner = () => {
+const HeroBanner = ({ setIsUserLoggedIn }) => {
 
     const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -18,9 +17,6 @@ const HeroBanner = () => {
 
   return (
     <Wrapper>
-
-      
-
       <MainSection>
 
         <Content>Discover a world of new events <br /> and elevate your moments with us</Content>
@@ -39,7 +35,7 @@ const HeroBanner = () => {
 
       </MainSection>
 
-    { isLoginOpen && <LoginModal onClose={closeLogin}/> }
+    { isLoginOpen && <LoginModal setIsUserLoggedIn={setIsUserLoggedIn} onClose={closeLogin}/> }
 
     </Wrapper>
   );
@@ -68,6 +64,12 @@ const Content = styled.div`
   text-align: center;
   padding-top: 60px;
   padding-bottom: 20px;
+ 
+  @media only screen and (max-width: 400px) {
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-top: 20px;
+}
 `;
 
 const Content1 = styled.div`

@@ -16,6 +16,12 @@ const YourEvents = () => {
 
     const [isYourEvent, setIsYourEvent] = useState(true);
 
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+    }, []);
+
     const { events, loading } = useSelector(state => state.events);
 
     console.log(events);
@@ -42,7 +48,7 @@ const YourEvents = () => {
     <Wrapper>
 
         <NavSection>
-            <Navbar/>
+            <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
         </NavSection>
 
         <MainSection>
@@ -77,12 +83,11 @@ const Wrapper = styled.div`
 `;
 
 const NavSection = styled.div`
-  height: 9vh;
+    height: 9vh;
 `;
 
 const MainSection = styled.div`
-    height: 99vh;
-    
+    min-height: 100vh;
 `;
 
 const Section1 = styled.div`
@@ -115,14 +120,30 @@ const Button = styled.button`
 `;
 
 const Section2 = styled.div`
-    // border: 1px solid white;
     margin: 50px 80px;
+    display: flex;
+    align-items: center;
+
+    @media only screen and (max-width: 700px) {
+        margin: 50px;
+    }
+
+    @media only screen and (max-width: 700px) {
+        justify-content: center;
+    }
 `;
 
 const Container = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: start;
+    width: fit-content;
+    flex-wrap: wrap;
+    gap: 10vh;
+
+    @media only screen and (max-width: 657px) {
+        gap: 7vh;
+    }
 `;
 
 export default YourEvents

@@ -3,10 +3,12 @@ import axios from 'axios';
 export const FETCH_ONLINE_EVENTS_REQUEST = 'FETCH_ONLINE_EVENTS_REQUEST';
 export const FETCH_ONLINE_EVENTS_SUCCESS = 'FETCH_ONLINE_EVENTS_SUCCESS';
 export const FETCH_ONLINE_EVENTS_ERROR = 'FETCH_ONLINE_EVENTS_ERROR';
+export const MARK_ONLINE_EVENTS_AS_FETCHED = 'MARK_ONLINE_EVENTS_AS_FETCHED';
 
 export const FETCH_OFFLINE_EVENTS_REQUEST = 'FETCH_OFFLINE_EVENTS_REQUEST';
 export const FETCH_OFFLINE_EVENTS_SUCCESS = 'FETCH_OFFLINE_EVENTS_SUCCESS';
 export const FETCH_OFFLINE_EVENTS_ERROR = 'FETCH_OFFLINE_EVENTS_ERROR';
+export const MARK_OFFLINE_EVENTS_AS_FETCHED = 'MARK_OFFLINE_EVENTS_AS_FETCHED';
 
 export const fetchOnlineEventRequest = () => ({
     type: FETCH_ONLINE_EVENTS_REQUEST,
@@ -35,6 +37,15 @@ export const fetchOfflineEventError = (error) => ({
     type: FETCH_OFFLINE_EVENTS_ERROR,
     payload: error,
 });
+
+export const markOnlineEventsAsFetched = () => ({
+    type: MARK_ONLINE_EVENTS_AS_FETCHED,
+});
+
+export const markOfflineEventsAsFetched = () => ({
+    type: MARK_OFFLINE_EVENTS_AS_FETCHED,
+});
+
 
 export const fetchOnlineEvents = () => {
     return async(dispatch) => {

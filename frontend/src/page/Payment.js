@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../UI/Navbar';
 import { styled } from 'styled-components';
 import useRazorpay from 'react-razorpay';
@@ -6,6 +6,12 @@ import { useLocation } from 'react-router-dom';
 import { getPaymentDetails, sendPaymentDetails } from '../services/api/postMethods';
 
 const Payment = () => {
+
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+    }, []);
 
     const [Razorpay] = useRazorpay();
     const location  = useLocation();
@@ -74,7 +80,7 @@ const Payment = () => {
     <Wrapper>
 
         <NavSection>
-            <Navbar/>
+            <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
         </NavSection>
 
         <MainSection>

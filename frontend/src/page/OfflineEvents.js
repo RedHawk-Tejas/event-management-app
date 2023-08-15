@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../UI/Navbar';
 import { styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
@@ -9,19 +9,27 @@ import EventCard from '../UI/EventCard';
 
 const OfflineEvents = () => {
 
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+    }, []);
+
     const dispatch = useDispatch();
 
-    const { events: offlineEvents, loading: offlineLoading } = useSelector(state => state.allEvents.offline);
+    const { events: offlineEvents, loading: offlineLoading, fetched: offlineFetched } = useSelector(state => state.allEvents.offline);
     
     useEffect(() => {
-        dispatch(fetchOfflineEvents());
-    }, [dispatch]);
+        if (!offlineFetched) {
+            dispatch(fetchOnlineEvents());
+        }
+    }, [dispatch, offlineFetched]);
     
     return (
     <Wrapper>
 
         <NavSection>
-            <Navbar/>
+            <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
         </NavSection>
 
         <MainSection>
@@ -70,15 +78,16 @@ const NavSection = styled.div`
 `;
 
 const MainSection = styled.div`
-    height: 160%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding-bottom: 50px;
+    align-items: center;
 `;
 
 const Section = styled.div`
-    margin: 0 120px;
+    width: 84%;
 `;
 
 const Content = styled.div`
@@ -91,6 +100,10 @@ const Content = styled.div`
 const Heading = styled.div`
     font-size: 25px;
     font-weight: 500;
+
+    @media only screen and (max-width: 450px) {
+        font-size: 21px;
+    }
 `;
 
 
@@ -98,8 +111,21 @@ const EventRow = styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
+    width: fit-content;
     flex-wrap: wrap;
-    gap: 90px;
+    gap: 10vh;
+
+    @media only screen and (max-width: 665px) {
+        gap: 7vh;
+    }
+
+    @media only screen and (max-width: 643px) {
+        gap: 5vh;
+    }
+
+    @media only screen and (max-width: 629px) {
+        justify-content: center;
+    }
 `;
 
 const Loading = styled.div`
