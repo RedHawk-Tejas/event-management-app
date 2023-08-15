@@ -32,6 +32,7 @@ export const handleSignup = async (name, email, password) => {
 export const handleSendMsg = async(userName, userEmail, userMessage) => {
     try {
       const messageData = { userName, userEmail, userMessage };
+      console.log(token);
       const response = await axios.post(`${BASE_URL}/api/Message/user_message`, messageData);
       return response.status;
     } catch (error) {
