@@ -98,3 +98,12 @@ export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, raz
     console.log(error);
   }
 }
+
+export const changePassword = async(email , password) => {
+  try {
+      const response = await axios.post(`${BASE_URL}/api/authentication/resetByEmail`, {email, newPassword:password});
+      return response.status;
+  } catch (error) {
+      console.log(error, "LOGIN");
+  }
+}

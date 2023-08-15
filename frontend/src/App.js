@@ -11,6 +11,8 @@ import Payment from "./page/Payment";
 import OnlineEvents from "./page/OnlineEvents";
 import OfflineEvents from "./page/OfflineEvents";
 import Account from "./page/Account";
+import ForgotPassword from "./page/ForgotPassword";
+import ResetPassword from "./page/ResetPassword";
 
 function App() {
   return (
@@ -25,6 +27,9 @@ function App() {
         <Route path="/online_events" element={<OnlineEvents/>} />
         <Route path="/offline_events" element={<OfflineEvents/>} />
         <Route path="/account" element={<Protected><Account/></Protected>} />
+        <Route path="/forgot_password" element={<ForgotPassword/>} />
+        <Route path="/reset_password" element={<ResetPassword/>} />
+
 
       </Routes>
     </BrowserRouter>
