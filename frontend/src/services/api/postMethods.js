@@ -87,7 +87,7 @@ export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, raz
       razorpay_payment_id,
       razorpay_order_id,
       razorpay_signature,
-      timestamp
+      timeStamp: timestamp
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
