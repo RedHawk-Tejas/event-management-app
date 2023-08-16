@@ -65,8 +65,6 @@ const OrganizeEvent = () => {
         handleReset();
     }
 
-    
-
   return (
     <Wrapper>
     <Toastify />
@@ -133,13 +131,11 @@ const OrganizeEvent = () => {
                     </Row1>
                     <Row2>
                         <Group>
-                            <Label>Event Mode</Label>
-                            <Input 
-                                type='text' 
-                                placeholder='Online | Offline'
-                                value={eventMode} 
-                                onChange={ (e) => setEventMode(e.target.value) }
-                            ></Input>
+                            <Label for="eventMode">Event Mode</Label>
+                            <Select onChange={ (e) => setEventMode(e.target.value) }>
+                                <Option value="Online">Online</Option>
+                                <Option value="Offline">Offline</Option>
+                            </Select>
                         </Group>
 
                         <Group>
@@ -281,6 +277,18 @@ const Group = styled.div`
 const Label = styled.label`
     font-weight: 500;
 `;
+
+const Select = styled.select`
+    padding: 5px 20px;
+    margin-bottom: 7px;
+    background: #222;
+    border-radius: 10px;
+    color: #fff;
+    border: 2px solid #ac44d8;
+    outline: none;
+`;
+
+const Option = styled.option``;
 
 const Input = styled.input`
     padding: 10px 20px;
