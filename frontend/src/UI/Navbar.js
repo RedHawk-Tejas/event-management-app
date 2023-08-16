@@ -29,15 +29,15 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
     }
 
     const handleLogout = () => {
-      localStorage.removeItem('TOKEN');
-      localStorage.removeItem('USER_ID');
+      sessionStorage.removeItem('TOKEN');
+      sessionStorage.removeItem('USER_ID');
       setIsUserLoggedIn(false);
       navigate('/');
     }
 
     const toggleDropDown = () => {
       if(!isUserLoggedIn){
-        toast.error("Jaldi Waha se hato", toastErrorOptions);
+        toast.error("Please Login", toastErrorOptions);
       }else{
         setisDropDownOpen(!isDropDownOpen);
       }
@@ -77,8 +77,8 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
 
         <Links>
             <StyledLink>Home</StyledLink>
-            <StyledLink to='#contact'>About</StyledLink>
-            <StyledLink>Contact</StyledLink>
+            <StyledLink>About</StyledLink>
+            <StyledLink href="#contact">Contact</StyledLink>
 
             <DropDown onClick={ toggleDropDown }>
               Account
@@ -162,9 +162,10 @@ const Links = styled.div`
 
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   text-decoration: none;
   color: #fff;
+  cursor: pointer;
 `;
 
 const DropDown = styled.div`

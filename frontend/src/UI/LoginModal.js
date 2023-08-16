@@ -38,10 +38,6 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
     }
   };
 
-  const generateOTP = async() => {
-    
-  }
-
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -83,7 +79,7 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
             </Button>
 
             <StyledLink onClick={() => setShowLogin(false)}>create account</StyledLink>
-            <StyledLink onClick={generateOTP} to="forgot_password" style={{paddingBottom: '10px'}} >forgot password ?</StyledLink>
+            <StyledLink to="forgot_password" style={{paddingBottom: '10px'}} >forgot password ?</StyledLink>
           </> ) : (
           <>
             <Title>signup</Title>

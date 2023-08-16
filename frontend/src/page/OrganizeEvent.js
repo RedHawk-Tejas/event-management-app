@@ -44,7 +44,7 @@ const OrganizeEvent = () => {
     }
 
     const handleAddEventClick = async() => {
-        const userId = localStorage.getItem('USER_ID');
+        const userId = sessionStorage.getItem('USER_ID');
         const eventData = {
             userId,
             eventName,

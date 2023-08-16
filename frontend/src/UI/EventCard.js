@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { YourEventContext } from '../page/YourEvents';
 import { toast } from 'react-toastify';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
 import { handleDeleteEvent } from '../services/api/deleteMethods';
+import { toastErrorOptions } from '../services/toast/config';
 
-const EventCard = ({event}) => {
-    // console.log(event);
+const EventCard = ({event, loading}) => {
 
     const navigate = useNavigate();
     const isYourEvent = useContext(YourEventContext);
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!localStorage.getItem('USER_ID'));
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!sessionStorage.getItem('USER_ID'));
 
     const backednDateTime = event.eventDateTime;
     const dateObject = new Date(backednDateTime);
@@ -23,7 +24,7 @@ const EventCard = ({event}) => {
 
     const handleBookNow = () => {
         if(!isUserLoggedIn){
-            toast("Jaldi waha se hato")
+            toast.error("Please Login", toastErrorOptions)
         } else {
             navigate(`/payment?eventId=${event.eventId}&price=${event.price}`);
         }
@@ -39,45 +40,41 @@ const EventCard = ({event}) => {
             toast("Try Again");
         }
     }
-    
+
     return (
     <Wrapper>
-
+        <SkeletonTheme baseColor="rgba(200, 200, 200, 0.2)" highlightColor="#999">
             <ImgSection>
-                <Image src={event.eventPoster  || <Skeleton/> }></Image>
+                {loading ? <Skeleton height={300} width={250} /> : <Image src={event.eventPoster}></Image>}
             </ImgSection>
+
+            
 
             <DetailSection>
                 <Section1>
-                    <Title>{event.eventName}</Title>
-                    <Price>₹{event.price}</Price>
+                    <Title>{loading ? <Skeleton count={1} /> : event.eventName}</Title>
+                    <Price>{loading ? <Skeleton count={1} /> : `₹${event.price}`}</Price>
                 </Section1>
                 <Section2>
-                    <EventDate>{formattedDate}</EventDate>
-                    <EventTime>{formattedTime}</EventTime>
+                    <EventDate>{loading ? <Skeleton count={1} /> : formattedDate}</EventDate>
+                    <EventTime>{loading ? <Skeleton count={1} /> : formattedTime}</EventTime>
                 </Section2>
             </DetailSection>
 
             <StyledButton onClick={isYourEvent ? handleDelete : handleBookNow}>
-                {isYourEvent ? 'Delete' : 'Book Now'}
+                {loading ? <Skeleton width={80} /> : (isYourEvent ? 'Delete' : 'Book Now')}
             </StyledButton>
-
+            </SkeletonTheme>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-    // border: 1px solid #D3D3D3;
-    // border-radius: 15px;
-    // background: #f5f5f5;
-    // color: #111;   
     color: #fff;
-    // background: #222; 
     cursor: pointer;
 `;
 
 const ImgSection = styled.div`
-    // padding: 10px 10px 0 10px;
     border-radius: 15px 15px 0 0;
 `;
 

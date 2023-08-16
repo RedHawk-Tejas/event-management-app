@@ -13,11 +13,13 @@ import OfflineEvents from "./page/OfflineEvents";
 import Account from "./page/Account";
 import ForgotPassword from "./page/ForgotPassword";
 import ResetPassword from "./page/ResetPassword";
+import Toastify from "./services/toast/Toastify";
 
 function App() {
   return (
     <Provider store={store}>
     <BrowserRouter> 
+    <Toastify />
       <Routes>
 
         <Route path="/" element={<HomePage/>} />

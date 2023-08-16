@@ -10,7 +10,7 @@ const HomePage = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-      setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+      setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
   }, []);
     
   return (
@@ -20,7 +20,7 @@ const HomePage = () => {
         <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
       </NavSection>
       { !isUserLoggedIn && <HeroBanner setIsUserLoggedIn={setIsUserLoggedIn} /> }
-      <EventGallery />
+      <EventGallery/>
       <Contact />
 
     </Wrapper>

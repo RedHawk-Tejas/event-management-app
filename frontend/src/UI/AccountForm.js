@@ -1,52 +1,52 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
+import { fetchAccountDetailsBasedOnUserId } from '../services/redux/accDetailsAction';
 
 const AccountForm = () => {
+
+    const dispatch = useDispatch();
+
+    const { details } = useSelector(state => state.account);
+
+    useEffect(() => {
+        const userId = sessionStorage.getItem('USER_ID');
+        dispatch(fetchAccountDetailsBasedOnUserId(userId));
+    }, [dispatch]);
+
   return (
     <Wrapper>
         <Header>
             <Text>Account Details</Text>
-            <EditButton>edit</EditButton>
         </Header>
 
         <DetailBox>
             <AccountHeading>Name</AccountHeading>
-            <Input></Input>
+            <Input placeholder={details.name} readOnly></Input>
         </DetailBox>
 
         <DetailBox>
             <AccountHeading>Email</AccountHeading>
-            <Input></Input>
+            <Input placeholder={details.email} readOnly></Input>
         </DetailBox>
 
         <DetailBox>
             <AccountHeading>Contact Number</AccountHeading>
-            <Input></Input>
+            <Input placeholder={details.mobile} readOnly></Input>
         </DetailBox>
 
-        <Header>
-            <Text>Password Settings</Text>
-        </Header>
-
-        <DetailBox>
-            <AccountHeading>Password</AccountHeading>
-            <Input></Input>
-        </DetailBox>
-
-        <ChangeButton>Change</ChangeButton>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-    padding: 0 20px;
+    padding: 30px 20px;
 `;
 
 const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 20px;
 `;
 
 const Text = styled.p`
@@ -56,26 +56,6 @@ const Text = styled.p`
 
     @media only screen and (max-width: 400px) {
         font-size: 17px;
-    }
-`;
-
-const EditButton = styled.button`
-    padding: 5px 12px;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid #ac44d8;
-    outline: none;
-    background: transparent;
-    color: #fff;
-
-    &:hover{
-        background: #ac44d8;
-    }
-
-    &:active{
-        transform: scale(0.95);
     }
 `;
 
@@ -103,7 +83,11 @@ const Input = styled.input`
     border: 1px solid #ac44d8;
     outline: none;
     background: #333;
-    color: #fff;
+
+    &::placeholder {
+        color: #999;
+    }
+    
 
     @media only screen and (max-width: 380px) {
         width: 30vh;
@@ -115,26 +99,6 @@ const Input = styled.input`
 
     @media only screen and (max-width: 380px) {
         width: 20vh;
-    }
-`;
-
-const ChangeButton = styled.div`
-    padding: 7px 14px;
-    border: 1px solid #ac44d8;
-    width: fit-content;
-    margin: 10px 0 30px 20px;
-    border-radius: 5px;
-    outline: none;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    cursor: pointer;
-    &:hover{
-        background: #ac44d8;
-    }
-
-    &:active{
-        transform: scale(0.95);
     }
 `;
 

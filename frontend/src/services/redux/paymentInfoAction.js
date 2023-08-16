@@ -22,7 +22,7 @@ export const fetchPaymentDetails = (userId) => {
     return async(dispatch) => {
         try {
             dispatch(paymentDetailsRequest());
-            const token = localStorage.getItem('TOKEN');
+            const token = sessionStorage.getItem('TOKEN');
             const response = await axios.get(`http://localhost:9080/api/payment/PayHistory/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,

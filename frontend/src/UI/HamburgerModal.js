@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { toast } from "react-toastify";
+import { toastErrorOptions } from '../services/toast/config';
 
 const HamburgerModal = ({isOpen}) => {
 
@@ -11,7 +12,7 @@ const HamburgerModal = ({isOpen}) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
     const toCreateEvent = () => {
@@ -27,15 +28,15 @@ const HamburgerModal = ({isOpen}) => {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('TOKEN');
-        localStorage.removeItem('USER_ID');
+        sessionStorage.removeItem('TOKEN');
+        sessionStorage.removeItem('USER_ID');
         setIsUserLoggedIn(false);
         navigate('/');
     }
 
     const toggleDropDown = () => {
         if(!isUserLoggedIn){
-            toast("Jaldi Waha se hato");
+            toast.error("Please Login", toastErrorOptions);
         }else{
             setisDropDownOpen(!isDropDownOpen);
         }
@@ -57,10 +58,10 @@ const HamburgerModal = ({isOpen}) => {
                 <DropDown onClick={ toggleDropDown }>
                     Account
                     <DropDownContent isOpen={isDropDownOpen}>
-                    <Text onClick={ toAccount }>My Account</Text>
-                    <Text onClick={ toYourEvent }>Your Events</Text>
-                    <Text onClick={ toCreateEvent }>Create Event</Text>
-                    <Text onClick={ handleLogout }>Log Out</Text>
+                        <Text onClick={ toAccount }>My Account</Text>
+                        <Text onClick={ toYourEvent }>Your Events</Text>
+                        <Text onClick={ toCreateEvent }>Create Event</Text>
+                        <Text onClick={ handleLogout }>Log Out</Text>
                     </DropDownContent>
                 </DropDown>
             </Links>
@@ -134,16 +135,21 @@ const DropDown = styled.div`
     font-weight: 500;
     font-size: 20px;
     padding: 9px 0;
+
+    display:flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const DropDownContent = styled.div`
   display: ${props => (props.isOpen ? 'block' : 'none')};
   position: absolute;
-  top: 35px;
-  right: -34px;
+  top: 34px;
+  right: 0;
+  left: -130px;
   background-color: #fff;
   color: red;
-  min-width: 120px;
+  width: 50vh;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 0px;
   z-index: 111;

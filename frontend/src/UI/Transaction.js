@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import { fetchPaymentDetails } from '../services/redux/paymentInfoAction';
-import { Link } from 'react-router-dom';
-import { Link2, LinkIcon } from 'lucide-react';
+import { LinkIcon } from 'lucide-react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const Transaction = () => {
 
@@ -12,9 +12,8 @@ const Transaction = () => {
     const { transactions, loading } = useSelector(state => state.payments);
 
     useEffect(() => {
-        const userId = localStorage.getItem('USER_ID');
+        const userId = sessionStorage.getItem('USER_ID');
         dispatch(fetchPaymentDetails(userId));
-        console.log(transactions);
     }, [dispatch]);
 
     console.log();
@@ -25,26 +24,26 @@ const Transaction = () => {
             <Text>Transaction Details</Text>
         </Header>
 
-        {transactions && transactions.map((transaction, index) => (
-            <DetailBox 
-                key={transaction.razorpay_payment_id} 
-                isLastChild={index === transactions.length - 1}
-                isFirstChild={index === 0}
-            >
-                <Heading>
-                    <LinkIcon size={15}/>
-                    <Title>{transaction.razorpay_payment_id}</Title>
-                </Heading>
+        <SkeletonTheme baseColor="rgba(200, 200, 200, 0.2)" highlightColor="#999">
+            {transactions && transactions.map((transaction, index) => (
+                <DetailBox 
+                    key={transaction.razorpay_payment_id} 
+                    isLastChild={index === transactions.length - 1}
+                    isFirstChild={index === 0}
+                >
+                    <Heading>
+                        <LinkIcon size={15}/>
+                        <Title>{loading ? <Skeleton width={200}/> : transaction.razorpay_payment_id}</Title>
+                    </Heading>
 
-                <Content>Order ID: {transaction.razorpay_order_id}</Content>
-                <Row>
-                    <Content>Amount: ₹{transaction.amount}</Content>
-                    <Content>Tickets: {transaction.tickets}</Content>
-                </Row>
-                
-
-            </DetailBox>
-        ))}
+                    <Content>Order ID: {loading ? <Skeleton width={200}/> : transaction.razorpay_order_id}</Content>
+                    <Row>
+                        <Content>Amount: ₹{loading ? <Skeleton width={100}/> : transaction.amount}</Content>
+                        <Content>Tickets: {loading ? <Skeleton width={100}/> : transaction.tickets}</Content>
+                    </Row>
+                </DetailBox>
+            ))}
+        </SkeletonTheme>
     </>
   )
 }

@@ -17,7 +17,7 @@ const Payment = () => {
     const [tickets, setTickets] = useState(1);
 
     useEffect(() => {
-        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
     const [Razorpay] = useRazorpay();
@@ -76,7 +76,7 @@ const Payment = () => {
             const razorpay_payment_id = response.razorpay_payment_id;
             const razorpay_order_id = response.razorpay_order_id;
             const razorpay_signature = response.razorpay_signature;
-            const timestamp = new Date().getTime();
+            const timestamp = new Date();
 
             const status = await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp);
             if(status === 200){

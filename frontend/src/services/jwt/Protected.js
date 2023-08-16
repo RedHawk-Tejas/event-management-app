@@ -1,21 +1,41 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import { toastErrorOptions } from '../toast/config';
+import { toast } from 'react-toastify';
 
-const Protected = ({children}) => {
-
+const Protected = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      
-        const isAuthenticated = !!localStorage.getItem('TOKEN');
 
-        if(!isAuthenticated){
+        const token = sessionStorage.getItem('TOKEN'); 
+        const isAuthenticated = !!token;
+
+        if (!isAuthenticated) {
             navigate('/');
+            return;
         }
 
-    }, [navigate])
-    
-  return children
-}
+        try {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
 
-export default Protected
+            if (decodedToken.exp < currentTime) {
+                // Token has expired, show toast and redirect
+                sessionStorage.removeItem('TOKEN');
+                sessionStorage.removeItem('USER_ID');
+                toast.error('Your session has expired. Please log in again.', toastErrorOptions);
+                navigate('/');
+            }
+        } catch (error) {
+            // Error occurred while decoding token, show toast and redirect
+            toast.error('An error occurred. Please log in again.', toastErrorOptions);
+            navigate('/');
+        }
+    }, [navigate]);
+
+    return children;
+};
+
+export default Protected;

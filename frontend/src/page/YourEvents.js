@@ -19,7 +19,7 @@ const YourEvents = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
     const { events, loading } = useSelector(state => state.events);
@@ -27,7 +27,7 @@ const YourEvents = () => {
     console.log(events);
 
     useEffect(() => {
-        const userId = localStorage.getItem('USER_ID');
+        const userId = sessionStorage.getItem('USER_ID');
         dispatch(fetchEventsBasedOnUserId(userId));
     }, [dispatch]);
 

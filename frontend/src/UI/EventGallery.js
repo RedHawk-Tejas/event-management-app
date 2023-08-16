@@ -5,7 +5,6 @@ import { fetchOfflineEvents, fetchOnlineEvents } from '../services/redux/publicE
 import { useDispatch, useSelector } from 'react-redux';
 import EventCard from './EventCard';
 import { ChevronsRight } from 'lucide-react';
-import { Spin } from 'react-cssfx-loading';
 
 export const YourEventContext = createContext();
 
@@ -39,19 +38,11 @@ const EventGallery = () => {
             </Content>
 
             <EventRow>
-                {onlineLoading ? (
-                    Array.from({ length: 4 }, (_, index) => (
-                        <Loading>
-                            <Spin key={index} color="#ac44d8" duration='1s' />
-                        </Loading>
-                    ))
-                ) : (
-                    <>
-                        {!onlineLoading && onlineEvents.slice(0, 4).map((event) => (
-                            <EventCard key={event.eventId} event={event} loading={onlineLoading} />
-                        ))}
-                    </>
-                )}
+                <>
+                    { onlineEvents.slice(0, 4).map((event) => (
+                        <EventCard key={event.eventId} event={event} loading={onlineLoading} />
+                    ))}
+                </>
             </EventRow>
         </Section>
 
@@ -62,19 +53,11 @@ const EventGallery = () => {
             </Content>
 
             <EventRow>
-                {offlineLoading ? (
-                   Array.from({ length: 4 }, (_, index) => (
-                    <Loading>
-                        <Spin key={index} color="#ac44d8" duration='1s' />
-                    </Loading>
-                    ))
-                ) : (
-                    <>
-                        { !offlineLoading && offlineEvents.slice(0, 4).map((event) => (
-                            <EventCard key={event.eventId} event={event} loading={offlineLoading} />
-                        ))}
-                    </>
-                )}
+                <>
+                    {offlineEvents.slice(0, 4).map((event) => (
+                        <EventCard key={event.eventId} event={event} loading={offlineLoading} />
+                    ))}
+                </>
             </EventRow>
         </Section>
 
@@ -143,13 +126,6 @@ const EventRow = styled.div`
     @media only screen and (max-width: 629px) {
         justify-content: center;
     }
-`;
-
-const Loading = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around; 
-    width: 100%;
 `;
 
 export default EventGallery

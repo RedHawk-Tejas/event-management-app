@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchOnlineEvents } from '../services/redux/publicEventActions';
-import { Spin } from 'react-cssfx-loading';
 import EventCard from '../UI/EventCard';
 
 const OnlineEvents = () => {
@@ -12,7 +11,7 @@ const OnlineEvents = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
     const dispatch = useDispatch();
@@ -39,22 +38,11 @@ const OnlineEvents = () => {
                 </Content>
 
                 <EventRow>
-                    {onlineLoading ? (
-                        <Loading>
-                            { onlineEvents.map((event) => (
-                                <Spin key={event.eventId} color="#ac44d8" duration='1s'/>
-                            ))}
-                        </Loading>
-                        
-                    ) : (
-                        <>
-                            {onlineEvents.map((event) => (
-                                <EventCard key={event.eventId} event={event} />
-                            ))}
-                        </>
-                    )}
-                    
-
+                    <>
+                    { onlineEvents.map((event) => (
+                        <EventCard key={event.eventId} event={event} loading={onlineLoading} />
+                    ))}
+                    </>
                 </EventRow>
             </Section>
         </MainSection>
@@ -125,13 +113,6 @@ const EventRow = styled.div`
     @media only screen and (max-width: 629px) {
         justify-content: center;
     }
-`;
-
-const Loading = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around; 
-    width: 100%;
 `;
 
 export default OnlineEvents

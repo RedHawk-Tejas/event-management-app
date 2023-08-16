@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchOfflineEvents } from '../services/redux/publicEventActions';
-import { Spin } from 'react-cssfx-loading';
 import EventCard from '../UI/EventCard';
 
 const OfflineEvents = () => {
@@ -12,7 +11,7 @@ const OfflineEvents = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-        setIsUserLoggedIn(!!localStorage.getItem('USER_ID'));
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
     const dispatch = useDispatch();
@@ -39,23 +38,11 @@ const OfflineEvents = () => {
                 </Content>
 
                 <EventRow>
-                    {offlineLoading ? (
-                        <Loading>
-                            <Spin color="#ac44d8" duration='1s'/>
-                            <Spin color="#ac44d8" duration='1s'/>
-                            <Spin color="#ac44d8" duration='1s'/>
-                            <Spin color="#ac44d8" duration='1s'/>
-                        </Loading>
-                        
-                    ) : (
-                        <>
-                            {offlineEvents.map((event) => (
-                                <EventCard key={event.eventId} event={event} />
-                            ))}
-                        </>
-                    )}
-                    
-
+                    <>
+                    { offlineEvents.map((event) => (
+                        <EventCard key={event.eventId} event={event} loading={offlineLoading} />
+                    ))}
+                    </>
                 </EventRow>
             </Section>
         </MainSection>
@@ -126,13 +113,6 @@ const EventRow = styled.div`
     @media only screen and (max-width: 629px) {
         justify-content: center;
     }
-`;
-
-const Loading = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around; 
-    width: 100%;
 `;
 
 export default OfflineEvents

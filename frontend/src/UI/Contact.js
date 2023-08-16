@@ -24,7 +24,7 @@ const Contact = () => {
     } 
 
   return (
-    <Wrapper id='contact'>
+    <Wrapper id="contact">
         <LeftContainer>
             <Logo>Fam<span style={{ color: '#AC44D8' }}>Fest.</span></Logo>
             <Content>&#169; 2023. India, All Rights Reserved.</Content>
