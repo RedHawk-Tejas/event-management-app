@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BASE_URL = "http://localhost:9080"
+
 export const FETCH_ONLINE_EVENTS_REQUEST = 'FETCH_ONLINE_EVENTS_REQUEST';
 export const FETCH_ONLINE_EVENTS_SUCCESS = 'FETCH_ONLINE_EVENTS_SUCCESS';
 export const FETCH_ONLINE_EVENTS_ERROR = 'FETCH_ONLINE_EVENTS_ERROR';
@@ -51,7 +53,7 @@ export const fetchOnlineEvents = () => {
     return async(dispatch) => {
         try {
             dispatch(fetchOnlineEventRequest());
-            const onlineEventResponse = await axios.get('http://localhost:9080/api/famfest/online_events');
+            const onlineEventResponse = await axios.get(`${BASE_URL}/api/famfest/online_events`);
             const onlineEvent = onlineEventResponse.data;
             dispatch(fetchOnlineEventSuccess(onlineEvent));
         } catch (error) {
@@ -65,7 +67,7 @@ export const fetchOfflineEvents = () => {
     return async(dispatch) => {
         try {
             dispatch(fetchOfflineEventRequest());
-            const offlineEventResponse = await axios.get('http://localhost:9080/api/famfest/offline_events');
+            const offlineEventResponse = await axios.get(`${BASE_URL}/api/famfest/offline_events`);
             const offlineEvent = offlineEventResponse.data;
             dispatch(fetchOfflineEventSuccess(offlineEvent));
         } catch (error) {

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BASE_URL = "http://localhost:9080"
+
 export const FETCH_ACCOUNT_DETAILS_REQUEST = 'FETCH_ACCOUNT_DETAILS_REQUEST';
 export const FETCH_ACCOUNT_DETAILS_SUCCESS = 'FETCH_ACCOUNT_DETAILS_SUCCESS';
 export const FETCH_ACCOUNT_DETAILS_ERROR = 'FETCH_ACCOUNT_DETAILS_ERROR';
@@ -23,7 +25,7 @@ export const fetchAccountDetailsBasedOnUserId = (userId) => {
         try {
             dispatch(fetchAccountDetailsRequest());
             const token = sessionStorage.getItem('TOKEN');
-            const response = await axios.get(`http://localhost:9080/api/authentication/UserDetails/${userId}`, {
+            const response = await axios.get(`${BASE_URL}/api/authentication/UserDetails/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

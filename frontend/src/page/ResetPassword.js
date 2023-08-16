@@ -3,18 +3,26 @@ import { styled } from 'styled-components';
 import { changePassword } from '../services/api/postMethods';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Toastify from '../services/toast/Toastify';
 import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
 
 const ResetPassword = () => {
 
+    const location = useLocation();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const email = location.state?.email || '';
+    const [newPassword, setNewPassword] = useState("");
+    const [conPassword, setConPassword] = useState("");
 
     const handleChangePass = async() => {
-        const status = await changePassword(email, password);
+
+        if(newPassword !== conPassword){
+            toast.error("Password does not match.", toastErrorOptions);
+            return;
+        }
+
+        const status = await changePassword(email, newPassword);
         if(status === 200){
             toast.success("Password Changed", toastSuccessOptions);
             navigate("/");
@@ -29,13 +37,13 @@ const ResetPassword = () => {
             <Header>set new password</Header>
 
             <Group>
-                <Label>Email</Label>
-                <Input type='text' value={email} onChange={ (e) => setEmail(e.target.value) }></Input>
+                <Label>New Password</Label>
+                <Input type='text' value={newPassword} onChange={ (e) => setNewPassword(e.target.value) }></Input>
             </Group>
 
             <Group>
-                <Label>New Password</Label>
-                <Input type='text' value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
+                <Label>Confirm Password</Label>
+                <Input type='text' value={conPassword} onChange={ (e) => setConPassword(e.target.value) }></Input>
             </Group>
 
             <Button onClick={ handleChangePass }>save</Button>
@@ -91,7 +99,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-    padding: 6px 20px;
+    padding: 8px 20px;
     background: #333;
     border: none;
     outline: none;

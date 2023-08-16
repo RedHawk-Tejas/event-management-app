@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const BASE_URL = "http://localhost:9080"
+
 export const FETCH_PAYMENT_DETAILS_REQUEST = 'FETCH_PAYMENT_DETAILS_REQUEST';
 export const FETCH_PAYMENT_DETAILS_SUCCESS = 'FETCH_PAYMENT_DETAILS_SUCCESS';
 export const FETCH_PAYMENT_DETAILS_ERROR = 'FETCH_PAYMENT_DETAILS_ERROR';
@@ -23,7 +25,7 @@ export const fetchPaymentDetails = (userId) => {
         try {
             dispatch(paymentDetailsRequest());
             const token = sessionStorage.getItem('TOKEN');
-            const response = await axios.get(`http://localhost:9080/api/payment/PayHistory/${userId}`, {
+            const response = await axios.get(`${BASE_URL}/api/payment/PayHistory/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -32,7 +32,6 @@ function App() {
         <Route path="/forgot_password" element={<ForgotPassword/>} />
         <Route path="/reset_password" element={<ResetPassword/>} />
 
-
       </Routes>
     </BrowserRouter>
     </Provider>

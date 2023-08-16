@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     const matchOTP = () => {
         const enteredOTP = otpInputs.join("").trim();
         if(enteredOTP.toString() === otp.toString()){
-            navigate("/reset_password");
+            navigate("/reset_password",  { state: { email } });
         } else {
             toast.error("Invalid OTP", toastErrorOptions);
         }
@@ -63,6 +63,7 @@ const ForgotPassword = () => {
         const fetchedOTP = await handleGenerateOTP(email);
         console.log("Fetched OTP:", fetchedOTP);
         setOTP(fetchedOTP);
+        setIsTimerRunning(true);
         setShowOTPCard(false);
     }
 

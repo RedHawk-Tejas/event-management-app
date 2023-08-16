@@ -25,7 +25,7 @@ const Protected = ({ children }) => {
                 // Token has expired, show toast and redirect
                 sessionStorage.removeItem('TOKEN');
                 sessionStorage.removeItem('USER_ID');
-                toast.error('Your session has expired. Please log in again.', toastErrorOptions);
+                toast.error('Your session has expired. Please Login.', toastErrorOptions);
                 navigate('/');
             }
         } catch (error) {
