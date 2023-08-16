@@ -169,4 +169,11 @@ public class Login_controller {
 
 	}
 
+	@GetMapping("UserDetails/{id}")
+	public Optional<userinfo> getUserData(@PathVariable String id) {
+		Optional<userinfo> user = info.findById(id);
+
+		return user;
+
+	}
 }
