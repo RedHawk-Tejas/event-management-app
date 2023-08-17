@@ -2,8 +2,16 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.naming.NameNotFoundException;
+
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +32,7 @@ import com.example.demo.dto.PdfResponse;
 import com.example.demo.model.Eventdetail;
 import com.example.demo.model.OrderFormat;
 import com.example.demo.model.TransactionDetails;
+import com.example.demo.model.userinfo;
 import com.example.demo.optimizationServices.PdfService;
 import com.example.demo.optimizationServices.TransactionHistory;
 import com.example.demo.services.PaymentGatewayService;
@@ -87,9 +96,68 @@ public class Payment_controller {
     }
 
     @PostMapping(value = "/GetTicket", produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse) throws IOException {
+    /// @PostMapping("/GetTicket")
+    public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse)
+            throws IOException, NameNotFoundException {
 
-        return pdfService.getTicket(pdfResponse.getUserId(), pdfResponse.gettId());
+        List<Eventdetail> eventList = eventData.findAll();
+        List<TransactionDetails> list2 = transactionData.findAll();
+        Optional<userinfo> userList = loginData.findById(pdfResponse.getUserId());
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        for (TransactionDetails list : list2) {
+            for (Eventdetail listevent : eventList) {
+                if (list.getUserId().equalsIgnoreCase(pdfResponse.getUserId())) {
+                    map.put("Event_ID", listevent.getEventId());
+                    map.put("Event_Name", listevent.getEventName());
+                    map.put("Location", listevent.getEventVenue());
+                    map.put("Amount", Long.toString(list.getAmount()));
+                    map.put("Order_Id", list.getRazorpay_order_id());
+                    map.put("Name", userList.get().getName());
+                    map.put("Count", Long.toString(list.getTickets()));
+
+                }
+
+            }
+        }
+
+        String Name = "";
+        String Event_ID = "";
+        String Event_Name = "";
+        String Location = "";
+        String Amount = "";
+        String Order_Id = "";
+        String Count = "";
+
+        for (Map.Entry<String, String> vall : map.entrySet()) {
+            if (vall.getKey().equalsIgnoreCase("Order_Id")) {
+                Order_Id = Order_Id + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Amount")) {
+                Amount = Amount + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Event_ID")) {
+                Event_ID = Event_ID + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Location")) {
+                Location = Location + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Event_Name")) {
+                Event_Name = Event_Name + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Name")) {
+                Name = Name + vall.getValue();
+            }
+            if (vall.getKey().equalsIgnoreCase("Count")) {
+                Count = Count + vall.getValue();
+            }
+
+        }
+        // return pdfService.getTicket(map);
+        return pdfService.getTicket(Name, Amount, Location, Event_ID, Event_Name,
+                Order_Id, Count);
+        // return map;
 
     }
 
