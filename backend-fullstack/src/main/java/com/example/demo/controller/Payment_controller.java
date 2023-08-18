@@ -13,6 +13,7 @@ import javax.naming.NameNotFoundException;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +37,7 @@ import com.example.demo.model.userinfo;
 import com.example.demo.optimizationServices.PdfService;
 import com.example.demo.optimizationServices.TransactionHistory;
 import com.example.demo.services.PaymentGatewayService;
+import com.google.zxing.WriterException;
 import com.razorpay.Order;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -96,9 +98,9 @@ public class Payment_controller {
     }
 
     @PostMapping(value = "/GetTicket", produces = MediaType.APPLICATION_PDF_VALUE)
-    /// @PostMapping("/GetTicket")
+    // @PostMapping("/GetTicket")
     public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse)
-            throws IOException, NameNotFoundException {
+            throws IOException, NameNotFoundException, WriterException {
 
         List<Eventdetail> eventList = eventData.findAll();
         List<TransactionDetails> list2 = transactionData.findAll();
