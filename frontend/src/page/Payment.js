@@ -131,24 +131,14 @@ const Payment = () => {
                     ></Input>
                 </Group>
 
-                <Group>
+                <TicketGroup>
                     <Label>Number of Tickets</Label>
                     <Row>
-                        <Plus />
-                        ₹{total}
-                        <Minus />
+                        <StyledIcon onClick={ () => setTickets(tickets + 1) }><Plus /></StyledIcon>
+                        <TicketCount>{tickets}</TicketCount>
+                        <StyledIcon onClick={ () => setTickets(Math.max(0, tickets - 1)) }><Minus /></StyledIcon>
                     </Row>
-                    {/* <Input 
-                        type='number'
-                        value={tickets} 
-                        onChange={ (e) => {
-                            const newValue = parseInt(e.target.value);
-                            if(!isNaN(newValue) && newValue >= 0){
-                                setTickets(newValue);
-                            }
-                        }}
-                    ></Input> */}
-                </Group>
+                </TicketGroup>
 
                 <Section>
                     <Total>₹{total}</Total>
@@ -170,7 +160,7 @@ const Wrapper = styled.div`
 `;
 
 const NavSection = styled.div`
-  height: 9vh;
+    height: 9vh;
 `;
 
 const MainSection = styled.div`
@@ -184,21 +174,17 @@ const Box = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    // border: 1px solid white;
     margin-top: 100px;
-    // width: 60vh;
 `;
 
 const Group = styled.div`
     display: flex;
     flex-direction: column;
-    // align-items: center;
     gap: 4px;
     padding: 7px 20px;
 `;
 
 const Label = styled.label`
-    // margin-top: 5px;
     font-weight: 500;
     font-size: 15px;
 `;
@@ -213,7 +199,39 @@ const Input = styled.input`
     color: #fff;
 `;
 
-const Row = styled.div``;
+const TicketGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 7px 20px;
+`;
+
+const Row = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 30px;
+`;
+
+const StyledIcon = styled.div`
+    border: 1px solid #ac44d8;
+    border-radius: 100%;
+    display: flex;
+    padding: 8px;
+    cursor: pointer;
+    &:hover{
+        background: #ac44d8;
+        font-weight: 500;
+    }
+    &:active{
+        transform: scale(0.95);
+    }
+`;
+
+const TicketCount = styled.div`
+    font-weight: 500;
+`;
 
 const Section = styled.div`
     display: flex;
