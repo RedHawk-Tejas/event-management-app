@@ -110,7 +110,8 @@ public class Payment_controller {
 
         for (TransactionDetails list : list2) {
             for (Eventdetail listevent : eventList) {
-                if (list.getUserId().equalsIgnoreCase(pdfResponse.getUserId())) {
+                if (list.getUserId().equalsIgnoreCase(pdfResponse.getUserId())
+                        && list.getRazorpay_payment_id().equalsIgnoreCase(pdfResponse.gettId())) {
                     map.put("Event_ID", listevent.getEventId());
                     map.put("Event_Name", listevent.getEventName());
                     map.put("Location", listevent.getEventVenue());

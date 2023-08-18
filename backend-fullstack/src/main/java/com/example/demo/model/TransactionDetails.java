@@ -24,6 +24,12 @@ public class TransactionDetails {
     private String razorpay_order_id;
 
     @Field
+    private String eventId;
+
+    @Field
+    private String eventName;
+
+    @Field
     private String razorpay_signature;
 
     @Field
@@ -71,6 +77,22 @@ public class TransactionDetails {
 
     public void setRazorpay_order_id(String razorpay_order_id) {
         this.razorpay_order_id = razorpay_order_id;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getRazorpay_signature() {
