@@ -26,7 +26,7 @@ const EventCard = ({event, loading}) => {
         if(!isUserLoggedIn){
             toast.error("Please Login", toastErrorOptions)
         } else {
-            navigate(`/payment?eventId=${event.eventId}&price=${event.price}`);
+            navigate(`/payment?eventId=${event.eventId}&price=${event.price}&eName=${event.eventName}`);
         }
     }
 

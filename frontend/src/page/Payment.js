@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { getPaymentDetails, sendPaymentDetails } from '../services/api/postMethods';
 import { toast } from 'react-toastify';
 import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
+import { Minus, Plus } from 'lucide-react';
 
 const Payment = () => {
 
@@ -25,6 +26,7 @@ const Payment = () => {
     const queryParams = new URLSearchParams(location.search);
     const price = queryParams.get('price');
     const eventId = queryParams.get('eventId');
+    const eventName = queryParams.get('eName');
     const total = price * tickets;
 
     console.log(price, eventId);
@@ -78,7 +80,7 @@ const Payment = () => {
             const razorpay_signature = response.razorpay_signature;
             const timestamp = new Date();
 
-            const status = await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp);
+            const status = await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp, eventId, eventName);
             if(status === 200){
                 toast.success("Payment Done", toastSuccessOptions);
                 setName("");
@@ -131,7 +133,12 @@ const Payment = () => {
 
                 <Group>
                     <Label>Number of Tickets</Label>
-                    <Input 
+                    <Row>
+                        <Plus />
+                        ₹{total}
+                        <Minus />
+                    </Row>
+                    {/* <Input 
                         type='number'
                         value={tickets} 
                         onChange={ (e) => {
@@ -140,7 +147,7 @@ const Payment = () => {
                                 setTickets(newValue);
                             }
                         }}
-                    ></Input>
+                    ></Input> */}
                 </Group>
 
                 <Section>
@@ -205,6 +212,8 @@ const Input = styled.input`
     background: #333;
     color: #fff;
 `;
+
+const Row = styled.div``;
 
 const Section = styled.div`
     display: flex;

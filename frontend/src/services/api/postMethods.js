@@ -69,7 +69,7 @@ export const getPaymentDetails = async(eventId, tickets) => {
   }
 }
 
-export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp) => {
+export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp, eventId, eventName) => {
   try {
     const userId = sessionStorage.getItem('USER_ID');
     const token = sessionStorage.getItem('TOKEN');
@@ -80,7 +80,9 @@ export const sendPaymentDetails = async(total, tickets, razorpay_payment_id, raz
       razorpay_payment_id,
       razorpay_order_id,
       razorpay_signature,
-      timeStamp: timestamp
+      timeStamp: timestamp,
+      eventId,
+      eventName
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
