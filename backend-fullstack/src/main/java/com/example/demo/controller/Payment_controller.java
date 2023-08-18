@@ -102,65 +102,30 @@ public class Payment_controller {
     public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse)
             throws IOException, NameNotFoundException, WriterException {
 
-        List<Eventdetail> eventList = eventData.findAll();
-        List<TransactionDetails> list2 = transactionData.findAll();
+        // List<Eventdetail> eventList = eventData.findAll();
+        Optional<TransactionDetails> list2 = transactionData.findById(pdfResponse.gettId());
         Optional<userinfo> userList = loginData.findById(pdfResponse.getUserId());
 
-        Map<String, String> map = new HashMap<String, String>();
+        // Map<String, String> map = new HashMap<String, String>();
+        Optional<Eventdetail> listt = eventData.findById(list2.get().getEventId());
 
-        for (TransactionDetails list : list2) {
-            for (Eventdetail listevent : eventList) {
-                if (list.getUserId().equalsIgnoreCase(pdfResponse.getUserId())
-                        && list.getRazorpay_payment_id().equalsIgnoreCase(pdfResponse.gettId())) {
-                    map.put("Event_ID", listevent.getEventId());
-                    map.put("Event_Name", listevent.getEventName());
-                    map.put("Location", listevent.getEventVenue());
-                    map.put("Amount", Long.toString(list.getAmount()));
-                    map.put("Order_Id", list.getRazorpay_order_id());
-                    map.put("Name", userList.get().getName());
-                    map.put("Count", Long.toString(list.getTickets()));
-
-                }
-
-            }
-        }
-
-        String Name = "";
-        String Event_ID = "";
-        String Event_Name = "";
+        String Name = userList.get().getName();
+        String Event_ID = list2.get().getEventId();
+        String Event_Name = list2.get().getEventName();
         String Location = "";
-        String Amount = "";
-        String Order_Id = "";
-        String Count = "";
+        String Amount = Long.toString(list2.get().getAmount());
+        String Order_Id = list2.get().getRazorpay_order_id();
+        String Count = Long.toString(list2.get().getTickets());
+        if (listt.get().getEventVenue().length() == 0) {
+            Location = Location + "Online";
 
-        for (Map.Entry<String, String> vall : map.entrySet()) {
-            if (vall.getKey().equalsIgnoreCase("Order_Id")) {
-                Order_Id = Order_Id + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Amount")) {
-                Amount = Amount + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Event_ID")) {
-                Event_ID = Event_ID + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Location")) {
-                Location = Location + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Event_Name")) {
-                Event_Name = Event_Name + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Name")) {
-                Name = Name + vall.getValue();
-            }
-            if (vall.getKey().equalsIgnoreCase("Count")) {
-                Count = Count + vall.getValue();
-            }
-
+        } else {
+            Location = Location + listt.get().getEventVenue();
         }
-        // return pdfService.getTicket(map);
+
         return pdfService.getTicket(Name, Amount, Location, Event_ID, Event_Name,
                 Order_Id, Count);
-        // return map;
+        // return listt;
 
     }
 

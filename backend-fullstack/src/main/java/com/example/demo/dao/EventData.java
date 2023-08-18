@@ -12,6 +12,10 @@ public interface EventData extends MongoRepository<Eventdetail, String> {
 	Optional<Eventdetail> findAllByUserId(String id);
 
 	boolean existsByUserId(String userId);
-	
-	 List<Eventdetail> findByeventMode(String mode);
+
+	List<Eventdetail> findByeventMode(String mode);
+
+	// void findByeventVenue(String venue);
+	// List<Eventdetail> findByEventVenue(String eventVenue);
+	// List<Eventdetail> findByEventId(String eventId);
 }
