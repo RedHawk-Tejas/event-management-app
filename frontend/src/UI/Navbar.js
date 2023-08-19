@@ -98,7 +98,6 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
         </HamburgerIcon> }
 
     </Wrapper>
-    <Toastify />
     </>
 
   )

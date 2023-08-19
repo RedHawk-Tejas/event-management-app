@@ -1,18 +1,7 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'
 import { styled } from 'styled-components';
-import { fetchAccountDetailsBasedOnUserId } from '../services/redux/accDetailsAction';
 
-const AccountForm = () => {
-
-    const dispatch = useDispatch();
-
-    const { details } = useSelector(state => state.account);
-
-    useEffect(() => {
-        const userId = sessionStorage.getItem('USER_ID');
-        dispatch(fetchAccountDetailsBasedOnUserId(userId));
-    }, [dispatch]);
+const AccountForm = ({details}) => {
 
   return (
     <Wrapper>

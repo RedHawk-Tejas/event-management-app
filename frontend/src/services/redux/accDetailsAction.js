@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:9080"
+const BASE_URL = "https://famfest-backend-production.up.railway.app"
 
 export const FETCH_ACCOUNT_DETAILS_REQUEST = 'FETCH_ACCOUNT_DETAILS_REQUEST';
 export const FETCH_ACCOUNT_DETAILS_SUCCESS = 'FETCH_ACCOUNT_DETAILS_SUCCESS';

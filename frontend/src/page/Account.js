@@ -1,9 +1,13 @@
 import { CreditCard, MoveLeft, User2 } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import AccountForm from '../UI/AccountForm';
 import Transaction from '../UI/Transaction';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchAccountDetailsBasedOnUserId } from '../services/redux/accDetailsAction';
+
 
 const Account = () => {
 
@@ -12,6 +16,15 @@ const Account = () => {
     const handleSectionChange = (section) => {
         setActiveSection(section); 
     };
+
+    const dispatch = useDispatch();
+
+    const { details } = useSelector(state => state.account);
+
+    useEffect(() => {
+        const userId = sessionStorage.getItem('USER_ID');
+        dispatch(fetchAccountDetailsBasedOnUserId(userId));
+    }, [dispatch]);
 
   return (
     <Wrapper>
@@ -23,8 +36,8 @@ const Account = () => {
         <Section2>
             <Column1>
                 <UserGroup>
-                    <UserName>Tejas Birari</UserName>
-                    <UserEmail>tejasbirari2435@gmail.com</UserEmail>
+                    <UserName>{details.name}</UserName>
+                    <UserEmail>{details.email}</UserEmail>
                 </UserGroup>
 
                 <Group onClick={() => handleSectionChange('account')}>
@@ -39,7 +52,7 @@ const Account = () => {
             </Column1>
 
             <Column2>
-                {activeSection === 'account' && <AccountForm />}
+                {activeSection === 'account' && <AccountForm details={details} />}
                 {activeSection === 'transaction' && <Transaction />}
             </Column2>
 

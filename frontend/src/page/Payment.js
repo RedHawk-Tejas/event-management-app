@@ -27,12 +27,21 @@ const Payment = () => {
     const price = queryParams.get('price');
     const eventId = queryParams.get('eventId');
     const eventName = queryParams.get('eName');
-    const total = price * tickets;
+
+    let totalAmount = 0;
+
+    if(price !== 0){
+        totalAmount = price * tickets;
+    }
 
     console.log(price, eventId);
 
     const handlePayment = async() => {
         try {
+            if(!name || !email || !number){
+                toast.error("Fill all details", toastErrorOptions);
+                return;
+            }
             if(tickets === 0){
                 toast.error("Cannot proceed with 0 tickets", toastErrorOptions);
                 return;
@@ -80,7 +89,7 @@ const Payment = () => {
             const razorpay_signature = response.razorpay_signature;
             const timestamp = new Date();
 
-            const status = await sendPaymentDetails(total, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp, eventId, eventName);
+            const status = await sendPaymentDetails(totalAmount, tickets, razorpay_payment_id, razorpay_order_id, razorpay_signature, timestamp, eventId, eventName);
             if(status === 200){
                 toast.success("Payment Done", toastSuccessOptions);
                 setName("");
@@ -141,8 +150,8 @@ const Payment = () => {
                 </TicketGroup>
 
                 <Section>
-                    <Total>₹{total}</Total>
-                    <Button onClick={ handlePayment }>pay</Button>
+                    <Total>₹{totalAmount}</Total>
+                    <Button onClick={ handlePayment }>{price === 0 ? 'Book' : 'Pay' }</Button>
                 </Section>
                 
             </Box>

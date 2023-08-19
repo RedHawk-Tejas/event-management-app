@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:9080"
+const BASE_URL = "https://famfest-backend-production.up.railway.app"
 
 export const FETCH_ONLINE_EVENTS_REQUEST = 'FETCH_ONLINE_EVENTS_REQUEST';
 export const FETCH_ONLINE_EVENTS_SUCCESS = 'FETCH_ONLINE_EVENTS_SUCCESS';

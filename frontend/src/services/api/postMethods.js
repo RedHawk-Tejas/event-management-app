@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:9080"
+const BASE_URL = "https://famfest-backend-production.up.railway.app"
 
 export const handleLogin = async(email , password) => {
     try {
@@ -14,13 +14,13 @@ export const handleLogin = async(email , password) => {
     }
 }
 
-export const handleSignup = async (name, email, password) => {
+export const handleSignup = async (name, email, mobile, password) => {
     try {
         if (!name || !email || !password ) { return; }
   
         const role = "user";
         const response = await axios.post(`${BASE_URL}/api/authentication/register`, {
-        name, email, password, role, });
+        name, email, password, mobile, role, });
       
         console.log(response);
         return response.status;
@@ -63,7 +63,6 @@ export const getPaymentDetails = async(eventId, tickets) => {
     },
     })
     return response.data;
-    // console.log(response, "get");
   } catch (error) {
     console.log(error);
   }

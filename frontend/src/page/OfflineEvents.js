@@ -58,6 +58,7 @@ const Wrapper = styled.div`
     color: #fff;
     width: 100%;
     min-height: 100vh;
+    overflow: auto;
 `;
 
 const NavSection = styled.div`

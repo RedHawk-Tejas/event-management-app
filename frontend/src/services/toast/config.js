@@ -3,7 +3,7 @@ export const toastErrorOptions = {
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
+    pauseOnHover: false,
     draggable: true,
     progress: undefined,
     theme: "dark",
@@ -14,7 +14,18 @@ export const toastSuccessOptions = {
   autoClose: 5000,
   hideProgressBar: false,
   closeOnClick: true,
-  pauseOnHover: true,
+  pauseOnHover: false,
+  draggable: true,
+  progress: undefined,
+  theme: "dark",
+};
+
+export const toastInfoOption = {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: false,
   draggable: true,
   progress: undefined,
   theme: "dark",

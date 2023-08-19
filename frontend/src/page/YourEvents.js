@@ -22,14 +22,16 @@ const YourEvents = () => {
         setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
 
-    const { events, loading } = useSelector(state => state.events);
+    const { events, loading, fetched } = useSelector(state => state.events);
 
     console.log(events);
 
     useEffect(() => {
-        const userId = sessionStorage.getItem('USER_ID');
-        dispatch(fetchEventsBasedOnUserId(userId));
-    }, [dispatch]);
+        if(!fetched){
+            const userId = sessionStorage.getItem('USER_ID');
+            dispatch(fetchEventsBasedOnUserId(userId));
+        }
+    }, [dispatch, fetched]);
 
     const toCreateEvent = () => {
         navigate('/organize_event');
@@ -80,6 +82,8 @@ const Wrapper = styled.div`
     background: #111;
     color: #fff;
     width: 100%;
+    min-height: 100vh;
+    overflow: auto;
 `;
 
 const NavSection = styled.div`

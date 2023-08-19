@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { MoveLeft } from 'lucide-react';
 import { handleAddEvent } from '../services/api/postMethods';
 import { toast } from "react-toastify";
-import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
+import { toastErrorOptions, toastInfoOption, toastSuccessOptions } from '../services/toast/config';
 import Toastify from '../services/toast/Toastify';
 
 const OrganizeEvent = () => {
@@ -44,6 +44,7 @@ const OrganizeEvent = () => {
     }
 
     const handleAddEventClick = async() => {
+        toast.info('Adding', toastInfoOption);
         const userId = sessionStorage.getItem('USER_ID');
         const eventData = {
             userId,
@@ -58,10 +59,11 @@ const OrganizeEvent = () => {
         }
         const eventStatus = await handleAddEvent(eventData);
         if(eventStatus === 200){
+            toast.dismiss();
             toast.success("Event Added", toastSuccessOptions);
         } else {
             toast.error("Error Occured", toastErrorOptions);
-        }
+        } 
         handleReset();
     }
 
@@ -69,6 +71,7 @@ const OrganizeEvent = () => {
     <Wrapper>
     <Toastify />
         <Container>
+
             <Row>
                 <BackButton to='/'><MoveLeft />back</BackButton>
                 <ResetButton onClick={ handleReset }>Clear</ResetButton>
@@ -177,6 +180,7 @@ const Wrapper = styled.div`
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    overflow: auto;
 `;
 
 const Container = styled.div`

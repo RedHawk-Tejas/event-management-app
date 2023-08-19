@@ -14,6 +14,7 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
   const [showLogin, setShowLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLoginClick = async () => {
@@ -29,13 +30,23 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
   };
 
   const handleSignUpClick = async () => {
-    const signupStatus = await handleSignup(name, email, password);
-    if(signupStatus === 200){
-      setIsUserLoggedIn(true);
-      toast("Signup Successful");
-    } else {
-      toast("Invalid Details");
+    if(!name || !email || !password || !password){
+      toast.error("Fill all details", toastErrorOptions);
+      return;
     }
+    if(mobile.length !== 10){
+      toast.error("Mobile number must be 10 digits", toastErrorOptions);
+      return;
+    }
+    if(!/^(?=.*\d)(?=.*[@#$%^&!])[0-9a-zA-Z@#$%^&!]{8,}$/.test(password)){
+      toast.error("Password must be 8 characters and contain both numbers and letters/special characters.", toastErrorOptions);
+      return;
+    }
+    const signupStatus = await handleSignup(name, email, mobile, password);
+    if(signupStatus === 200){
+      onClose();
+      toast.success("Signup Successful, Please Login", toastSuccessOptions);
+    } 
   };
 
   useEffect(() => {
@@ -73,8 +84,8 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
             </Box>
 
-            <Button>
-              <StyledButton onClick={handleLoginClick}>login</StyledButton>
+            <Button onClick={handleLoginClick}>
+              <StyledButton >login</StyledButton>
               <StyledIcon><ArrowRightCircle /></StyledIcon>
             </Button>
 
@@ -97,17 +108,21 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
               </Group>
 
               <Group>
+                <Label>Mobile</Label>
+                <Input value={mobile} onChange={ (e) => setMobile(e.target.value) }></Input>
+              </Group>
+
+              <Group>
                 <Label>Password</Label>
                 <Input value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
               </Group>
 
             </Box>
 
-            <Button>
-                <StyledButton onClick={ handleSignUpClick }>signup</StyledButton>
+            <Button onClick={ handleSignUpClick }>
+                <StyledButton >signup</StyledButton>
                 <StyledIcon><ArrowRightCircle /></StyledIcon>
             </Button>
-            <Toastify/>
           </>
         )}
       </Card>

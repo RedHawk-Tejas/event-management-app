@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { YourEventContext } from '../page/YourEvents';
@@ -6,14 +6,18 @@ import { toast } from 'react-toastify';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { handleDeleteEvent } from '../services/api/deleteMethods';
-import { toastErrorOptions } from '../services/toast/config';
+import { toastErrorOptions, toastInfoOption, toastSuccessOptions } from '../services/toast/config';
 
 const EventCard = ({event, loading}) => {
 
     const navigate = useNavigate();
     const isYourEvent = useContext(YourEventContext);
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!sessionStorage.getItem('USER_ID'));
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
+    }, []);
 
     const backednDateTime = event.eventDateTime;
     const dateObject = new Date(backednDateTime);
@@ -31,13 +35,15 @@ const EventCard = ({event, loading}) => {
     }
 
     const handleDelete = async() => {
+        toast.info("Deleting", toastInfoOption);
         const eventId = event.eventId;
         const deleteStatus = await handleDeleteEvent(eventId);
         if(deleteStatus === 200){
-            toast("Event Deleted");
+            toast.dismiss();
+            toast.success("Event Deleted", toastSuccessOptions);
             window.location.reload();
         } else {
-            toast("Try Again");
+            toast.error("Try Again", toastErrorOptions);
         }
     }
 
@@ -53,7 +59,15 @@ const EventCard = ({event, loading}) => {
             <DetailSection>
                 <Section1>
                     <Title>{loading ? <Skeleton count={1} /> : event.eventName}</Title>
-                    <Price>{loading ? <Skeleton count={1} /> : `₹${event.price}`}</Price>
+                    { event.price === 0 ? (
+                        <>
+                            <Price>{loading ? <Skeleton count={1} /> : `Free`}</Price>
+                        </>
+                    ) : (
+                        <>
+                            <Price>{loading ? <Skeleton count={1} /> : `₹${event.price}`}</Price>
+                        </>
+                    )}
                 </Section1>
                 <Section2>
                     <EventDate>{loading ? <Skeleton count={1} /> : formattedDate}</EventDate>

@@ -39,7 +39,7 @@ const EventGallery = () => {
 
             <EventRow>
                 <>
-                    { onlineEvents.slice(0, 4).map((event) => (
+                    {onlineEvents.slice(0, 4).map((event) => (
                         <EventCard key={event.eventId} event={event} loading={onlineLoading} />
                     ))}
                 </>

@@ -17,6 +17,11 @@ const ResetPassword = () => {
 
     const handleChangePass = async() => {
 
+        if(!/^(?=.*\d)(?=.*[@#$%^&!])[0-9a-zA-Z@#$%^&!]{8,}$/.test(newPassword)){
+            toast.error("Password must be 8 characters and contain both numbers and letters/special characters.", toastErrorOptions);
+            return;
+          }
+
         if(newPassword !== conPassword){
             toast.error("Password does not match.", toastErrorOptions);
             return;
