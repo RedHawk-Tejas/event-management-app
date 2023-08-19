@@ -15,7 +15,10 @@ import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,9 +100,10 @@ public class Payment_controller {
         return data;
     }
 
-    @PostMapping(value = "/GetTicket", produces = MediaType.APPLICATION_PDF_VALUE)
-    // @PostMapping("/GetTicket")
-    public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse)
+    // @PostMapping(value = "/GetTicket", produces =
+    // MediaType.APPLICATION_PDF_VALUE)
+    @PostMapping("/GetTicket")
+    public ResponseEntity<byte[]> downloadTicket(@RequestBody PdfResponse pdfResponse)
             throws IOException, NameNotFoundException, WriterException {
 
         // List<Eventdetail> eventList = eventData.findAll();
@@ -123,9 +127,18 @@ public class Payment_controller {
             Location = Location + listt.get().getEventVenue();
         }
 
-        return pdfService.getTicket(Name, Amount, Location, Event_ID, Event_Name,
+        byte[] pdfArr = pdfService.getTicket(Name, Amount, Location, Event_ID, Event_Name,
                 Order_Id, Count);
         // return listt;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename("your_pdf_filename.pdf")
+                .build());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfArr);
 
     }
 
