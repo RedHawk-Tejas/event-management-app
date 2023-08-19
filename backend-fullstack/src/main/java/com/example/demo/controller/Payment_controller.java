@@ -103,10 +103,11 @@ public class Payment_controller {
     // @PostMapping(value = "/GetTicket", produces =
     // MediaType.APPLICATION_PDF_VALUE)
     @PostMapping("/GetTicket")
-    public ResponseEntity<byte[]> downloadTicket(@RequestBody PdfResponse pdfResponse)
+    public List<Object> downloadTicket(@RequestBody PdfResponse pdfResponse)
             throws IOException, NameNotFoundException, WriterException {
 
         // List<Eventdetail> eventList = eventData.findAll();
+        List<Object> data = new ArrayList<>();
         Optional<TransactionDetails> list2 = transactionData.findById(pdfResponse.gettId());
         Optional<userinfo> userList = loginData.findById(pdfResponse.getUserId());
 
@@ -129,16 +130,18 @@ public class Payment_controller {
 
         byte[] pdfArr = pdfService.getTicket(Name, Amount, Location, Event_ID, Event_Name,
                 Order_Id, Count);
-        // return listt;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.builder("attachment")
-                .filename("your_pdf_filename.pdf")
-                .build());
+        data.add(pdfArr);
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfArr);
+        return data;
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_PDF);
+        // headers.setContentDisposition(ContentDisposition.builder("attachment")
+        // .filename("your_pdf_filename.pdf")
+        // .build());
+
+        // return ResponseEntity.ok()
+        // .headers(headers)
+        // .body(pdfArr);
 
     }
 
