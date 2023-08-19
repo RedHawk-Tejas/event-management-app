@@ -108,12 +108,13 @@ export const downloadTicket = async(paymentId) => {
     const userId = sessionStorage.getItem('USER_ID');
     const token = sessionStorage.getItem('TOKEN');
     const response = await axios.post(`${BASE_URL}/api/payment/GetTicket`, {userId, tId: paymentId},{
+      responseType: 'blob',
       headers:{
+        Accept: 'application/pdf',
         Authorization: `Bearer ${token}`,
       }
     })
     return response.data;
-    // console.log(response);
   } catch (error) {
     console.log(error);
   }

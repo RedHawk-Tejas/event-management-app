@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import { fetchPaymentDetails } from '../services/redux/paymentInfoAction';
 import { LinkIcon } from 'lucide-react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { downloadTicket } from '../services/api/postMethods';
+import download from 'downloadjs';
 
 const Transaction = () => {
 
@@ -18,7 +19,8 @@ const Transaction = () => {
     }, [dispatch]);
 
     const handleDownload = async(paymentId) => {
-        const ticket = await downloadTicket(paymentId);
+        const response = await downloadTicket(paymentId);
+        download(response, 'receipt.pdf', 'application/pdf');
     }
 
   return (
@@ -133,4 +135,4 @@ const DownloadButton = styled.a`
     }
 `;
 
-export default Transaction
+export default Transaction;
