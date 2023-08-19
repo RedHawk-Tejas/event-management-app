@@ -97,9 +97,8 @@ public class Payment_controller {
         return data;
     }
 
-    // @PostMapping(value = "/GetTicket", produces =
-    // MediaType.APPLICATION_PDF_VALUE)
-    @PostMapping("/GetTicket")
+    @PostMapping(value = "/GetTicket", produces = MediaType.APPLICATION_PDF_VALUE)
+    // @PostMapping("/GetTicket")
     public byte[] downloadTicket(@RequestBody PdfResponse pdfResponse)
             throws IOException, NameNotFoundException, WriterException {
 
