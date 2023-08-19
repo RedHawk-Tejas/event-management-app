@@ -17,7 +17,7 @@ import com.example.demo.model.UserMessage;
 import com.example.demo.model.userinfo;
 import com.example.demo.services.EmailSendService;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/Message")
 public class Message_controller {

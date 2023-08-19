@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dao.EventData;
 import com.example.demo.model.Eventdetail;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/event")
 public class Event_controller {

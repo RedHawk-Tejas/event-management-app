@@ -43,7 +43,7 @@ import com.example.demo.services.PaymentGatewayService;
 import com.google.zxing.WriterException;
 import com.razorpay.Order;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/payment")
 public class Payment_controller {
@@ -103,11 +103,11 @@ public class Payment_controller {
     // @PostMapping(value = "/GetTicket", produces =
     // MediaType.APPLICATION_PDF_VALUE)
     @PostMapping("/GetTicket")
-    public List<Object> downloadTicket(@RequestBody PdfResponse pdfResponse)
+    public List<byte[]> downloadTicket(@RequestBody PdfResponse pdfResponse)
             throws IOException, NameNotFoundException, WriterException {
 
         // List<Eventdetail> eventList = eventData.findAll();
-        List<Object> data = new ArrayList<>();
+        List<byte[]> data = new ArrayList<>();
         Optional<TransactionDetails> list2 = transactionData.findById(pdfResponse.gettId());
         Optional<userinfo> userList = loginData.findById(pdfResponse.getUserId());
 
