@@ -28,4 +28,16 @@ public class EmailSendService {
         javaMailSender.send(message);
     }
 
+    public void verifyMail(String To, String Otp) {
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+
+        simpleMailMessage.setTo(To);
+        simpleMailMessage.setSubject("Verification Otp");
+        simpleMailMessage.setText(Otp);
+
+        javaMailSender.send(simpleMailMessage);
+
+    }
+
 }

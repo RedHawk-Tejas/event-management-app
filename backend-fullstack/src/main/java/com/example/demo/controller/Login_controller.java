@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.catalina.realm.UserDatabaseRealm.UserDatabasePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,10 @@ import com.example.demo.dto.ResetPasswordResponse;
 import com.example.demo.model.userinfo;
 import com.example.demo.service.JwtService;
 import com.example.demo.service.UserService;
+import com.example.demo.services.EmailSendService;
 import com.example.demo.services.OtpGenerationService;
 import com.example.demo.services.PasswordResetService;
+import com.example.demo.services.UserRegisterOtpService;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -63,6 +66,12 @@ public class Login_controller {
 	@Autowired
 	PasswordResetService passwordResetService;
 
+	@Autowired
+	UserRegisterOtpService userRegisterOtpService;
+
+	@Autowired
+	EmailSendService emailSendService;
+
 	@GetMapping("/test")
 	public String test() {
 
@@ -70,7 +79,12 @@ public class Login_controller {
 	}
 
 	@PostMapping("/register")
-	public String register(@RequestBody userinfo infor) {
+	public String register(@RequestBody userinfo infor) throws Exception {
+
+		boolean ifAlreadyAUser = info.existsByEmail(infor.getEmail());
+		if (ifAlreadyAUser) {
+			throw new Exception();
+		}
 
 		infor.setDate(new Date());
 		infor.setId((UUID.randomUUID().toString().split("-")[0]));
@@ -159,12 +173,6 @@ public class Login_controller {
 			}
 
 		}
-		// Optional<userinfo> cred = info.findByEmail(resetPasswordResponse.getEmail());
-
-		// cred.get().setPassword(encoder.encode(resetPasswordResponse.getNewPassword()));
-
-		// info.save(cred);
-
 		return data.toString();
 
 	}
@@ -174,6 +182,16 @@ public class Login_controller {
 		Optional<userinfo> user = info.findById(id);
 
 		return user;
+
+	}
+
+	@GetMapping("VerifyMail/{id}")
+	public String VerifyEmail(@PathVariable String id) {
+
+		String otp = userRegisterOtpService.SendRegisterOtp(6);
+		emailSendService.verifyMail(id, otp);
+
+		return otp;
 
 	}
 }
