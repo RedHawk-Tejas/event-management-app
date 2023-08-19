@@ -102,3 +102,19 @@ export const changePassword = async(email , password) => {
       console.log(error, "LOGIN");
   }
 }
+
+export const downloadTicket = async(paymentId) => {
+  try {
+    const userId = sessionStorage.getItem('USER_ID');
+    const token = sessionStorage.getItem('TOKEN');
+    const response = await axios.post(`${BASE_URL}/api/payment/GetTicket`, {userId, tId: paymentId},{
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    return response.data;
+    // console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}

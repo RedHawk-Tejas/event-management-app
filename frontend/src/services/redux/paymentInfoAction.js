@@ -31,7 +31,6 @@ export const fetchPaymentDetails = (userId) => {
                 },
             });
             const transactions = response.data;
-            console.log(transactions);
             dispatch(paymentDetailsSuccess(transactions));
         } catch (error) {
             console.log(error);

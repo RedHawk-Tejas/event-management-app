@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import { fetchPaymentDetails } from '../services/redux/paymentInfoAction';
 import { LinkIcon } from 'lucide-react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { downloadTicket } from '../services/api/postMethods';
 
 const Transaction = () => {
 
@@ -16,7 +17,9 @@ const Transaction = () => {
         dispatch(fetchPaymentDetails(userId));
     }, [dispatch]);
 
-    console.log();
+    const handleDownload = async(paymentId) => {
+        const ticket = await downloadTicket(paymentId);
+    }
 
   return (
     <>
@@ -26,6 +29,7 @@ const Transaction = () => {
 
         <SkeletonTheme baseColor="rgba(200, 200, 200, 0.2)" highlightColor="#999">
             {transactions && transactions.map((transaction, index) => (
+                <>
                 <DetailBox 
                     key={transaction.razorpay_payment_id} 
                     isLastChild={index === transactions.length - 1}
@@ -34,6 +38,10 @@ const Transaction = () => {
                     <Heading>
                         <LinkIcon size={15}/>
                         <Title>{loading ? <Skeleton width={200}/> : transaction.razorpay_payment_id}</Title>
+                        <Button>
+                            <DownloadButton 
+                                onClick={ () => handleDownload(transaction.razorpay_payment_id) } >download</DownloadButton>
+                        </Button>
                     </Heading>
 
                     <Content>Order ID: {loading ? <Skeleton width={200}/> : transaction.razorpay_order_id}</Content>
@@ -42,6 +50,7 @@ const Transaction = () => {
                         <Content>Tickets: {loading ? <Skeleton width={100}/> : transaction.tickets}</Content>
                     </Row>
                 </DetailBox>
+                </>
             ))}
         </SkeletonTheme>
     </>
@@ -80,6 +89,9 @@ const Heading = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+    @media only screen and (max-width: 430px) {
+        flex-direction: column;
+    }
 `;
 
 const Title = styled.div`
@@ -96,6 +108,29 @@ const Content = styled.div`
 const Row = styled.div`
     display: flex;
     margin-bottom: 20px;
+`;
+
+const Button = styled.div`
+    flex: 1;
+    display: flex;
+    align-items: right;
+    justify-content: right;
+
+`;
+
+const DownloadButton = styled.a`
+    border: 1px solid #ac44d8;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight :500;
+    &:active{
+        transform: scale(0.95);
+    }
 `;
 
 export default Transaction
