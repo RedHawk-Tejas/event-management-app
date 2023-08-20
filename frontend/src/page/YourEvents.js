@@ -79,11 +79,15 @@ const YourEvents = () => {
 }
 
 const Wrapper = styled.div`
-    background: #111;
     color: #fff;
     width: 100%;
     min-height: 100vh;
     overflow: auto;
+
+    background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 `;
 
 const NavSection = styled.div`
@@ -103,7 +107,7 @@ const Section1 = styled.div`
 `;
 
 const Content = styled.div`
-    color: #999;
+    color: #fff;
     margin: 2px 0;
 `;
 

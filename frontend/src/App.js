@@ -32,7 +32,7 @@ function App() {
         <Route path="/account" element={<Protected><Account/></Protected>} />
         <Route path="/forgot_password" element={<ForgotPassword/>} />
         <Route path="/reset_password" element={<ResetPassword/>} />
-        <Route path="/verify_email" element={<OTPModal/>} />
+        {/* <Route path="/verify_email" element={<OTPModal/>} /> */}
 
       </Routes>
     </BrowserRouter>

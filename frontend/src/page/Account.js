@@ -62,7 +62,6 @@ const Account = () => {
 }
 
 const Wrapper = styled.div`
-    background: #111;
     color: #fff;
     width: 100%;
     min-height: 100vh;
@@ -70,6 +69,11 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 20px;
+
+    background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 `;
 
 const Section1 = styled.div`
@@ -113,7 +117,7 @@ const Group = styled.div`
     cursor: pointer;
 
     &:hover{
-        background: #333;
+        background: rgba(130, 82, 170, 0.2);
     }
 
     @media only screen and (max-width: 400px) {
@@ -144,9 +148,11 @@ const Column2 = styled.div`
     flex: 0.8;
     height: fit-content;
     border-radius: 15px;
-    // padding: 0 20px
+
+    background: rgba(130, 82, 170, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 `;
-
-
 
 export default Account

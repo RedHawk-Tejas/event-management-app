@@ -8,12 +8,20 @@ import { toastErrorOptions } from '../services/toast/config';
 const HamburgerModal = ({isOpen}) => {
 
     const navigate = useNavigate();
-    const [isDropDownOpen, setisDropDownOpen] = useState(false);
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
         setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
+
+    const toggleDropDown = () => {
+        if(!isUserLoggedIn){
+            toast.error("Please Login", toastErrorOptions);
+        }else{
+            setIsDropDownOpen(!isDropDownOpen);
+        }
+    };
 
     const toCreateEvent = () => {
         navigate('/organize_event');
@@ -34,14 +42,6 @@ const HamburgerModal = ({isOpen}) => {
         navigate('/');
     }
 
-    const toggleDropDown = () => {
-        if(!isUserLoggedIn){
-            toast.error("Please Login", toastErrorOptions);
-        }else{
-            setisDropDownOpen(!isDropDownOpen);
-        }
-    };
-
   return (
     <Wrapper isOpen={isOpen}>
         <Container>
@@ -57,12 +57,14 @@ const HamburgerModal = ({isOpen}) => {
 
                 <DropDown onClick={ toggleDropDown }>
                     Account
+                    {isUserLoggedIn && (
                     <DropDownContent isOpen={isDropDownOpen}>
                         <Text onClick={ toAccount }>My Account</Text>
                         <Text onClick={ toYourEvent }>Your Events</Text>
                         <Text onClick={ toCreateEvent }>Create Event</Text>
                         <Text onClick={ handleLogout }>Log Out</Text>
                     </DropDownContent>
+                    )}
                 </DropDown>
             </Links>
 

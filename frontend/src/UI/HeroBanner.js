@@ -47,7 +47,6 @@ const Wrapper = styled.div`
   height: 95vh;
   display: flex;
   flex-direction: column;
-  // border-bottom: 1px solid white;
 `;
 
 
@@ -70,7 +69,7 @@ const Content = styled.div`
     padding-right: 6px;
     padding-left: 6px;
     padding-top: 20px;
-}
+  }
 `;
 
 const Content1 = styled.div`
@@ -134,8 +133,8 @@ const BouncingChevronsDown = styled(ChevronsDown)`
 `;
 
 const BouncingChevronDown = styled(ChevronDown)`
-    transition: color 0.3s ease-in-out;
-    color: red;
+  transition: color 0.3s ease-in-out;
+  color: red;
 `;
 
 

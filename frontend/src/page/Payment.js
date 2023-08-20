@@ -162,10 +162,15 @@ const Payment = () => {
 }
 
 const Wrapper = styled.div`
-    background: #111;
+    // background: #111;
     color: #fff;
     width: 100%;
     height: 100vh;
+
+    background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 `;
 
 const NavSection = styled.div`
@@ -184,6 +189,14 @@ const Box = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 100px;
+    padding: 30px 10px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+
+    background: rgba(130, 82, 170, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 `;
 
 const Group = styled.div`
@@ -204,7 +217,7 @@ const Input = styled.input`
     border-radius: 10px;
     outline: none;
     width: 30vh;
-    background: #333;
+    background: #222;
     color: #fff;
 `;
 
