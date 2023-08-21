@@ -136,6 +136,7 @@ const OrganizeEvent = () => {
                         <Group>
                             <Label for="eventMode">Event Mode</Label>
                             <Select onChange={ (e) => setEventMode(e.target.value) }>
+                                <Option value="none">Please Select</Option>
                                 <Option value="Online">Online</Option>
                                 <Option value="Offline">Offline</Option>
                             </Select>

@@ -14,7 +14,7 @@ import Account from "./page/Account";
 import ForgotPassword from "./page/ForgotPassword";
 import ResetPassword from "./page/ResetPassword";
 import Toastify from "./services/toast/Toastify";
-import OTPModal from "./UI/OTPModal";
+// import OTPModal from "./UI/OTPModal";
 
 function App() {
   return (
