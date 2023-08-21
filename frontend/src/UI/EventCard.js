@@ -54,8 +54,6 @@ const EventCard = ({event, loading}) => {
                 {loading ? <Skeleton height={300} width={250} /> : <Image src={event.eventPoster}></Image>}
             </ImgSection>
 
-            
-
             <DetailSection>
                 <Section1>
                     <Title>{loading ? <Skeleton count={1} /> : event.eventName}</Title>
@@ -86,6 +84,7 @@ const EventCard = ({event, loading}) => {
 const Wrapper = styled.div`
     color: #fff;
     cursor: pointer;
+    width: fit-content;
 `;
 
 const ImgSection = styled.div`
@@ -110,6 +109,9 @@ const Section1 = styled.div`
 
 const Title = styled.div`
     font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
 `;
 
 const Price = styled.div`
@@ -130,10 +132,6 @@ const EventDate = styled.div``;
 const EventTime = styled.div``;
 
 const StyledButton = styled.div`
-    // text-decoration: none;
-    // color: #fff;
-    // width: 100%;
-    // border: 1px solid red;
     background: #ac44d8;
     text-align: center;
     text-transform: uppercase;

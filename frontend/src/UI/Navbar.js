@@ -5,7 +5,6 @@ import { MenuIcon } from 'lucide-react';
 import { useMediaQuery } from 'react-responsive';
 import HamburgerModal from './HamburgerModal';
 import { toastErrorOptions } from '../services/toast/config';
-import Toastify from '../services/toast/Toastify'
 import { toast } from 'react-toastify';
 
 
@@ -76,8 +75,7 @@ const Navbar = ({ isUserLoggedIn, setIsUserLoggedIn}) => {
         </Logo>
 
         <Links>
-            <StyledLink>Home</StyledLink>
-            <StyledLink>About</StyledLink>
+            <StyledLink to='/'>Home</StyledLink>
             <StyledLink href="#contact">Contact</StyledLink>
 
             <DropDown onClick={ toggleDropDown }>
@@ -138,14 +136,13 @@ const Logo = styled(Link)`
 `;  
 
 const Links = styled.div`
-  width: 50vh;
+  width: 32vh;
   margin: 0 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 16px;
   font-weight: 500;
-  // border: 1px solid white;
 
   @media (max-width: 700px) {
     margin: 0 60px;
