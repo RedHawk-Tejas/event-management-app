@@ -37,6 +37,11 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
       toast.error("Mobile number must be 10 digits", toastErrorOptions);
       return;
     }
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if(!emailRegex.test(email)){
+      toast.error("Email is not valid", toastErrorOptions);
+      return;
+    }
     if(!/^(?=.*\d)(?=.*[@#$%^&!])[0-9a-zA-Z@#$%^&!]{8,}$/.test(password)){
       toast.error("Password must be 8 characters and contain both numbers and letters/special characters.", toastErrorOptions);
       return;

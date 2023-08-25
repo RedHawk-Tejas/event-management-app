@@ -42,6 +42,11 @@ const Payment = () => {
                 toast.error("Fill all details", toastErrorOptions);
                 return;
             }
+            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+            if(!emailRegex.test(email)){
+                toast.error("Email is not valid", toastErrorOptions);
+                return;
+            }
             if(tickets === 0){
                 toast.error("Cannot proceed with 0 tickets", toastErrorOptions);
                 return;

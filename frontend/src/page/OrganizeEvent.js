@@ -44,6 +44,10 @@ const OrganizeEvent = () => {
     }
 
     const handleAddEventClick = async() => {
+        if(!eventName || !eventDateTime || !eventDetails || !eventMode || !eventOrganizer || !eventPoster || !price){
+            toast.error("Fill all details", toastErrorOptions);
+            return;
+        }
         toast.info('Adding', toastInfoOption);
         const userId = sessionStorage.getItem('USER_ID');
         const eventData = {
