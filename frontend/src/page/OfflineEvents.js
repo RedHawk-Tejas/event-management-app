@@ -1,119 +1,126 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../UI/Navbar';
-import { styled } from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { fetchOfflineEvents } from '../services/redux/publicEventActions';
-import EventCard from '../UI/EventCard';
+import React, { useEffect, useState } from "react";
+import Navbar from "../UI/Navbar";
+import { styled } from "styled-components";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { fetchOfflineEvents } from "../services/redux/publicEventActions";
+import EventCard from "../UI/EventCard";
 
 const OfflineEvents = () => {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsUserLoggedIn(!!sessionStorage.getItem("USER_ID"));
+  }, []);
 
-    useEffect(() => {
-        setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
-    }, []);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const {
+    events: offlineEvents,
+    loading: offlineLoading,
+    fetched: offlineFetched,
+  } = useSelector((state) => state.allEvents.offline);
 
-    const { events: offlineEvents, loading: offlineLoading, fetched: offlineFetched } = useSelector(state => state.allEvents.offline);
-    
-    useEffect(() => {
-        if (!offlineFetched) {
-            dispatch(fetchOfflineEvents());
-        }
-    }, [dispatch, offlineFetched]);
-    
-    return (
+  useEffect(() => {
+    if (!offlineFetched) {
+      dispatch(fetchOfflineEvents());
+    }
+  }, [dispatch, offlineFetched]);
+
+  return (
     <Wrapper>
+      <NavSection>
+        <Navbar
+          isUserLoggedIn={isUserLoggedIn}
+          setIsUserLoggedIn={setIsUserLoggedIn}
+        />
+      </NavSection>
 
-        <NavSection>
-            <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
-        </NavSection>
+      <MainSection>
+        <Section>
+          <Content>
+            <Heading>Offline Events</Heading>
+          </Content>
 
-        <MainSection>
-            <Section>
-                <Content>
-                    <Heading>Offline Events</Heading>
-                </Content>
-
-                <EventRow>
-                    <>
-                    { offlineEvents.map((event) => (
-                        <EventCard key={event.eventId} event={event} loading={offlineLoading} />
-                    ))}
-                    </>
-                </EventRow>
-            </Section>
-        </MainSection>
-
+          <EventRow>
+            <>
+              {offlineEvents.map((event) => (
+                <EventCard
+                  key={event.eventId}
+                  event={event}
+                  loading={offlineLoading}
+                />
+              ))}
+            </>
+          </EventRow>
+        </Section>
+      </MainSection>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
-    background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: #fff;
-    width: 100%;
-    min-height: 100vh;
-    overflow: auto;
+  background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
 `;
 
 const NavSection = styled.div`
-    height: 9vh;
+  height: 9vh;
 `;
 
 const MainSection = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-bottom: 50px;
-    align-items: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 50px;
+  align-items: center;
 `;
 
 const Section = styled.div`
-    width: 84%;
+  width: 84%;
 `;
 
 const Content = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 30px 0 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0 12px 0;
 `;
 
 const Heading = styled.div`
-    font-size: 25px;
-    font-weight: 500;
+  font-size: 25px;
+  font-weight: 500;
 
-    @media only screen and (max-width: 450px) {
-        font-size: 21px;
-    }
+  @media only screen and (max-width: 450px) {
+    font-size: 21px;
+  }
 `;
-
 
 const EventRow = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: fit-content;
-    flex-wrap: wrap;
-    gap: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: fit-content;
+  flex-wrap: wrap;
+  gap: 10vh;
 
-    @media only screen and (max-width: 665px) {
-        gap: 7vh;
-    }
+  @media only screen and (max-width: 665px) {
+    gap: 7vh;
+  }
 
-    @media only screen and (max-width: 643px) {
-        gap: 5vh;
-    }
+  @media only screen and (max-width: 643px) {
+    gap: 5vh;
+  }
 
-    @media only screen and (max-width: 629px) {
-        justify-content: center;
-    }
+  @media only screen and (max-width: 629px) {
+    justify-content: center;
+  }
 `;
 
-export default OfflineEvents
+export default OfflineEvents;

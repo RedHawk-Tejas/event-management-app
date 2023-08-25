@@ -83,7 +83,7 @@ const DetailBox = styled.div`
     margin-top: ${props => (props.isFirstChild ? '15px' : '0')};
 
     &:hover{
-        background: #222;
+        background: rgba(130, 82, 170, 0.2);
     }
 `;
 
@@ -91,6 +91,7 @@ const Heading = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+
     @media only screen and (max-width: 430px) {
         flex-direction: column;
     }
@@ -130,6 +131,7 @@ const DownloadButton = styled.a`
     text-transform: uppercase;
     font-size: 14px;
     font-weight :500;
+    
     &:active{
         transform: scale(0.95);
     }

@@ -12,6 +12,15 @@ const Contact = () => {
     const [userMessage, setMessage] = useState('');
 
     const handleSendMsgClick = async() => {
+      if(!userName || !userEmail || !userMessage){
+        toast.error("Please fill all details", toastErrorOptions);
+        return;
+      }
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      if(!emailRegex.test(userEmail)){
+        toast.error("Email is not valid", toastErrorOptions);
+        return;
+      }
         const messageStatus = await handleSendMsg(userName, userEmail, userMessage);
         if(messageStatus === 200){
             toast.success("Message Send", toastSuccessOptions);
@@ -36,12 +45,12 @@ const Contact = () => {
                 <Row>
 
                 <LeftSide>
-                    <Input placeholder="Your Name" value={userName} onChange={ (e) => setName(e.target.value) }></Input>
-                    <Input placeholder="Your Mail" value={userEmail} onChange={ (e) => setEmail(e.target.value) }></Input>
+                    <Input type='text' placeholder="Your Name" value={userName} onChange={ (e) => setName(e.target.value) }></Input>
+                    <Input type='email' placeholder="Your Mail" value={userEmail} onChange={ (e) => setEmail(e.target.value) }></Input>
                 </LeftSide>
 
                 <RightSide>
-                    <Textarea rows="4" cols="35" placeholder="Your Message" value={userMessage} onChange={ (e) => setMessage(e.target.value) }></Textarea>
+                    <Textarea type='text' rows="4" cols="35" placeholder="Your Message" value={userMessage} onChange={ (e) => setMessage(e.target.value) }></Textarea>
                 </RightSide>
 
                 </Row>

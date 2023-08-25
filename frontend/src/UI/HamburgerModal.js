@@ -8,12 +8,20 @@ import { toastErrorOptions } from '../services/toast/config';
 const HamburgerModal = ({isOpen}) => {
 
     const navigate = useNavigate();
-    const [isDropDownOpen, setisDropDownOpen] = useState(false);
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
         setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
     }, []);
+
+    const toggleDropDown = () => {
+        if(!isUserLoggedIn){
+            toast.error("Please Login", toastErrorOptions);
+        }else{
+            setIsDropDownOpen(!isDropDownOpen);
+        }
+    };
 
     const toCreateEvent = () => {
         navigate('/organize_event');
@@ -34,14 +42,6 @@ const HamburgerModal = ({isOpen}) => {
         navigate('/');
     }
 
-    const toggleDropDown = () => {
-        if(!isUserLoggedIn){
-            toast.error("Please Login", toastErrorOptions);
-        }else{
-            setisDropDownOpen(!isDropDownOpen);
-        }
-    };
-
   return (
     <Wrapper isOpen={isOpen}>
         <Container>
@@ -52,17 +52,18 @@ const HamburgerModal = ({isOpen}) => {
 
             <Links>
                 <StyledLink to="/">Home</StyledLink>
-                <StyledLink>About</StyledLink>
-                <StyledLink>Contact</StyledLink>
+                <StyledLink href="#contact">Contact</StyledLink>
 
                 <DropDown onClick={ toggleDropDown }>
                     Account
+                    {isUserLoggedIn && (
                     <DropDownContent isOpen={isDropDownOpen}>
                         <Text onClick={ toAccount }>My Account</Text>
                         <Text onClick={ toYourEvent }>Your Events</Text>
                         <Text onClick={ toCreateEvent }>Create Event</Text>
                         <Text onClick={ handleLogout }>Log Out</Text>
                     </DropDownContent>
+                    )}
                 </DropDown>
             </Links>
 
@@ -111,7 +112,7 @@ const Links = styled.div`
     padding-top: 20px;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
     padding: 9px 0;
     text-decoration: none;
     font-weight: 500;
@@ -142,30 +143,30 @@ const DropDown = styled.div`
 `;
 
 const DropDownContent = styled.div`
-  display: ${props => (props.isOpen ? 'block' : 'none')};
-  position: absolute;
-  top: 34px;
-  right: 0;
-  left: -130px;
-  background-color: #fff;
-  color: red;
-  width: 50vh;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 0px;
-  z-index: 111;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
+    display: ${props => (props.isOpen ? 'block' : 'none')};
+    position: absolute;
+    top: 34px;
+    right: 0;
+    left: -130px;
+    background-color: #fff;
+    color: red;
+    width: 50vh;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 0px;
+    z-index: 111;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
 `;
 
 const Text = styled.p`
-  color: #111;
-  padding: 6px 0;
-  border-bottom: 1px solid gray;
-  &:hover{
-    background: #e0e0e0;
-  }
+    color: #111;
+    padding: 6px 0;
+    border-bottom: 1px solid gray;
+    &:hover{
+        background: #e0e0e0;
+    }
 `;
 
 export default HamburgerModal

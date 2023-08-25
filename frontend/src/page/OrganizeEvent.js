@@ -44,6 +44,10 @@ const OrganizeEvent = () => {
     }
 
     const handleAddEventClick = async() => {
+        if(!eventName || !eventDateTime || !eventDetails || !eventMode || !eventOrganizer || !eventPoster || !price){
+            toast.error("Fill all details", toastErrorOptions);
+            return;
+        }
         toast.info('Adding', toastInfoOption);
         const userId = sessionStorage.getItem('USER_ID');
         const eventData = {
@@ -136,6 +140,7 @@ const OrganizeEvent = () => {
                         <Group>
                             <Label for="eventMode">Event Mode</Label>
                             <Select onChange={ (e) => setEventMode(e.target.value) }>
+                                <Option value="none">Please Select</Option>
                                 <Option value="Online">Online</Option>
                                 <Option value="Offline">Offline</Option>
                             </Select>
@@ -174,13 +179,18 @@ const OrganizeEvent = () => {
 }
 
 const Wrapper = styled.div`
-    background: #111;
+    // background: #111;
     color: #fff;
     width: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     overflow: auto;
+
+    background: url(https://w0.peakpx.com/wallpaper/893/294/HD-wallpaper-gradient-simple-3-azul-mix-purple-thumbnail.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 `;
 
 const Container = styled.div`
@@ -232,13 +242,18 @@ const MainSection = styled.div`
     align-items: center;
     flex-direction: column;
     border-radius: 10px;
-    background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw0NBwcHCA0NCAcHBxYHBwcHDQ8IDQcNIB0iFyAdExMYHTQsGBo0JB8fLT0tMTorLjwuICFBOEE1TjQ5NzcBCgoKDg0NDg0NFSsZFRkrKysrLS0rKy0tNysrKysrKysrLTcrLS0rKysrKysrKysrLTcrKysrKysrKysrKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAACAAEDBv/EACMQAQEBAQABAwMFAAAAAAAAAAARAQISAyFxIkGRBBMxgdH/xAAZAQEBAQADAAAAAAAAAAAAAAAAAQIDBgf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAERL/2gAMAwEAAhEDEQA/APFJir0Cu2tTKqUamVlKUkNVSlJjKymikhqpUpVUaypop1UKqaKdZRrKmkp1UKqaKdZRqqaKVVCqmkp1UKqmilVQqpop1UKqmkpVUayminVQqqaKVVGsppKdVCqportVQqremqVVGspop1UKqmkpVUayminVQqqaKVVGsppKdVCqpop1lGsppKdVCqpopVUayminVQqqaSnWUaqaKVVCqpop1lGqmkpVUKqmilVRqpopVUKqmkpVUaqaKVVCqportVQqremqVVGsppKdVCqpop1lGqmilVRrKmkp1lGqmilVRrKlKdZRqppKVVDyVTRTrKNVNJSqo1lTRTqoVU0UqqNZU0lOso1U0UqqNZU0U6qFVNJTrKNZU0U6qFVNJSqo1lTRXaqjWVvTVOqhVTRSqo1lTRTqoVU0lKqjWVNFOqhVTSU6yjWVNFOqhVTRSraFVTSUqqFVNFOqhVU0UqqFRpKdVCqpopVUKqaKdVCqpopVUaymkp1lGqpopVUKqaSnVQqqaK7VlGqt6apVUayminVQqqaSlVRrKaKdVCqpopVUaymkp1UKqminWUKqaKdVCqppKVVGqmilVQqqaSnWUaqaKVVCqpopVUaqaSlVRrKminWUaqaKVVCqppKdZRqpopVUKqmiu1VCqt6apVUaqaSlVQqqaKdZRqpopVUKqmkp1lGqmilVQqqaKdVCqmkpVUKqminVQVNFKqhVU0lOqhVTRSqo1lTRTqoVU0lOso1lTRTqoVU0lKqjWVNFOqhVTRTrKNZU0ldqqFbW9NUqqFVNFKqjVU0UqqFVNJSqo1lTRTqoVU0Uq2hVU0lKqhVTRTqoVVNFKqhVTSU6qFVTRSqoVU0U6yjVU0lKqjWU0U6yjVU0UqqFVNJTqoVVNFKqhVTSU6qFVTRXaso1VvTVKqhVTRTqoVVNFKqhVTSU6qFVTRSqo1lNFOqhVU0lKqhVTRTqoVVNJSqo1lNFOqhVU0UqqNVNJSqoVVNFKqjVTRSqoVVNJSqo1lNFOqhVU0UqqNZTSU6qFVTRXaqhVW9NU6yjVTRSqoVVNJTqoVVNFKqhVTRTrKNVNJSqo1lTRTqoVU0UqqFVTSU6yjVTRSqo1lTRTrKNVTSUqqFVNFOqhVTSUqqFVTRTqoVU0UqqFVTSU6qFVNFOso1lTRXaqhVW9NU6qFVNJSqoVVNFOqhVTRS8lRrKmkp1UKqmilVRrKaKdVCqppKdZRrKaKdVCqpopVUaqaSlVQqpop1lGqpopVBVU0lOso1U0UqqFVNFOso1VNJSqoVVNFOqhVTSV2rKk5K2qqklFWVqKMqqSVKqqkUrKqklSqqpFKyqpJRVlaioyqpJRVVIqVlVSKKqpIJViBJIEkgTt+n543e/3Nk5+jN3wzd+YkDpzz6Hh5dddb3d+jn6fb3n2+PyfXp/p8zrN9TreszdzeM3ry38fP8ArUAeHoZm7ve9bnHtnNzz3++fZw9fOM73PS3evT+29fykD//Z);
-    background-repeat: no-repeat;
-    background-size: cover;
+    // background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw0NBwcHCA0NCAcHBxYHBwcHDQ8IDQcNIB0iFyAdExMYHTQsGBo0JB8fLT0tMTorLjwuICFBOEE1TjQ5NzcBCgoKDg0NDg0NFSsZFRkrKysrLS0rKy0tNysrKysrKysrLTcrLS0rKysrKysrKysrLTcrKysrKysrKysrKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAACAAEDBv/EACMQAQEBAQABAwMFAAAAAAAAAAARAQISAyFxIkGRBBMxgdH/xAAZAQEBAQADAAAAAAAAAAAAAAAAAQIDBgf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAERL/2gAMAwEAAhEDEQA/APFJir0Cu2tTKqUamVlKUkNVSlJjKymikhqpUpVUaypop1UKqaKdZRrKmkp1UKqaKdZRqqaKVVCqmkp1UKqmilVQqpop1UKqmkpVUayminVQqqaKVVGsppKdVCqportVQqremqVVGspop1UKqmkpVUayminVQqqaKVVGsppKdVCqpop1lGsppKdVCqpopVUayminVQqqaSnWUaqaKVVCqpop1lGqmkpVUKqmilVRqpopVUKqmkpVUaqaKVVCqportVQqremqVVGsppKdVCqpop1lGqmilVRrKmkp1lGqmilVRrKlKdZRqppKVVDyVTRTrKNVNJSqo1lTRTqoVU0UqqNZU0lOso1U0UqqNZU0U6qFVNJTrKNZU0U6qFVNJSqo1lTRXaqjWVvTVOqhVTRSqo1lTRTqoVU0lKqjWVNFOqhVTSU6yjWVNFOqhVTRSraFVTSUqqFVNFOqhVU0UqqFRpKdVCqpopVUKqaKdVCqpopVUaymkp1lGqpopVUKqaSnVQqqaK7VlGqt6apVUayminVQqqaSlVRrKaKdVCqpopVUaymkp1UKqminWUKqaKdVCqppKVVGqmilVQqqaSnWUaqaKVVCqpopVUaqaSlVRrKminWUaqaKVVCqppKdZRqpopVUKqmiu1VCqt6apVUaqaSlVQqqaKdZRqpopVUKqmkp1lGqmilVQqqaKdVCqmkpVUKqminVQVNFKqhVU0lOqhVTRSqo1lTRTqoVU0lOso1lTRTqoVU0lKqjWVNFOqhVTRTrKNZU0ldqqFbW9NUqqFVNFKqjVU0UqqFVNJSqo1lTRTqoVU0Uq2hVU0lKqhVTRTqoVVNFKqhVTSU6qFVTRSqoVU0U6yjVU0lKqjWU0U6yjVU0UqqFVNJTqoVVNFKqhVTSU6qFVTRXaso1VvTVKqhVTRTqoVVNFKqhVTSU6qFVTRSqo1lNFOqhVU0lKqhVTRTqoVVNJSqo1lNFOqhVU0UqqNVNJSqoVVNFKqjVTRSqoVVNJSqo1lNFOqhVU0UqqNZTSU6qFVTRXaqhVW9NU6yjVTRSqoVVNJTqoVVNFKqhVTRTrKNVNJSqo1lTRTqoVU0UqqFVTSU6yjVTRSqo1lTRTrKNVTSUqqFVNFOqhVTSUqqFVTRTqoVU0UqqFVTSU6qFVNFOso1lTRXaqhVW9NU6qFVNJSqoVVNFOqhVTRS8lRrKmkp1UKqmilVRrKaKdVCqppKdZRrKaKdVCqpopVUaqaSlVQqpop1lGqpopVBVU0lOso1U0UqqFVNFOso1VNJSqoVVNFOqhVTSV2rKk5K2qqklFWVqKMqqSVKqqkUrKqklSqqpFKyqpJRVlaioyqpJRVVIqVlVSKKqpIJViBJIEkgTt+n543e/3Nk5+jN3wzd+YkDpzz6Hh5dddb3d+jn6fb3n2+PyfXp/p8zrN9TreszdzeM3ry38fP8ArUAeHoZm7ve9bnHtnNzz3++fZw9fOM73PS3evT+29fykD//Z);
+    // background-repeat: no-repeat;
+    // background-size: cover;
 
     @media only screen and (max-width: 950px) {
         width: 100%;
     }
+
+    background: rgba(130, 82, 170, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
 `;
 
@@ -259,7 +274,6 @@ const Row1 = styled.div`
         align-items: center;
         flex-direction: column;
     }
-    
 `;
 
 const Row2 = styled.div`
@@ -283,13 +297,16 @@ const Label = styled.label`
 `;
 
 const Select = styled.select`
-    padding: 5px 20px;
+    padding: 7px 20px;
     margin-bottom: 7px;
     background: #222;
     border-radius: 10px;
     color: #fff;
     border: 2px solid #ac44d8;
     outline: none;
+    @media only screen and (max-width: 400px) {
+        width: 68vw;
+    }
 `;
 
 const Option = styled.option``;
@@ -323,6 +340,7 @@ const FileInput = styled.input.attrs({
         margin-right: 16px;
         margin-top: 2px;
         transition: background-color 200ms;
+        text-align: center;
     }
 
     &:hover::file-selector-button {

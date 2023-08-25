@@ -28,7 +28,7 @@ const OnlineEvents = () => {
     <Wrapper>
 
         <NavSection>
-        <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
+            <Navbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
         </NavSection>
 
         <MainSection>

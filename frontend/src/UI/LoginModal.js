@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { handleLogin, handleSignup} from '../services/api/postMethods';
 import { toast } from "react-toastify";
 import { toastErrorOptions, toastSuccessOptions } from '../services/toast/config';
-import Toastify from '../services/toast/Toastify'
 
 const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
@@ -36,6 +35,11 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
     }
     if(mobile.length !== 10){
       toast.error("Mobile number must be 10 digits", toastErrorOptions);
+      return;
+    }
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if(!emailRegex.test(email)){
+      toast.error("Email is not valid", toastErrorOptions);
       return;
     }
     if(!/^(?=.*\d)(?=.*[@#$%^&!])[0-9a-zA-Z@#$%^&!]{8,}$/.test(password)){
@@ -74,12 +78,12 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
               <Group>
                 <Label>Email</Label>
-                <Input value={email} onChange={ (e) => setEmail(e.target.value) }></Input>
+                <Input type='text' value={email} onChange={ (e) => setEmail(e.target.value) }></Input>
               </Group>
 
               <Group>
                 <Label>Password</Label>
-                <Input value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
+                <Input type='password' value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
               </Group>
 
             </Box>
@@ -99,22 +103,22 @@ const LoginModal = ({onClose, setIsUserLoggedIn}) => {
 
               <Group>
                 <Label>Name</Label>
-                <Input value={name} onChange={ (e) => setName(e.target.value) }></Input>
+                <Input type='text' value={name} onChange={ (e) => setName(e.target.value) }></Input>
               </Group>
               
               <Group>
                 <Label>Email</Label>
-                <Input value={email} onChange={ (e) => setEmail(e.target.value) }></Input>
+                <Input type='email' value={email} onChange={ (e) => setEmail(e.target.value) }></Input>
               </Group>
 
               <Group>
                 <Label>Mobile</Label>
-                <Input value={mobile} onChange={ (e) => setMobile(e.target.value) }></Input>
+                <Input type='text' value={mobile} onChange={ (e) => setMobile(e.target.value) }></Input>
               </Group>
 
               <Group>
                 <Label>Password</Label>
-                <Input value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
+                <Input type='password' value={password} onChange={ (e) => setPassword(e.target.value) }></Input>
               </Group>
 
             </Box>
@@ -156,6 +160,10 @@ const Card = styled.div`
   color: white;
   border-radius: 30px;
   box-shadow: 0 0 5px 2px #ac44d8;
+
+  @media only screen and (max-width: 400px) {
+    width: 80vw;
+  }
 `;
 
 const Title = styled.div`
@@ -163,7 +171,6 @@ const Title = styled.div`
   font-weight: 600;
   font-size: 23px;
   margin: 20px 0;
-  // border-bottom: 3px solid #ac44d8;
 `;
 
 const Box = styled.div`
@@ -201,7 +208,6 @@ const Button = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
-  // color :#ac44d8;
   transition: all .2s;
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   &:hover{

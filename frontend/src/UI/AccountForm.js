@@ -71,12 +71,11 @@ const Input = styled.input`
     border-radius: 6px;
     border: 1px solid #ac44d8;
     outline: none;
-    background: #333;
+    background: #222;
 
     &::placeholder {
-        color: #999;
+        color: #fff;
     }
-    
 
     @media only screen and (max-width: 380px) {
         width: 30vh;

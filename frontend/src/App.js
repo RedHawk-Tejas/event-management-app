@@ -14,7 +14,7 @@ import Account from "./page/Account";
 import ForgotPassword from "./page/ForgotPassword";
 import ResetPassword from "./page/ResetPassword";
 import Toastify from "./services/toast/Toastify";
-import OTPModal from "./UI/OTPModal";
+// import OTPModal from "./UI/OTPModal";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/account" element={<Protected><Account/></Protected>} />
         <Route path="/forgot_password" element={<ForgotPassword/>} />
         <Route path="/reset_password" element={<ResetPassword/>} />
-        <Route path="/verify_email" element={<OTPModal/>} />
+        {/* <Route path="/verify_email" element={<OTPModal/>} /> */}
 
       </Routes>
     </BrowserRouter>

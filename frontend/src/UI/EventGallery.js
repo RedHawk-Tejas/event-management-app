@@ -5,6 +5,7 @@ import { fetchOfflineEvents, fetchOnlineEvents } from '../services/redux/publicE
 import { useDispatch, useSelector } from 'react-redux';
 import EventCard from './EventCard';
 import { ChevronsRight } from 'lucide-react';
+import Loader from './Loader';
 
 export const YourEventContext = createContext();
 
@@ -39,9 +40,16 @@ const EventGallery = () => {
 
             <EventRow>
                 <>
-                    {onlineEvents.slice(0, 4).map((event) => (
+                    { onlineLoading ? (
+                        (<>
+                            <Loader/>
+                            <Loader/>
+                            <Loader/>
+                            <Loader/>
+                        </>)
+                    ) : (onlineEvents.slice(0, 4).map((event) => (
                         <EventCard key={event.eventId} event={event} loading={onlineLoading} />
-                    ))}
+                    ))) }
                 </>
             </EventRow>
         </Section>
@@ -49,14 +57,21 @@ const EventGallery = () => {
         <Section>
             <Content>
                 <Heading>Offline Events</Heading>
-                <StyledLink to='offline_events'>Browse More <ChevronsRight color='#ac44d8' /> </StyledLink>
+                <StyledLink to='offline_events'>Browse More <ChevronsRight color='#ac44d8' /></StyledLink>
             </Content>
 
             <EventRow>
                 <>
-                    {offlineEvents.slice(0, 4).map((event) => (
+                    { onlineLoading ? (
+                        <>
+                            <Loader/>
+                            <Loader/>
+                            <Loader/>
+                            <Loader/>
+                        </>
+                    ) : (offlineEvents.slice(0, 4).map((event) => (
                         <EventCard key={event.eventId} event={event} loading={offlineLoading} />
-                    ))}
+                    ))) }
                 </>
             </EventRow>
         </Section>
@@ -77,6 +92,12 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
     width: 84%;
+    @media only screen and (max-width: 450px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
 const Content = styled.div`
@@ -84,6 +105,9 @@ const Content = styled.div`
     align-items: center;
     justify-content: space-between;
     margin: 30px 0 12px 0;
+    @media only screen and (max-width: 450px) {
+        width: 100%;
+    }
 `;
 
 const Heading = styled.div`
@@ -110,7 +134,7 @@ const StyledLink = styled(Link)`
 const EventRow = styled.div`
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
     width: fit-content;
     flex-wrap: wrap;
     gap: 10vh;
@@ -127,5 +151,6 @@ const EventRow = styled.div`
         justify-content: center;
     }
 `;
+
 
 export default EventGallery

@@ -10,7 +10,7 @@ const HomePage = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-      setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
+    setIsUserLoggedIn(!!sessionStorage.getItem('USER_ID'));
   }, []);
     
   return (
